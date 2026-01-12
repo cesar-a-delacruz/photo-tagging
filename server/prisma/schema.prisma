@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id     Int    @id @default(autoincrement())
+  name   String @db.VarChar(25)
+  record Json   @db.Json
+
+  @@map("user")
+}
+
+model Image {
+  id      Int      @id @default(autoincrement())
+  name    String   @db.VarChar(25)
+  url     String   @db.Text
+  objects Object[]
+
+  @@map("image")
+}
+
+model Object {
+  id       Int    @id @default(autoincrement())
+  name     String @db.VarChar(25)
+  position Json   @db.Json
+  image    Image  @relation(fields: [imageId], references: [id])
+  imageId  Int    @map("image_id")
+
+  @@map("object")
+}

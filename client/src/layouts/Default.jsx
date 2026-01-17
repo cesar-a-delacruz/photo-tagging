@@ -1,4 +1,6 @@
 import { Outlet } from "react-router-dom";
+import "@/styles/layouts/Default.css";
+
 export default function Default() {
   return (
     <>

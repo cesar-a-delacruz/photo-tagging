@@ -1,32 +1,32 @@
-export default function Target({ props, setProps }) {
+export default function Target({ boxPosition, setBoxPosition, menuItems }) {
   return (
-    <>
+    <div className="target">
       <div
-        className="target-box"
+        className="box"
         style={{
           border: "5px red solid",
           width: "75px",
           height: "75px",
           position: "absolute",
-          top: `${props.y - 37}px`,
-          left: `${props.x - 37}px`,
+          top: `${boxPosition.y - 37}px`,
+          left: `${boxPosition.x - 37}px`,
         }}
-        onClick={(e) => setProps({})}
+        onClick={(e) => setBoxPosition(null)}
       ></div>
       <div
-        className="target-menu"
+        className="menu"
         style={{
           backgroundColor: "rgb(22, 56, 80) ",
           padding: "15px 15px",
           position: "absolute",
-          top: `${props.y - 37}px`,
-          left: `${props.x + 50}px`,
+          top: `${boxPosition.y - 37}px`,
+          left: `${boxPosition.x + 50}px`,
         }}
       >
-        {props.items.map((item) => (
+        {menuItems.map((item) => (
           <div className="item">{item.name}</div>
         ))}
       </div>
-    </>
+    </div>
   );
 }

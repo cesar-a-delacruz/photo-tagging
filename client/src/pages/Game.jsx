@@ -5,7 +5,7 @@ import { useState, useRef } from "react";
 
 export default function Game() {
   const { image, objects } = useGame();
-  const [targetProps, setTargetProps] = useState({});
+  const [boxPosition, setBoxPosition] = useState(null);
   const imageDialog = useRef(null);
   const recordDialog = useRef(null);
 
@@ -42,7 +42,7 @@ export default function Game() {
           src={image.url}
           alt={image.name}
           onClick={(e) => {
-            setTargetProps({ x: e.pageX, y: e.pageY });
+            setBoxPosition({ x: e.pageX, y: e.pageY });
           }}
         />
         <div className="objects">
@@ -53,10 +53,11 @@ export default function Game() {
             ))}
           </ol>
         </div>
-        {Object.keys(targetProps).length > 0 && (
+        {boxPosition && (
           <Target
-            props={{ ...targetProps, objects }}
-            setProps={setTargetProps}
+            boxPosition={boxPosition}
+            setBoxPosition={setBoxPosition}
+            menuItems={objects}
           />
         )}
       </div>

@@ -1,8 +1,12 @@
 import Target from "@/components/Target";
-import { useState } from "react";
+import Dialog from "@/components/Dialog";
+import { useState, useRef } from "react";
 
 export default function Game() {
   const [targetProps, setTargetProps] = useState({});
+  const imageDialog = useRef(null);
+  const recordDialog = useRef(null);
+
   return (
     <>
       <div className="top">
@@ -22,8 +26,12 @@ export default function Game() {
           </div>
         </div>
         <div className="options">
-          <button>Change Image</button>
-          <button>Reset Record</button>
+          <button onClick={(e) => (imageDialog.current.open = true)}>
+            Change Image
+          </button>
+          <button onClick={(e) => (recordDialog.current.open = true)}>
+            Reset Record
+          </button>
         </div>
       </div>
       <div className="bottom">
@@ -48,24 +56,21 @@ export default function Game() {
       </div>
 
       <div className="dialogs">
-        <dialog className="change-image">
-          <h2>Change Image</h2>
+        <Dialog title={"Change Image"} ref={imageDialog}>
           <div className="images">
             <div className="image">
               <p>Image 1</p>
               <button>Select</button>
             </div>
           </div>
-          <button>Cancel</button>
-        </dialog>
-        <dialog className="reset-record">
-          <h2>Reset Record</h2>
+        </Dialog>
+        <Dialog
+          title={"Reset Record"}
+          action={{ name: "Reset", handler: () => {} }}
+          ref={recordDialog}
+        >
           <p>Are you sure you want to reset your record?</p>
-          <div className="options">
-            <button>Yes</button>
-            <button>No</button>
-          </div>
-        </dialog>
+        </Dialog>
       </div>
     </>
   );

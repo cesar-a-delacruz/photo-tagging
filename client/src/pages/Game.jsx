@@ -1,4 +1,8 @@
+import TargetBox from "@/components/TargetBox";
+import { useState } from "react";
+
 export default function Game() {
+  const [boxProps, setBoxProps] = useState({});
   return (
     <>
       <div className="top">
@@ -23,7 +27,16 @@ export default function Game() {
         </div>
       </div>
       <div className="bottom">
-        <img src="" alt="" />
+        <img
+          src="/sample.webp"
+          alt=""
+          onClick={(e) => {
+            setBoxProps({ x: e.pageX, y: e.pageY });
+          }}
+        />
+        {Object.keys(boxProps).length > 0 && (
+          <TargetBox props={boxProps} setProps={setBoxProps} />
+        )}
       </div>
 
       <div className="dialogs">

@@ -1,8 +1,8 @@
-import TargetBox from "@/components/TargetBox";
+import Target from "@/components/Target";
 import { useState } from "react";
 
 export default function Game() {
-  const [boxProps, setBoxProps] = useState({});
+  const [targetProps, setTargetProps] = useState({});
   return (
     <>
       <div className="top">
@@ -31,11 +31,19 @@ export default function Game() {
           src="/sample.webp"
           alt=""
           onClick={(e) => {
-            setBoxProps({ x: e.pageX, y: e.pageY });
+            setTargetProps({ x: e.pageX, y: e.pageY });
           }}
         />
-        {Object.keys(boxProps).length > 0 && (
-          <TargetBox props={boxProps} setProps={setBoxProps} />
+        <div className="objects">
+          <h3>Objects to find</h3>
+          <ol>
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <li>Item 3</li>
+          </ol>
+        </div>
+        {Object.keys(targetProps).length > 0 && (
+          <Target props={targetProps} setProps={setTargetProps} />
         )}
       </div>
 

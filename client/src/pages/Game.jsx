@@ -1,8 +1,10 @@
 import Target from "@/components/Target";
 import Dialog from "@/components/Dialog";
+import useGame from "@/hooks/useGame";
 import { useState, useRef } from "react";
 
 export default function Game() {
+  const { image, objects } = useGame();
   const [targetProps, setTargetProps] = useState({});
   const imageDialog = useRef(null);
   const recordDialog = useRef(null);
@@ -35,9 +37,10 @@ export default function Game() {
         </div>
       </div>
       <div className="bottom">
+        <h3>{image.name}</h3>
         <img
-          src="/sample.webp"
-          alt=""
+          src={image.url}
+          alt={image.name}
           onClick={(e) => {
             setTargetProps({ x: e.pageX, y: e.pageY });
           }}
@@ -45,13 +48,16 @@ export default function Game() {
         <div className="objects">
           <h3>Objects to find</h3>
           <ol>
-            <li>Item 1</li>
-            <li>Item 2</li>
-            <li>Item 3</li>
+            {objects.map((object) => (
+              <li>{object.name}</li>
+            ))}
           </ol>
         </div>
         {Object.keys(targetProps).length > 0 && (
-          <Target props={targetProps} setProps={setTargetProps} />
+          <Target
+            props={{ ...targetProps, objects }}
+            setProps={setTargetProps}
+          />
         )}
       </div>
 

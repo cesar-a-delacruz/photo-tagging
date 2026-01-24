@@ -23,9 +23,9 @@ export default function Target({ props, setProps }) {
           left: `${props.x + 50}px`,
         }}
       >
-        <div className="item">Item 1</div>
-        <div className="item">Item 2</div>
-        <div className="item">Item 3</div>
+        {props.items.map((item) => (
+          <div className="item">{item.name}</div>
+        ))}
       </div>
     </>
   );

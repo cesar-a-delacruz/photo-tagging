@@ -5,11 +5,11 @@ export default function Target({ boxPosition, setBoxPosition, menuItems }) {
         className="box"
         style={{
           border: "5px red solid",
-          width: "75px",
-          height: "75px",
+          width: "100px",
+          height: "100px",
           position: "absolute",
-          top: `${boxPosition.y - 37}px`,
-          left: `${boxPosition.x - 37}px`,
+          top: `${boxPosition.y - 50}px`,
+          left: `${boxPosition.x - 50}px`,
         }}
         onClick={(e) => setBoxPosition(null)}
       ></div>

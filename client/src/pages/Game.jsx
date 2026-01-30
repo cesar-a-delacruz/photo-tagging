@@ -42,6 +42,31 @@ export default function Game() {
           src={image.url}
           alt={image.name}
           onClick={(e) => {
+            const imgBoundingSides = {
+              left: e.currentTarget.getBoundingClientRect().left,
+              bottom: e.currentTarget.getBoundingClientRect().top,
+            };
+            const imgSizeRatio = {
+              width: e.currentTarget.naturalWidth / e.currentTarget.clientWidth,
+              height:
+                e.currentTarget.naturalHeight / e.currentTarget.clientHeight,
+            };
+            const clickedPosition = {
+              x: (e.pageX - imgBoundingSides.left) * imgSizeRatio.width,
+              y: (e.pageY - imgBoundingSides.bottom) * imgSizeRatio.height,
+            };
+            const targetBoxCenter = 50;
+
+            objects.forEach((object) => {
+              if (
+                clickedPosition.x < object.position.x + targetBoxCenter &&
+                clickedPosition.x > object.position.x - targetBoxCenter &&
+                clickedPosition.y < object.position.y + targetBoxCenter &&
+                clickedPosition.y > object.position.y - targetBoxCenter
+              ) {
+                alert("character clicked!!");
+              }
+            });
             setBoxPosition({ x: e.pageX, y: e.pageY });
           }}
         />

@@ -1,5 +1,6 @@
 import Target from "@/components/Target";
 import Dialog from "@/components/Dialog";
+import Timer from "@/components/Timer";
 import useGame from "@/hooks/useGame";
 import { useState, useRef } from "react";
 
@@ -22,11 +23,7 @@ export default function Game() {
               Record: <span>00:00:00</span>
             </p>
           </div>
-          <div className="time">
-            <p>
-              Time: <span>00:00:00</span>
-            </p>
-          </div>
+          <Timer />
         </div>
         <div className="options">
           <button onClick={(e) => (imageDialog.current.open = true)}>

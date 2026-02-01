@@ -4,8 +4,9 @@ import useGame from "@/hooks/useGame";
 import { useState, useRef } from "react";
 
 export default function Game() {
-  const { image, objects } = useGame();
+  const { image, objects, setObjects } = useGame();
   const [boxPosition, setBoxPosition] = useState(null);
+  const [currentObject, setCurrentObject] = useState(null);
   const imageDialog = useRef(null);
   const recordDialog = useRef(null);
 
@@ -64,7 +65,7 @@ export default function Game() {
                 clickedPosition.y < object.position.y + targetBoxCenter &&
                 clickedPosition.y > object.position.y - targetBoxCenter
               ) {
-                alert("character clicked!!");
+                setCurrentObject(object);
               }
             });
             setBoxPosition({ x: e.pageX, y: e.pageY });
@@ -74,7 +75,14 @@ export default function Game() {
           <h3>Objects to find</h3>
           <ol>
             {objects.map((object) => (
-              <li>{object.name}</li>
+              <li key={object.name}>
+                {object.name}
+                {object.found && (
+                  <>
+                    : <span>Found</span>
+                  </>
+                )}
+              </li>
             ))}
           </ol>
         </div>
@@ -83,6 +91,9 @@ export default function Game() {
             boxPosition={boxPosition}
             setBoxPosition={setBoxPosition}
             menuItems={objects}
+            setItems={setObjects}
+            currentItem={currentObject}
+            setCurrentItem={setCurrentObject}
           />
         )}
       </div>

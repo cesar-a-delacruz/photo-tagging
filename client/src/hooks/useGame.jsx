@@ -16,7 +16,7 @@ export default function useGame() {
     ];
 
     setImage(img);
-    setObjects(obj);
+    setObjects(obj.map((o) => ({ ...o, found: false })));
   }, []);
 
   return { image, objects, setObjects };

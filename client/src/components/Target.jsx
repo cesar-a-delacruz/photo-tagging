@@ -1,4 +1,13 @@
-export default function Target({ boxPosition, setBoxPosition, menuItems }) {
+import { useState } from "react";
+export default function Target({
+  boxPosition,
+  setBoxPosition,
+  menuItems,
+  setItems,
+  currentItem,
+  setCurrentItem,
+}) {
+  const [foundAmount, setFoundAmount] = useState(0);
   return (
     <div className="target">
       <div
@@ -24,7 +33,31 @@ export default function Target({ boxPosition, setBoxPosition, menuItems }) {
         }}
       >
         {menuItems.map((item) => (
-          <div className="item">{item.name}</div>
+          <div
+            key={item.name}
+            className="item"
+            onClick={(e) => {
+              if (foundAmount === menuItems.length) return;
+              if (!currentItem) alert("No character selected");
+
+              if (item.name === currentItem.name) {
+                setItems((prev) =>
+                  prev.map((p) =>
+                    p.name === item.name ? { ...item, found: true } : p,
+                  ),
+                );
+                setFoundAmount(foundAmount + 1);
+                setCurrentItem(null);
+
+                alert("Found " + item.name);
+                e.currentTarget.style = "background-color: grey";
+              } else {
+                alert("Wrong character");
+              }
+            }}
+          >
+            {item.name}
+          </div>
         ))}
       </div>
     </div>

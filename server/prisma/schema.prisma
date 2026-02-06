@@ -11,7 +11,7 @@ datasource db {
 model User {
   id     Int    @id @default(autoincrement())
   name   String @db.VarChar(25)
-  record Json   @db.Json
+  record String @db.VarChar(8)
 
   @@map("user")
 }

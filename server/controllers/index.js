@@ -13,4 +13,13 @@ export default {
     },
     validators.image,
   ),
+  object: new RESTController(
+    prisma.object,
+    {
+      name: "string",
+      position: "json",
+      imageId: "number",
+    },
+    validators.object,
+  ),
 };

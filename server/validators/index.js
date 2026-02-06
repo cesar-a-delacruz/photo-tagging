@@ -29,4 +29,34 @@ export default {
       },
     },
   ),
+  object: new BaseValidator(
+    {
+      name: {
+        isLength: {
+          options: {
+            min: 3,
+            max: 25,
+          },
+          errorMessage: "name must be between 3 and 25 characters long",
+        },
+      },
+      position: {
+        isEmpty: {
+          negated: true,
+          errorMessage: "position is required",
+        },
+      },
+    },
+    {
+      create: undefined,
+      update: {
+        name: {
+          optional: true,
+        },
+        position: {
+          optional: true,
+        },
+      },
+    },
+  ),
 };

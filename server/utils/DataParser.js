@@ -22,6 +22,8 @@ export default class DataParser {
         return Number(value);
       case "date":
         return new Date(value);
+      case "json":
+        return JSON.parse(value);
       default:
         return null;
     }

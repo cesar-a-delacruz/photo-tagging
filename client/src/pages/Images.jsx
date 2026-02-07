@@ -1,5 +1,5 @@
 import Dialog from "@/components/Dialog";
-import Field from "@/components/Field";
+import Form from "@/components/Form";
 import useImages from "@/hooks/useImages";
 import { useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
@@ -8,11 +8,16 @@ export default function Images() {
   const setTitle = useOutletContext();
   setTitle("Images");
 
-  const { images, setImages } = useImages();
+  const { images } = useImages();
   const [selectedImage, setSelectedImage] = useState({});
   const addDialog = useRef(null);
   const updateDialog = useRef(null);
   const deleteDialog = useRef(null);
+
+  const dataFields = [
+    { name: "Name", initialValue: selectedImage.name },
+    { name: "URL", initialValue: selectedImage.url },
+  ];
 
   return (
     <>
@@ -22,20 +27,14 @@ export default function Images() {
           action={{ name: "Add", handler: () => {} }}
           ref={addDialog}
         >
-          <Field name={"Name"} />
-          <br />
-          <Field name={"URL"} />
-          <br />
+          <Form fields={dataFields} empty={true} />
         </Dialog>
         <Dialog
           title={"Update Image"}
           action={{ name: "Update", handler: () => {} }}
           ref={updateDialog}
         >
-          <Field name={"Name"} initialValue={selectedImage.name} />
-          <br />
-          <Field name={"URL"} initialValue={selectedImage.url} />
-          <br />
+          <Form fields={dataFields} />
         </Dialog>
         <Dialog
           title={"Delete Image"}
@@ -67,7 +66,7 @@ export default function Images() {
                 </button>
               </div>
             </div>
-            <img src={image.url} alt="" />
+            <img src={image.url} alt={image.name} />
           </div>
         ))}
       </div>

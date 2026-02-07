@@ -11,6 +11,7 @@ export default function Field({ name, initialValue = "", type = "text" }) {
   return (
     <div className="field">
       <label htmlFor={id}>{name}:</label>
+      <br />
       <input
         type={type}
         id={id}

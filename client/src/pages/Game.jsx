@@ -3,8 +3,12 @@ import Dialog from "@/components/Dialog";
 import Timer from "@/components/Timer";
 import useGame from "@/hooks/useGame";
 import { useState, useRef } from "react";
+import { useOutletContext } from "react-router-dom";
 
 export default function Game() {
+  const setTitle = useOutletContext();
+  setTitle("Game");
+
   const { image, objects, setObjects } = useGame();
   const [boxPosition, setBoxPosition] = useState(null);
   const [currentObject, setCurrentObject] = useState(null);

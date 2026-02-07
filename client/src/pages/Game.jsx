@@ -33,6 +33,23 @@ export default function Game() {
             Reset Record
           </button>
         </div>
+        <div className="dialogs">
+          <Dialog title={"Change Image"} ref={imageDialog}>
+            <div className="images">
+              <div className="image">
+                <p>Image 1</p>
+                <button>Select</button>
+              </div>
+            </div>
+          </Dialog>
+          <Dialog
+            title={"Reset Record"}
+            action={{ name: "Reset", handler: () => {} }}
+            ref={recordDialog}
+          >
+            <p>Are you sure you want to reset your record?</p>
+          </Dialog>
+        </div>
       </div>
       <div className="bottom">
         <h3>{image.name}</h3>
@@ -93,24 +110,6 @@ export default function Game() {
             setCurrentItem={setCurrentObject}
           />
         )}
-      </div>
-
-      <div className="dialogs">
-        <Dialog title={"Change Image"} ref={imageDialog}>
-          <div className="images">
-            <div className="image">
-              <p>Image 1</p>
-              <button>Select</button>
-            </div>
-          </div>
-        </Dialog>
-        <Dialog
-          title={"Reset Record"}
-          action={{ name: "Reset", handler: () => {} }}
-          ref={recordDialog}
-        >
-          <p>Are you sure you want to reset your record?</p>
-        </Dialog>
       </div>
     </>
   );

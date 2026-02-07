@@ -2,7 +2,13 @@ export default function Dialog({ children, title, action, ref }) {
   const className = title.toLowerCase().replace(" ", "-");
 
   return (
-    <dialog className={className} ref={ref}>
+    <dialog
+      className={className}
+      ref={ref}
+      style={{
+        backgroundColor: "rgb(22, 56, 80) ",
+      }}
+    >
       <h2>{title}</h2>
       <div className="content">{children}</div>
       <div className="actions">

@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import Default from "@/layouts/Default";
 import Game from "@/pages/Game";
+import Images from "@/pages/Images";
 const routes = [
   {
     path: "*",
@@ -10,7 +11,10 @@ const routes = [
   {
     path: "/",
     element: <Default />,
-    children: [{ index: true, element: <Game /> }],
+    children: [
+      { index: true, element: <Game /> },
+      { path: "images", element: <Images /> },
+    ],
   },
 ];
 

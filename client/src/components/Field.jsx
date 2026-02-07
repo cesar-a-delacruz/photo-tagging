@@ -1,12 +1,5 @@
-import { useEffect, useState } from "react";
-
-export default function Field({ name, initialValue = "", type = "text" }) {
-  const [value, setValue] = useState(initialValue);
+export default function Field({ name, value = "", type = "text", onChange }) {
   const id = name.toLowerCase();
-
-  useEffect(() => {
-    setValue(initialValue);
-  }, [initialValue]);
 
   return (
     <div className="field">
@@ -16,7 +9,7 @@ export default function Field({ name, initialValue = "", type = "text" }) {
         type={type}
         id={id}
         value={value}
-        onChange={(e) => setValue(e.currentTarget.value)}
+        onChange={(e) => onChange(e.currentTarget.id, e.currentTarget.value)}
         style={{ backgroundColor: "rgb(29, 72, 103) " }}
       />
     </div>

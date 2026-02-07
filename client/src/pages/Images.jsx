@@ -15,18 +15,25 @@ export default function Images() {
   const deleteDialog = useRef(null);
 
   const dataFields = [
-    { name: "Name", initialValue: selectedImage.name },
-    { name: "URL", initialValue: selectedImage.url },
+    { name: "Name", value: selectedImage.name },
+    { name: "URL", value: selectedImage.url },
   ];
 
   return (
     <>
       <div className="dialogs">
         <Dialog title={"Add Image"} ref={addDialog}>
-          <Form fields={dataFields} empty={true} />
+          <Form
+            fields={dataFields}
+            empty={true}
+            action={{ name: "Add", handler: () => {} }}
+          />
         </Dialog>
         <Dialog title={"Update Image"} ref={updateDialog}>
-          <Form fields={dataFields} />
+          <Form
+            fields={dataFields}
+            action={{ name: "Update", handler: () => {} }}
+          />
         </Dialog>
         <Dialog title={"Delete Image"} ref={deleteDialog}>
           <p>Are you sure you want to delete this image?</p>

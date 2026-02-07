@@ -22,25 +22,13 @@ export default function Images() {
   return (
     <>
       <div className="dialogs">
-        <Dialog
-          title={"Add Image"}
-          action={{ name: "Add", handler: () => {} }}
-          ref={addDialog}
-        >
+        <Dialog title={"Add Image"} ref={addDialog}>
           <Form fields={dataFields} empty={true} />
         </Dialog>
-        <Dialog
-          title={"Update Image"}
-          action={{ name: "Update", handler: () => {} }}
-          ref={updateDialog}
-        >
+        <Dialog title={"Update Image"} ref={updateDialog}>
           <Form fields={dataFields} />
         </Dialog>
-        <Dialog
-          title={"Delete Image"}
-          action={{ name: "Delete", handler: () => {} }}
-          ref={deleteDialog}
-        >
+        <Dialog title={"Delete Image"} ref={deleteDialog}>
           <p>Are you sure you want to delete this image?</p>
         </Dialog>
       </div>

@@ -1,4 +1,4 @@
-export default function Dialog({ children, title, action, ref }) {
+export default function Dialog({ children, title, ref }) {
   const className = title.toLowerCase().replace(" ", "-");
 
   return (
@@ -9,16 +9,15 @@ export default function Dialog({ children, title, action, ref }) {
         backgroundColor: "rgb(22, 56, 80) ",
       }}
     >
-      <h2>{title}</h2>
-      <div className="content">{children}</div>
-      <div className="actions">
-        {action && <button onClick={action.handler}>{action.name}</button>}
+      <div className="top">
+        <h2>{title}</h2>
         <button
-          onClick={(e) => document.querySelector(`dialog.${className}`).close()}
+          onClick={(e) => e.currentTarget.parentElement.parentElement.close()}
         >
-          Cancel
+          X
         </button>
       </div>
+      <div className="bottom">{children}</div>
     </dialog>
   );
 }

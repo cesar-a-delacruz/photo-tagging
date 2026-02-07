@@ -46,11 +46,7 @@ export default function Game() {
               </div>
             </div>
           </Dialog>
-          <Dialog
-            title={"Reset Record"}
-            action={{ name: "Reset", handler: () => {} }}
-            ref={recordDialog}
-          >
+          <Dialog title={"Reset Record"} ref={recordDialog}>
             <p>Are you sure you want to reset your record?</p>
           </Dialog>
         </div>

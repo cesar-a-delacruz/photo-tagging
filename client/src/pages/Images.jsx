@@ -1,6 +1,7 @@
 import Dialog from "@/components/Dialog";
 import Form from "@/components/Form";
 import useImages from "@/hooks/useImages";
+import requestHandler from "@/utils/requestHandler";
 import { useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
@@ -26,13 +27,19 @@ export default function Images() {
           <Form
             fields={dataFields}
             empty={true}
-            action={{ name: "Add", handler: () => {} }}
+            action={{
+              name: "Add",
+              handler: (data) => requestHandler.post(data, "image"),
+            }}
           />
         </Dialog>
         <Dialog title={"Update Image"} ref={updateDialog}>
           <Form
             fields={dataFields}
-            action={{ name: "Update", handler: () => {} }}
+            action={{
+              name: "Update",
+              handler: (data) => requestHandler.put(data, "image"),
+            }}
           />
         </Dialog>
         <Dialog title={"Delete Image"} ref={deleteDialog}>

@@ -1,7 +1,11 @@
 import Field from "./Field";
 import { useState, useEffect } from "react";
 
-export default function Form({ fields = [], empty = false, action }) {
+export default function Form({
+  fields = [],
+  empty = false,
+  action = { name: "", handler: () => {} },
+}) {
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -17,12 +21,14 @@ export default function Form({ fields = [], empty = false, action }) {
   const changeHandler = (id, value) => {
     setData((prev) => ({ ...prev, [id]: value }));
   };
-  const submitHandler = (e) => {
-    e.preventDefault();
-  };
 
   return (
-    <form onSubmit={(e) => submitHandler(e)}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        action.handler(data);
+      }}
+    >
       <div className="fields">
         {fields.map((field) => (
           <Field
@@ -34,7 +40,7 @@ export default function Form({ fields = [], empty = false, action }) {
           />
         ))}
       </div>
-      <button onClick={(e) => action.handler()}>{action.name}</button>
+      <button>{action.name}</button>
     </form>
   );
 }

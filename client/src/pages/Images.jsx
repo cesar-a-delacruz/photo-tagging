@@ -1,3 +1,4 @@
+import AlertForm from "@/components/AlertForm";
 import Dialog from "@/components/Dialog";
 import Form from "@/components/Form";
 import useImages from "@/hooks/useImages";
@@ -16,7 +17,7 @@ export default function Images() {
   const deleteDialog = useRef(null);
 
   const dataFields = [
-    { name: "id", value: selectedImage.name, type: "hidden" },
+    { name: "id", value: selectedImage.id, type: "hidden" },
     { name: "name", label: "Name", value: selectedImage.name, type: "text" },
     { name: "url", label: "URL", value: selectedImage.url, type: "text" },
   ];
@@ -44,7 +45,15 @@ export default function Images() {
           />
         </Dialog>
         <Dialog title={"Delete Image"} ref={deleteDialog}>
-          <p>Are you sure you want to delete this image?</p>
+          <AlertForm
+            field={dataFields.find((field) => field.name === "id")}
+            action={{
+              name: "Delete",
+              handler: (data) => requestHandler.delete(data, "image"),
+            }}
+          >
+            Are you sure you want to delete this image?
+          </AlertForm>
         </Dialog>
       </div>
 
@@ -64,7 +73,12 @@ export default function Images() {
                 >
                   Update
                 </button>
-                <button onClick={() => (deleteDialog.current.open = true)}>
+                <button
+                  onClick={() => {
+                    setSelectedImage(image);
+                    deleteDialog.current.open = true;
+                  }}
+                >
                   Delete
                 </button>
               </div>

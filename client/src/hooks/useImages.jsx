@@ -5,9 +5,9 @@ export default function useImages() {
 
   useEffect(() => {
     const img = [
-      { name: "1", url: "/sample.webp" },
-      { name: "2", url: "/sample.webp" },
-      { name: "3", url: "/sample.webp" },
+      { id: 1, name: "1", url: "/sample.webp" },
+      { id: 2, name: "2", url: "/sample.webp" },
+      { id: 3, name: "3", url: "/sample.webp" },
     ];
 
     setImages(img);

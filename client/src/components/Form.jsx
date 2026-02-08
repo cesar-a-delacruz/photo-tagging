@@ -11,7 +11,7 @@ export default function Form({
   useEffect(() => {
     setData(
       fields.reduce((acc, field) => {
-        const key = field.name.toLowerCase();
+        const key = field.name;
         acc[key] = !empty ? field.value : "";
         return acc;
       }, {}),
@@ -34,8 +34,9 @@ export default function Form({
           <Field
             key={field.name}
             name={field.name}
+            label={field.label}
             type={field.type}
-            value={data[field.name.toLowerCase()]}
+            value={data[field.name]}
             onChange={changeHandler}
           />
         ))}

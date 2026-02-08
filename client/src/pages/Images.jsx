@@ -1,6 +1,6 @@
 import AlertForm from "@/components/AlertForm";
 import Dialog from "@/components/Dialog";
-import Form from "@/components/Form";
+import DataForm from "@/components/DataForm";
 import useImages from "@/hooks/useImages";
 import requestHandler from "@/utils/requestHandler";
 import { useRef, useState } from "react";
@@ -26,7 +26,7 @@ export default function Images() {
     <>
       <div className="dialogs">
         <Dialog title={"Add Image"} ref={addDialog}>
-          <Form
+          <DataForm
             fields={dataFields.filter((field) => field.name !== "id")}
             empty={true}
             action={{
@@ -36,7 +36,7 @@ export default function Images() {
           />
         </Dialog>
         <Dialog title={"Update Image"} ref={updateDialog}>
-          <Form
+          <DataForm
             fields={dataFields}
             action={{
               name: "Update",

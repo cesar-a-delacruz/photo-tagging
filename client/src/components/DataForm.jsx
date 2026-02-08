@@ -1,7 +1,7 @@
 import Field from "./Field";
 import { useState, useEffect } from "react";
 
-export default function Form({
+export default function DataForm({
   fields = [],
   empty = false,
   action = { name: "", handler: () => {} },

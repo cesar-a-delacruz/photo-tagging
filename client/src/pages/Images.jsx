@@ -10,7 +10,7 @@ export default function Images() {
   const setTitle = useOutletContext();
   setTitle("Images");
 
-  const { images } = useImages();
+  const { images, setImages } = useImages();
   const [selectedImage, setSelectedImage] = useState({});
   const addDialog = useRef(null);
   const updateDialog = useRef(null);
@@ -31,7 +31,10 @@ export default function Images() {
             empty={true}
             action={{
               name: "Add",
-              handler: (data) => requestHandler.post(data, "image"),
+              handler: async (data) => {
+                await requestHandler.post(data, "image");
+                setImages([...images, data]);
+              },
             }}
           />
         </Dialog>
@@ -40,7 +43,12 @@ export default function Images() {
             fields={dataFields}
             action={{
               name: "Update",
-              handler: (data) => requestHandler.put(data, "image"),
+              handler: async (data) => {
+                await requestHandler.put(data, "image");
+                setImages(
+                  images.map((image) => (image.id === data.id ? data : image)),
+                );
+              },
             }}
           />
         </Dialog>
@@ -49,7 +57,10 @@ export default function Images() {
             field={dataFields.find((field) => field.name === "id")}
             action={{
               name: "Delete",
-              handler: (data) => requestHandler.delete(data.id, "image"),
+              handler: async (data) => {
+                await requestHandler.delete(data.id, "image");
+                setImages(images.filter((image) => image.id !== data.id));
+              },
             }}
           >
             Are you sure you want to delete this image?

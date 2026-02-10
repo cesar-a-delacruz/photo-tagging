@@ -52,7 +52,7 @@ export default {
     });
 
     if (!response.ok) return console.log(response);
-    return await response.json();
+    return response;
   },
   delete: async (id, path) => {
     const response = await fetch(`${requestInfo.origin}/${path}/${id}`, {
@@ -63,6 +63,6 @@ export default {
     });
 
     if (!response.ok) return console.log(response);
-    return await response.json();
+    return response;
   },
 };

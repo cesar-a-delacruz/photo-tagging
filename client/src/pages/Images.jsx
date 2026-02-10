@@ -34,6 +34,7 @@ export default function Images() {
               handler: async (data) => {
                 await requestHandler.post(data, "image");
                 setImages([...images, data]);
+                addDialog.current.close();
               },
             }}
           />
@@ -48,6 +49,7 @@ export default function Images() {
                 setImages(
                   images.map((image) => (image.id === data.id ? data : image)),
                 );
+                updateDialog.current.close();
               },
             }}
           />
@@ -60,6 +62,7 @@ export default function Images() {
               handler: async (data) => {
                 await requestHandler.delete(data.id, "image");
                 setImages(images.filter((image) => image.id !== data.id));
+                deleteDialog.current.close();
               },
             }}
           >

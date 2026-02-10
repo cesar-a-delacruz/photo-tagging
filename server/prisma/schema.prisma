@@ -29,7 +29,7 @@ model Object {
   id       Int    @id @default(autoincrement())
   name     String @db.VarChar(25)
   position Json   @db.Json
-  image    Image  @relation(fields: [imageId], references: [id])
+  image    Image  @relation(fields: [imageId], references: [id], onDelete: Cascade)
   imageId  Int    @map("image_id")
 
   @@map("object")

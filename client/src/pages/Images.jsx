@@ -49,7 +49,7 @@ export default function Images() {
             field={dataFields.find((field) => field.name === "id")}
             action={{
               name: "Delete",
-              handler: (data) => requestHandler.delete(data, "image"),
+              handler: (data) => requestHandler.delete(data.id, "image"),
             }}
           >
             Are you sure you want to delete this image?

@@ -1,7 +1,7 @@
 import AlertForm from "@/components/AlertForm";
 import Dialog from "@/components/Dialog";
 import DataForm from "@/components/DataForm";
-import useImages from "@/hooks/useImages";
+import useGetData from "@/hooks/useGetData";
 import requestHandler from "@/utils/requestHandler";
 import { useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
@@ -10,7 +10,7 @@ export default function Images() {
   const setTitle = useOutletContext();
   setTitle("Images");
 
-  const { images, setImages } = useImages();
+  const [images, setImages] = useGetData("image");
   const [selectedImage, setSelectedImage] = useState({});
   const addDialog = useRef(null);
   const updateDialog = useRef(null);
@@ -73,33 +73,34 @@ export default function Images() {
 
       <button onClick={() => (addDialog.current.open = true)}>Add</button>
       <div className="images">
-        {images.map((image) => (
-          <div key={image.name} className="image">
-            <div className="top">
-              <h2>{image.name}</h2>
-              <div className="options">
-                <a href="">View Objects</a>
-                <button
-                  onClick={() => {
-                    setSelectedImage(image);
-                    updateDialog.current.open = true;
-                  }}
-                >
-                  Update
-                </button>
-                <button
-                  onClick={() => {
-                    setSelectedImage(image);
-                    deleteDialog.current.open = true;
-                  }}
-                >
-                  Delete
-                </button>
+        {images &&
+          images.map((image) => (
+            <div key={image.name} className="image">
+              <div className="top">
+                <h2>{image.name}</h2>
+                <div className="options">
+                  <a href="">View Objects</a>
+                  <button
+                    onClick={() => {
+                      setSelectedImage(image);
+                      updateDialog.current.open = true;
+                    }}
+                  >
+                    Update
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSelectedImage(image);
+                      deleteDialog.current.open = true;
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
+              <img src={image.url} alt={image.name} />
             </div>
-            <img src={image.url} alt={image.name} />
-          </div>
-        ))}
+          ))}
       </div>
     </>
   );

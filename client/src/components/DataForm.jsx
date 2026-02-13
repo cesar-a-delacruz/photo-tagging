@@ -12,14 +12,39 @@ export default function DataForm({
     setData(
       fields.reduce((acc, field) => {
         const key = field.name;
-        acc[key] = !empty ? field.value : "";
+        if (field.type === "json") {
+          acc[key] = !empty
+            ? field.value
+            : Object.keys(field.value).reduce((a, fv) => {
+                a[fv] = "";
+                return a;
+              }, {});
+        } else acc[key] = !empty ? field.value : "";
         return acc;
       }, {}),
     );
   }, [fields]);
 
   const changeHandler = (id, value) => {
-    setData((prev) => ({ ...prev, [id]: value }));
+    setData((prev) => {
+      for (const key in prev) {
+        if (key === id) {
+          prev[id] = value;
+          return { ...prev };
+        } else if (
+          typeof prev[key] === "object" &&
+          !Array.isArray(prev[key]) &&
+          prev[key] !== null
+        ) {
+          for (const k in prev[key]) {
+            if (k === id) {
+              prev[key][k] = value;
+              return { ...prev };
+            }
+          }
+        }
+      }
+    });
   };
 
   return (

@@ -75,7 +75,7 @@ export default function Images() {
       <div className="images">
         {images &&
           images.map((image) => (
-            <div key={image.name} className="image">
+            <div key={image.id} className="image">
               <div className="top">
                 <h2>{image.name}</h2>
                 <div className="options">

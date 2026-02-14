@@ -4,6 +4,8 @@ import Timer from "@/components/Timer";
 import { useState, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
 import useGetData from "@/hooks/useGetData";
+import Menu from "@/components/Menu";
+import Box from "@/components/Box";
 
 export default function Game() {
   const setTitle = useOutletContext();
@@ -108,14 +110,16 @@ export default function Game() {
           </ol>
         </div>
         {boxPosition && image && (
-          <Target
-            boxPosition={boxPosition}
-            setBoxPosition={setBoxPosition}
-            menuItems={image.objects}
-            setItems={setObjects}
-            currentItem={currentObject}
-            setCurrentItem={setCurrentObject}
-          />
+          <div className="target">
+            <Box position={boxPosition} setPosition={setBoxPosition} />
+            <Menu
+              position={{ x: boxPosition.x + 50, y: boxPosition.y - 37 }}
+              items={image.objects}
+              setItems={setObjects}
+              currentItem={currentObject}
+              setCurrentItem={setCurrentObject}
+            />
+          </div>
         )}
       </div>
     </>

@@ -41,9 +41,10 @@ export default function Target({
               if (!currentItem) alert("No character selected");
 
               if (item.name === currentItem.name) {
-                setItems((prev) =>
-                  prev.map((p) =>
-                    p.name === item.name ? { ...item, found: true } : p,
+                setItems(
+                  "objects",
+                  menuItems.map((mi) =>
+                    mi.id === item.id ? { ...item, found: true } : mi,
                   ),
                 );
                 setFoundAmount(foundAmount + 1);

@@ -79,7 +79,7 @@ export default function Images() {
               <div className="top">
                 <h2>{image.name}</h2>
                 <div className="options">
-                  <a href="">View Objects</a>
+                  <a href={`images/${image.id}/objects`}>View Objects</a>
                   <button
                     onClick={() => {
                       setSelectedImage(image);

@@ -98,7 +98,10 @@ export default function Objects() {
         )}
       </div>
       <div className="right">
-        <button onClick={() => (addDialog.current.open = true)}>Add</button>
+        <div className="options">
+          <button onClick={() => (addDialog.current.open = true)}>Add</button>
+          <a href={"/images"}>Go Back</a>
+        </div>
         <div className="objects">
           {image &&
             image.objects.map((object) => (

@@ -11,5 +11,10 @@ export default function useGetData(endpoint = "") {
     })();
   }, []);
 
-  return [data, setData];
+  const setRelatedData = (relatedField, newRelatedData) => {
+    if (!Array.isArray(data))
+      setData({ ...data, [relatedField]: newRelatedData });
+  };
+
+  return [data, setData, setRelatedData];
 }

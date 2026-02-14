@@ -10,7 +10,7 @@ export default function Objects() {
   const setTitle = useOutletContext();
   setTitle("Objects");
   const imageId = useParams().id;
-  const [image, setImage] = useGetData(`image/${imageId}`);
+  const [image, setImage, setObjects] = useGetData(`image/${imageId}`);
   const [selectedObject, setSelectedObject] = useState({});
   const addDialog = useRef(null);
   const updateDialog = useRef(null);
@@ -42,7 +42,7 @@ export default function Objects() {
                 data.position = JSON.stringify(data.position);
                 data.imageId = image.id;
                 await requestHandler.post(data, "object");
-                setImage({ ...image, objects: [...image.objects, data] });
+                setObjects("objects", [...image.objects, data]);
                 addDialog.current.close();
               },
             }}
@@ -57,12 +57,12 @@ export default function Objects() {
                 data.position = JSON.stringify(data.position);
                 data.imageId = image.id;
                 await requestHandler.put(data, "object");
-                setImage({
-                  ...image,
-                  objects: image.objects.map((object) =>
+                setObjects(
+                  "objects",
+                  image.objects.map((object) =>
                     object.id === data.id ? data : object,
                   ),
-                });
+                );
                 updateDialog.current.close();
               },
             }}
@@ -75,12 +75,10 @@ export default function Objects() {
               name: "Delete",
               handler: async (data) => {
                 await requestHandler.delete(data.id, "object");
-                setImage({
-                  ...image,
-                  objects: image.objects.filter(
-                    (object) => object.id !== data.id,
-                  ),
-                });
+                setObjects(
+                  "objects",
+                  image.objects.filter((object) => object.id !== data.id),
+                );
                 deleteDialog.current.close();
               },
             }}

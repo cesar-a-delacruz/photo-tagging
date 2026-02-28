@@ -53,6 +53,23 @@ export default function DataForm({
         e.preventDefault();
         action.handler(data);
       }}
+      onReset={() => {
+        setData((prev) => {
+          Object.keys(prev).forEach((key) => {
+            if (
+              typeof prev[key] === "object" &&
+              !Array.isArray(prev[key]) &&
+              prev[key] !== null
+            ) {
+              prev[key] = Object.keys(prev[key]).reduce((a, pk) => {
+                a[pk] = "";
+                return a;
+              }, {});
+            } else prev[key] = "";
+          });
+          return { ...prev };
+        });
+      }}
     >
       <div className="fields">
         {fields.map((field) => (
@@ -66,7 +83,14 @@ export default function DataForm({
           />
         ))}
       </div>
-      <button>{action.name}</button>
+      <div className="buttons">
+        <button className="action" type="submit">
+          {action.name}
+        </button>
+        <button className="cancel" type="reset">
+          Cancel
+        </button>
+      </div>
     </form>
   );
 }

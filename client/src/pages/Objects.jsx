@@ -1,6 +1,7 @@
 import AlertForm from "@/components/AlertForm";
 import Dialog from "@/components/Dialog";
 import DataForm from "@/components/DataForm";
+import Box from "@/components/Box";
 import useGetData from "@/hooks/useGetData";
 import requestHandler from "@/utils/requestHandler";
 import { useRef, useState } from "react";
@@ -12,6 +13,7 @@ export default function Objects() {
   const imageId = useParams().id;
   const [image, setImage, setObjects] = useGetData(`image/${imageId}`);
   const [selectedObject, setSelectedObject] = useState({});
+  const [boxPosition, setBoxPosition] = useState(null);
   const addDialog = useRef(null);
   const updateDialog = useRef(null);
   const deleteDialog = useRef(null);
@@ -33,14 +35,18 @@ export default function Objects() {
     <>
       <div className="dialogs">
         <Dialog title={"Add Object"} ref={addDialog}>
+          <button onClick={() => (addDialog.current.style.display = "none")}>
+            Click Position
+          </button>
           <DataForm
             fields={dataFields.filter((field) => field.name !== "id")}
-            empty={true}
+            // empty={true}
             action={{
               name: "Add",
               handler: async (data) => {
                 data.position = JSON.stringify(data.position);
                 data.imageId = image.id;
+                data.id = undefined;
                 await requestHandler.post(data, "object");
                 setObjects("objects", [...image.objects, data]);
                 addDialog.current.close();
@@ -91,10 +97,41 @@ export default function Objects() {
         {image && (
           <>
             <h2>{image.name}</h2>
-            <img className={"image"} src={image.url} alt={image.name} />
+            <img
+              className={"image"}
+              src={image.url}
+              alt={image.name}
+              onClick={(e) => {
+                const imgBoundingSides = {
+                  left: e.currentTarget.getBoundingClientRect().left,
+                  bottom: e.currentTarget.getBoundingClientRect().top,
+                };
+                const imgSizeRatio = {
+                  width:
+                    e.currentTarget.naturalWidth / e.currentTarget.clientWidth,
+                  height:
+                    e.currentTarget.naturalHeight /
+                    e.currentTarget.clientHeight,
+                };
+                const clickedPosition = {
+                  x: (e.pageX - imgBoundingSides.left) * imgSizeRatio.width,
+                  y: (e.pageY - imgBoundingSides.bottom) * imgSizeRatio.height,
+                };
+                setSelectedObject({
+                  ...selectedObject,
+                  position: { x: clickedPosition.x, y: clickedPosition.y },
+                });
+                if (addDialog.current.style.display === "none")
+                  addDialog.current.style.display = "block";
+                setBoxPosition({ x: e.pageX, y: e.pageY });
+              }}
+            />
           </>
         )}
       </div>
+      {image && boxPosition && (
+        <Box position={boxPosition} setPosition={setBoxPosition} />
+      )}
       <div className="right">
         <div className="options">
           <button onClick={() => (addDialog.current.open = true)}>Add</button>

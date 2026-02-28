@@ -1,4 +1,3 @@
-import Target from "@/components/Target";
 import Dialog from "@/components/Dialog";
 import Timer from "@/components/Timer";
 import { useState, useRef } from "react";

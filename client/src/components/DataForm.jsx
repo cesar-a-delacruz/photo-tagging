@@ -1,4 +1,4 @@
-import { isObject } from "@/utils/objectHandler";
+import { formDataReseter } from "@/utils/objectHandler";
 import Field from "./Field";
 
 export default function DataForm({
@@ -12,7 +12,7 @@ export default function DataForm({
         if (prev[i].name === id) {
           prev[i].value = value;
           return [...prev];
-        } else if (isObject(prev[i].value)) {
+        } else if (prev[i].type === "json") {
           for (const key in prev[i].value) {
             if (key === id) {
               prev[i].value[key] = value;
@@ -30,19 +30,7 @@ export default function DataForm({
         e.preventDefault();
         action.handler(data);
       }}
-      onReset={() => {
-        setData((prev) => {
-          for (let i = 0; i < prev.length; i++) {
-            if (isObject(prev[i].value)) {
-              prev[i].value = Object.keys(prev[i].value).reduce((acc, key) => {
-                acc[key] = "";
-                return acc;
-              }, {});
-            } else prev[i].value = "";
-          }
-          return [...prev];
-        });
-      }}
+      onReset={() => setData((prev) => formDataReseter(prev))}
     >
       <div className="fields">
         {data.map((field) => (

@@ -6,7 +6,7 @@ import useGetData from "@/hooks/useGetData";
 import requestHandler from "@/utils/requestHandler";
 import { useRef, useState } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
-import { isObject } from "@/utils/objectHandler";
+import { formDataReducer, formDataReseter } from "@/utils/objectHandler";
 
 export default function Objects() {
   const setTitle = useOutletContext();
@@ -42,11 +42,11 @@ export default function Objects() {
             action={{
               name: "Add",
               handler: async (data) => {
-                data.position = JSON.stringify(data.position);
+                data = formDataReducer(data);
                 data.imageId = image.id;
-                data.id = undefined;
-                await requestHandler.post(data, "object");
                 setObjects("objects", [...image.objects, data]);
+                data.position = JSON.stringify(data.position);
+                await requestHandler.post(data, "object");
                 addDialog.current.close();
               },
             }}
@@ -59,15 +59,15 @@ export default function Objects() {
             action={{
               name: "Update",
               handler: async (data) => {
-                data.position = JSON.stringify(data.position);
+                data = formDataReducer(data);
                 data.imageId = image.id;
-                await requestHandler.put(data, "object");
                 setObjects(
                   "objects",
                   image.objects.map((object) =>
                     object.id === data.id ? data : object,
                   ),
                 );
+                await requestHandler.put(data, "object");
                 updateDialog.current.close();
               },
             }}
@@ -79,7 +79,7 @@ export default function Objects() {
             action={{
               name: "Delete",
               handler: async (data) => {
-                await requestHandler.delete(data.id, "object");
+                await requestHandler.delete(data.value, "object");
                 setObjects(
                   "objects",
                   image.objects.filter((object) => object.id !== data.id),
@@ -126,7 +126,6 @@ export default function Objects() {
                   }
                   return [...prev];
                 });
-
                 addDialog.current.show();
                 setBoxPosition({ x: e.pageX, y: e.pageY });
               }}
@@ -141,20 +140,7 @@ export default function Objects() {
         <div className="options">
           <button
             onClick={() => {
-              setFormData((prev) => {
-                for (let i = 0; i < prev.length; i++) {
-                  if (isObject(prev[i].value)) {
-                    prev[i].value = Object.keys(prev[i].value).reduce(
-                      (acc, key) => {
-                        acc[key] = "";
-                        return acc;
-                      },
-                      {},
-                    );
-                  } else prev[i].value = "";
-                }
-                return [...prev];
-              });
+              setFormData((prev) => formDataReseter(prev));
               addDialog.current.show();
             }}
           >

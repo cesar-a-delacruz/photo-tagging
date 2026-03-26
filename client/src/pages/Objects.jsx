@@ -55,8 +55,8 @@ export default function Objects() {
                 data = formDataReducer(data);
                 data.imageId = image.id;
                 data.id = undefined;
-                setObjects("objects", [...image.objects, data]);
                 data.position = JSON.stringify(data.position);
+                setObjects("objects", [...image.objects, data]);
                 await requestHandler.post(data, "object");
                 addDialog.current.close();
                 setFormData((prev) => formDataReseter(prev));
@@ -81,13 +81,13 @@ export default function Objects() {
               handler: async (data) => {
                 data = formDataReducer(data);
                 data.imageId = image.id;
+                data.position = JSON.stringify(data.position);
                 setObjects(
                   "objects",
                   image.objects.map((object) =>
                     object.id === data.id ? data : object,
                   ),
                 );
-                data.position = JSON.stringify(data.position);
                 await requestHandler.put(data, "object");
                 updateDialog.current.close();
                 setFormData((prev) => formDataReseter(prev));
@@ -128,7 +128,7 @@ export default function Objects() {
 
                 const imgBoundingSides = {
                   left: e.currentTarget.getBoundingClientRect().left,
-                  bottom: e.currentTarget.getBoundingClientRect().top,
+                  top: e.currentTarget.getBoundingClientRect().top,
                 };
                 const imgSizeRatio = {
                   width:
@@ -138,8 +138,8 @@ export default function Objects() {
                     e.currentTarget.clientHeight,
                 };
                 const clickedPosition = {
-                  x: (e.pageX - imgBoundingSides.left) * imgSizeRatio.width,
-                  y: (e.pageY - imgBoundingSides.bottom) * imgSizeRatio.height,
+                  x: (e.clientX - imgBoundingSides.left) * imgSizeRatio.width,
+                  y: (e.clientY - imgBoundingSides.top) * imgSizeRatio.height,
                 };
                 setFormData((prev) => {
                   for (let i = 0; i < prev.length; i++) {

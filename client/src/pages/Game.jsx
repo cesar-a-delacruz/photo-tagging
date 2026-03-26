@@ -62,7 +62,7 @@ export default function Game() {
               onClick={(e) => {
                 const imgBoundingSides = {
                   left: e.currentTarget.getBoundingClientRect().left,
-                  bottom: e.currentTarget.getBoundingClientRect().top,
+                  top: e.currentTarget.getBoundingClientRect().top,
                 };
                 const imgSizeRatio = {
                   width:
@@ -72,11 +72,10 @@ export default function Game() {
                     e.currentTarget.clientHeight,
                 };
                 const clickedPosition = {
-                  x: (e.pageX - imgBoundingSides.left) * imgSizeRatio.width,
-                  y: (e.pageY - imgBoundingSides.bottom) * imgSizeRatio.height,
+                  x: (e.clientX - imgBoundingSides.left) * imgSizeRatio.width,
+                  y: (e.clientY - imgBoundingSides.top) * imgSizeRatio.height,
                 };
                 const targetBoxCenter = 50;
-
                 image.objects.forEach((object) => {
                   if (
                     clickedPosition.x < object.position.x + targetBoxCenter &&

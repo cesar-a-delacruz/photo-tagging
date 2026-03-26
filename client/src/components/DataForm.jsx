@@ -1,45 +1,22 @@
+import { isObject } from "@/utils/objectHandler";
 import Field from "./Field";
-import { useState, useEffect } from "react";
 
 export default function DataForm({
-  fields = [],
-  empty = false,
   action = { name: "", handler: () => {} },
+  data = [],
+  setData = () => {},
 }) {
-  const [data, setData] = useState({});
-
-  useEffect(() => {
-    setData(
-      fields.reduce((acc, field) => {
-        const key = field.name;
-        if (field.type === "json") {
-          acc[key] = !empty
-            ? field.value
-            : Object.keys(field.value).reduce((a, fv) => {
-                a[fv] = "";
-                return a;
-              }, {});
-        } else acc[key] = !empty ? field.value : "";
-        return acc;
-      }, {}),
-    );
-  }, [fields]);
-
   const changeHandler = (id, value) => {
     setData((prev) => {
-      for (const key in prev) {
-        if (key === id) {
-          prev[id] = value;
-          return { ...prev };
-        } else if (
-          typeof prev[key] === "object" &&
-          !Array.isArray(prev[key]) &&
-          prev[key] !== null
-        ) {
-          for (const k in prev[key]) {
-            if (k === id) {
-              prev[key][k] = value;
-              return { ...prev };
+      for (let i = 0; i < prev.length; i++) {
+        if (prev[i].name === id) {
+          prev[i].value = value;
+          return [...prev];
+        } else if (isObject(prev[i].value)) {
+          for (const key in prev[i].value) {
+            if (key === id) {
+              prev[i].value[key] = value;
+              return [...prev];
             }
           }
         }
@@ -55,30 +32,26 @@ export default function DataForm({
       }}
       onReset={() => {
         setData((prev) => {
-          Object.keys(prev).forEach((key) => {
-            if (
-              typeof prev[key] === "object" &&
-              !Array.isArray(prev[key]) &&
-              prev[key] !== null
-            ) {
-              prev[key] = Object.keys(prev[key]).reduce((a, pk) => {
-                a[pk] = "";
-                return a;
+          for (let i = 0; i < prev.length; i++) {
+            if (isObject(prev[i].value)) {
+              prev[i].value = Object.keys(prev[i].value).reduce((acc, key) => {
+                acc[key] = "";
+                return acc;
               }, {});
-            } else prev[key] = "";
-          });
-          return { ...prev };
+            } else prev[i].value = "";
+          }
+          return [...prev];
         });
       }}
     >
       <div className="fields">
-        {fields.map((field) => (
+        {data.map((field) => (
           <Field
             key={field.name}
             name={field.name}
             label={field.label}
             type={field.type}
-            value={data[field.name]}
+            value={field.value}
             onChange={changeHandler}
           />
         ))}

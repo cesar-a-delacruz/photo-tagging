@@ -1,17 +1,10 @@
-import { useState, useEffect } from "react";
 import Field from "./Field";
 
 export default function AlertForm({
-  field,
   action = { name: "", handler: () => {} },
+  data = {},
   children,
 }) {
-  const [data, setData] = useState({});
-
-  useEffect(() => {
-    setData({ [field.name]: field.value });
-  }, [field]);
-
   return (
     <form
       onSubmit={(e) => {
@@ -20,7 +13,7 @@ export default function AlertForm({
       }}
     >
       <p>{children}</p>
-      <Field name={field.name} value={field.value} type={"hidden"} />
+      <Field name={data.name} value={data.value} type={data.type} />
       <button>{action.name}</button>
     </form>
   );

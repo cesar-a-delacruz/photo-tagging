@@ -6,41 +6,39 @@ import useGetData from "@/hooks/useGetData";
 import requestHandler from "@/utils/requestHandler";
 import { useRef, useState } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
+import { isObject } from "@/utils/objectHandler";
 
 export default function Objects() {
   const setTitle = useOutletContext();
   setTitle("Objects");
   const imageId = useParams().id;
   const [image, setImage, setObjects] = useGetData(`image/${imageId}`);
-  const [selectedObject, setSelectedObject] = useState({});
-  const [boxPosition, setBoxPosition] = useState(null);
-  const addDialog = useRef(null);
-  const updateDialog = useRef(null);
-  const deleteDialog = useRef(null);
-
-  const dataFields = [
-    { name: "id", value: selectedObject.id, type: "hidden" },
-    { name: "name", label: "Name", value: selectedObject.name, type: "text" },
+  const [formData, setFormData] = useState([
+    { name: "id", value: "", type: "hidden" },
+    { name: "name", label: "Name", value: "", type: "text" },
     {
       name: "position",
       label: "Position",
-      value: selectedObject.position
-        ? { x: selectedObject.position.x, y: selectedObject.position.y }
-        : { x: "", y: "" },
+      value: { x: "", y: "" },
       type: "json",
     },
-  ];
+  ]);
+  const [boxPosition, setBoxPosition] = useState(null);
+
+  const addDialog = useRef(null);
+  const updateDialog = useRef(null);
+  const deleteDialog = useRef(null);
 
   return (
     <>
       <div className="dialogs">
         <Dialog title={"Add Object"} ref={addDialog}>
-          <button onClick={() => (addDialog.current.style.display = "none")}>
+          <button onClick={() => addDialog.current.close()}>
             Click Position
           </button>
           <DataForm
-            fields={dataFields.filter((field) => field.name !== "id")}
-            // empty={true}
+            data={formData.filter((field) => field.name !== "id")}
+            setData={setFormData}
             action={{
               name: "Add",
               handler: async (data) => {
@@ -56,7 +54,8 @@ export default function Objects() {
         </Dialog>
         <Dialog title={"Update Object"} ref={updateDialog}>
           <DataForm
-            fields={dataFields}
+            data={formData}
+            setData={setFormData}
             action={{
               name: "Update",
               handler: async (data) => {
@@ -76,7 +75,7 @@ export default function Objects() {
         </Dialog>
         <Dialog title={"Delete Object"} ref={deleteDialog}>
           <AlertForm
-            field={dataFields.find((field) => field.name === "id")}
+            data={formData.find((field) => field.name === "id")}
             action={{
               name: "Delete",
               handler: async (data) => {
@@ -117,12 +116,18 @@ export default function Objects() {
                   x: (e.pageX - imgBoundingSides.left) * imgSizeRatio.width,
                   y: (e.pageY - imgBoundingSides.bottom) * imgSizeRatio.height,
                 };
-                setSelectedObject({
-                  ...selectedObject,
-                  position: { x: clickedPosition.x, y: clickedPosition.y },
+                setFormData((prev) => {
+                  for (let i = 0; i < prev.length; i++) {
+                    if (prev[i].name === "position")
+                      prev[i].value = {
+                        x: parseInt(clickedPosition.x),
+                        y: parseInt(clickedPosition.y),
+                      };
+                  }
+                  return [...prev];
                 });
-                if (addDialog.current.style.display === "none")
-                  addDialog.current.style.display = "block";
+
+                addDialog.current.show();
                 setBoxPosition({ x: e.pageX, y: e.pageY });
               }}
             />
@@ -134,7 +139,27 @@ export default function Objects() {
       )}
       <div className="right">
         <div className="options">
-          <button onClick={() => (addDialog.current.open = true)}>Add</button>
+          <button
+            onClick={() => {
+              setFormData((prev) => {
+                for (let i = 0; i < prev.length; i++) {
+                  if (isObject(prev[i].value)) {
+                    prev[i].value = Object.keys(prev[i].value).reduce(
+                      (acc, key) => {
+                        acc[key] = "";
+                        return acc;
+                      },
+                      {},
+                    );
+                  } else prev[i].value = "";
+                }
+                return [...prev];
+              });
+              addDialog.current.show();
+            }}
+          >
+            Add
+          </button>
           <a href={"/images"}>Go Back</a>
         </div>
         <div className="objects">
@@ -145,16 +170,26 @@ export default function Objects() {
                 <div className="options">
                   <button
                     onClick={() => {
-                      setSelectedObject(object);
-                      updateDialog.current.open = true;
+                      setFormData((prev) => {
+                        for (let i = 0; i < prev.length; i++) {
+                          prev[i].value = object[prev[i].name];
+                        }
+                        return [...prev];
+                      });
+                      updateDialog.current.show();
                     }}
                   >
                     Update
                   </button>
                   <button
                     onClick={() => {
-                      setSelectedObject(object);
-                      deleteDialog.current.open = true;
+                      setFormData((prev) => {
+                        for (let i = 0; i < prev.length; i++) {
+                          prev[i].value = object[prev[i].name];
+                        }
+                        return [...prev];
+                      });
+                      deleteDialog.current.show();
                     }}
                   >
                     Delete

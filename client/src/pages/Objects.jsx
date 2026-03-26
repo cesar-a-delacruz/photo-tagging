@@ -13,6 +13,11 @@ export default function Objects() {
   setTitle("Objects");
   const imageId = useParams().id;
   const [image, setImage, setObjects] = useGetData(`image/${imageId}`);
+
+  const addDialog = useRef(null);
+  const updateDialog = useRef(null);
+  const deleteDialog = useRef(null);
+
   const [formData, setFormData] = useState([
     { name: "id", value: "", type: "hidden" },
     { name: "name", label: "Name", value: "", type: "text" },
@@ -24,16 +29,21 @@ export default function Objects() {
     },
   ]);
   const [boxPosition, setBoxPosition] = useState(null);
-
-  const addDialog = useRef(null);
-  const updateDialog = useRef(null);
-  const deleteDialog = useRef(null);
+  const [clickPosition, setClickPosition] = useState({
+    active: false,
+    dialog: null,
+  });
 
   return (
     <>
       <div className="dialogs">
         <Dialog title={"Add Object"} ref={addDialog}>
-          <button onClick={() => addDialog.current.close()}>
+          <button
+            onClick={() => {
+              setClickPosition({ active: true, dialog: addDialog });
+              addDialog.current.close();
+            }}
+          >
             Click Position
           </button>
           <DataForm
@@ -48,11 +58,20 @@ export default function Objects() {
                 data.position = JSON.stringify(data.position);
                 await requestHandler.post(data, "object");
                 addDialog.current.close();
+                setFormData((prev) => formDataReseter(prev));
               },
             }}
           />
         </Dialog>
         <Dialog title={"Update Object"} ref={updateDialog}>
+          <button
+            onClick={() => {
+              setClickPosition({ active: true, dialog: updateDialog });
+              updateDialog.current.close();
+            }}
+          >
+            Click Position
+          </button>
           <DataForm
             data={formData}
             setData={setFormData}
@@ -69,6 +88,7 @@ export default function Objects() {
                 );
                 await requestHandler.put(data, "object");
                 updateDialog.current.close();
+                setFormData((prev) => formDataReseter(prev));
               },
             }}
           />
@@ -85,6 +105,7 @@ export default function Objects() {
                   image.objects.filter((object) => object.id !== data.id),
                 );
                 deleteDialog.current.close();
+                setFormData((prev) => formDataReseter(prev));
               },
             }}
           >
@@ -101,6 +122,8 @@ export default function Objects() {
               src={image.url}
               alt={image.name}
               onClick={(e) => {
+                if (!clickPosition.active) return;
+
                 const imgBoundingSides = {
                   left: e.currentTarget.getBoundingClientRect().left,
                   bottom: e.currentTarget.getBoundingClientRect().top,
@@ -126,8 +149,9 @@ export default function Objects() {
                   }
                   return [...prev];
                 });
-                addDialog.current.show();
                 setBoxPosition({ x: e.pageX, y: e.pageY });
+                clickPosition.dialog.current.show();
+                setClickPosition({ active: false, dialog: null });
               }}
             />
           </>
@@ -140,7 +164,6 @@ export default function Objects() {
         <div className="options">
           <button
             onClick={() => {
-              setFormData((prev) => formDataReseter(prev));
               addDialog.current.show();
             }}
           >

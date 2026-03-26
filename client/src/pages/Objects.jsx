@@ -54,6 +54,7 @@ export default function Objects() {
               handler: async (data) => {
                 data = formDataReducer(data);
                 data.imageId = image.id;
+                data.id = undefined;
                 setObjects("objects", [...image.objects, data]);
                 data.position = JSON.stringify(data.position);
                 await requestHandler.post(data, "object");
@@ -86,6 +87,7 @@ export default function Objects() {
                     object.id === data.id ? data : object,
                   ),
                 );
+                data.position = JSON.stringify(data.position);
                 await requestHandler.put(data, "object");
                 updateDialog.current.close();
                 setFormData((prev) => formDataReseter(prev));
@@ -102,7 +104,7 @@ export default function Objects() {
                 await requestHandler.delete(data.value, "object");
                 setObjects(
                   "objects",
-                  image.objects.filter((object) => object.id !== data.id),
+                  image.objects.filter((object) => object.id !== data.value),
                 );
                 deleteDialog.current.close();
                 setFormData((prev) => formDataReseter(prev));
@@ -164,6 +166,7 @@ export default function Objects() {
         <div className="options">
           <button
             onClick={() => {
+              setFormData((prev) => formDataReseter(prev));
               addDialog.current.show();
             }}
           >
@@ -181,7 +184,12 @@ export default function Objects() {
                     onClick={() => {
                       setFormData((prev) => {
                         for (let i = 0; i < prev.length; i++) {
-                          prev[i].value = object[prev[i].name];
+                          if (
+                            prev[i].type === "json" &&
+                            typeof prev[i].value === "string"
+                          )
+                            prev[i].value = JSON.parse(object[prev[i].name]);
+                          else prev[i].value = object[prev[i].name];
                         }
                         return [...prev];
                       });

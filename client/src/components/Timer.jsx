@@ -1,8 +1,10 @@
-import { useRef, useState } from "react";
+import GameContext from "@/contexts/GameContext";
+import { useContext, useRef } from "react";
 
-export default function Timer() {
-  const [time, setTime] = useState("");
+export default function Timer({ setTime = () => {} }) {
+  const time = useContext(GameContext).time;
   const start = useRef(new Date().valueOf());
+
   setInterval(() => {
     let timeString = new Date(
       new Date().valueOf() - start.current,

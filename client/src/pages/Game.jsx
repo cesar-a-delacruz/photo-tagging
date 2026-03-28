@@ -5,121 +5,147 @@ import { useOutletContext } from "react-router-dom";
 import useGetData from "@/hooks/useGetData";
 import Menu from "@/components/Menu";
 import Box from "@/components/Box";
+import GameContext from "@/contexts/GameContext";
 
 export default function Game() {
   const setTitle = useOutletContext();
   setTitle("Game");
 
   const [image, setImage, setObjects] = useGetData("image/7");
+  const [user, setUser] = useState({
+    name: "Anon",
+    record: "00:00:00",
+  });
   const [boxPosition, setBoxPosition] = useState(null);
-  const [currentObject, setCurrentObject] = useState(null);
+  const [game, setGame] = useState({
+    time: "",
+    end: false,
+    objects: {
+      current: null,
+      found: 0,
+    },
+  });
+
   const imageDialog = useRef(null);
   const recordDialog = useRef(null);
 
   return (
-    <>
-      <div className="top">
-        <div className="data">
-          <div className="user">
-            <p>
-              Name: <span>Anon</span>
-            </p>
-            <p>
-              Record: <span>00:00:00</span>
-            </p>
-          </div>
-          <Timer />
-        </div>
-        <div className="options">
-          <button onClick={(e) => (imageDialog.current.open = true)}>
-            Change Image
-          </button>
-          <button onClick={(e) => (recordDialog.current.open = true)}>
-            Reset Record
-          </button>
-        </div>
-        <div className="dialogs">
-          <Dialog title={"Change Image"} ref={imageDialog}>
-            <div className="images">
-              <div className="image">
-                <p>Image 1</p>
-                <button>Select</button>
-              </div>
+    <GameContext value={game}>
+      <>
+        <div className="top">
+          <div className="data">
+            <div className="user">
+              <p>
+                Name: <span>{user.name}</span>
+              </p>
+              <p>
+                Record: <span>{user.record}</span>
+              </p>
             </div>
-          </Dialog>
-          <Dialog title={"Reset Record"} ref={recordDialog}>
-            <p>Are you sure you want to reset your record?</p>
-          </Dialog>
-        </div>
-      </div>
-      <div className="bottom">
-        {image && (
-          <>
-            <h3>{image.name}</h3>
-            <img
-              src={image.url}
-              alt={image.name}
-              onClick={(e) => {
-                const imgBoundingSides = {
-                  left: e.currentTarget.getBoundingClientRect().left,
-                  top: e.currentTarget.getBoundingClientRect().top,
-                };
-                const imgSizeRatio = {
-                  width:
-                    e.currentTarget.naturalWidth / e.currentTarget.clientWidth,
-                  height:
-                    e.currentTarget.naturalHeight /
-                    e.currentTarget.clientHeight,
-                };
-                const clickedPosition = {
-                  x: (e.clientX - imgBoundingSides.left) * imgSizeRatio.width,
-                  y: (e.clientY - imgBoundingSides.top) * imgSizeRatio.height,
-                };
-                const targetBoxCenter = 50;
-                image.objects.forEach((object) => {
-                  if (
-                    clickedPosition.x < object.position.x + targetBoxCenter &&
-                    clickedPosition.x > object.position.x - targetBoxCenter &&
-                    clickedPosition.y < object.position.y + targetBoxCenter &&
-                    clickedPosition.y > object.position.y - targetBoxCenter
-                  ) {
-                    setCurrentObject(object);
-                  }
-                });
-                setBoxPosition({ x: e.pageX, y: e.pageY });
-              }}
-            />
-          </>
-        )}
-        <div className="objects">
-          <h3>Objects to find</h3>
-          <ol>
-            {image &&
-              image.objects.map((object) => (
-                <li key={object.id}>
-                  {object.name}
-                  {object.found && (
-                    <>
-                      : <span>Found</span>
-                    </>
-                  )}
-                </li>
-              ))}
-          </ol>
-        </div>
-        {boxPosition && image && (
-          <div className="target">
-            <Box position={boxPosition} setPosition={setBoxPosition} />
-            <Menu
-              position={{ x: boxPosition.x + 50, y: boxPosition.y - 37 }}
-              items={image.objects}
-              setItems={setObjects}
-              currentItem={currentObject}
-              setCurrentItem={setCurrentObject}
+            <Timer
+              setTime={(timeString) =>
+                setGame((prev) => ({
+                  ...prev,
+                  time: timeString,
+                }))
+              }
             />
           </div>
-        )}
-      </div>
-    </>
+          <div className="options">
+            <button onClick={() => imageDialog.current.show()}>
+              Change Image
+            </button>
+            <button onClick={() => recordDialog.current.show()}>
+              Reset Record
+            </button>
+          </div>
+          <div className="dialogs">
+            <Dialog title={"Change Image"} ref={imageDialog}>
+              <div className="images">
+                <div className="image">
+                  <p>Image 1</p>
+                  <button>Select</button>
+                </div>
+              </div>
+            </Dialog>
+            <Dialog title={"Reset Record"} ref={recordDialog}>
+              <p>Are you sure you want to reset your record?</p>
+            </Dialog>
+          </div>
+        </div>
+        <div className="bottom">
+          {image && (
+            <>
+              <h3>{image.name}</h3>
+              <img
+                src={image.url}
+                alt={image.name}
+                onClick={(e) => {
+                  if (game.end) return;
+
+                  const imgBoundingSides = {
+                    left: e.currentTarget.getBoundingClientRect().left,
+                    top: e.currentTarget.getBoundingClientRect().top,
+                  };
+                  const imgSizeRatio = {
+                    width:
+                      e.currentTarget.naturalWidth /
+                      e.currentTarget.clientWidth,
+                    height:
+                      e.currentTarget.naturalHeight /
+                      e.currentTarget.clientHeight,
+                  };
+                  const clickedPosition = {
+                    x: (e.clientX - imgBoundingSides.left) * imgSizeRatio.width,
+                    y: (e.clientY - imgBoundingSides.top) * imgSizeRatio.height,
+                  };
+                  const targetBoxCenter = 50;
+                  image.objects.forEach((object) => {
+                    if (
+                      clickedPosition.x < object.position.x + targetBoxCenter &&
+                      clickedPosition.x > object.position.x - targetBoxCenter &&
+                      clickedPosition.y < object.position.y + targetBoxCenter &&
+                      clickedPosition.y > object.position.y - targetBoxCenter
+                    ) {
+                      setGame((prev) => ({
+                        ...prev,
+                        objects: { current: object, found: prev.objects.found },
+                      }));
+                    }
+                  });
+                  setBoxPosition({ x: e.pageX, y: e.pageY });
+                }}
+              />
+            </>
+          )}
+          <div className="objects">
+            <h3>Objects to find</h3>
+            <ol>
+              {image &&
+                image.objects.map((object) => (
+                  <li key={object.id}>{object.name}</li>
+                ))}
+            </ol>
+          </div>
+          {boxPosition && image && (
+            <div className="target">
+              <Box position={boxPosition} setPosition={setBoxPosition} />
+              <Menu
+                position={{ x: boxPosition.x + 50, y: boxPosition.y - 37 }}
+                items={image.objects}
+                currentItem={game.objects.current}
+                setFoundObjects={(amount) => {
+                  setGame((prev) => ({
+                    ...prev,
+                    end: amount === image.objects.length ? true : false,
+                    objects: { current: null, found: amount },
+                  }));
+                }}
+              />
+            </div>
+          )}
+        </div>
+      </>
+    </GameContext>
   );
 }

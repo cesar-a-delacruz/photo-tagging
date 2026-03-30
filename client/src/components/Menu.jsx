@@ -7,7 +7,7 @@ export default function Menu({
   currentItem,
   setFoundObjects = () => {},
 }) {
-  const foundObjects = useContext(GameContext).foundObjects;
+  const foundObjects = useContext(GameContext).objects.found;
 
   return (
     <div

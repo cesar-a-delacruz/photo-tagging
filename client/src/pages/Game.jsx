@@ -14,7 +14,7 @@ export default function Game() {
   const [image, setImage, setObjects] = useGetData("image/7");
   const [user, setUser] = useState({
     name: "Anon",
-    record: "00:00:00",
+    record: "00:00",
   });
   const [boxPosition, setBoxPosition] = useState(null);
   const [game, setGame] = useState({
@@ -135,11 +135,17 @@ export default function Game() {
                 items={image.objects}
                 currentItem={game.objects.current}
                 setFoundObjects={(amount) => {
+                  const gameEnd = amount === image.objects.length;
+
                   setGame((prev) => ({
                     ...prev,
-                    end: amount === image.objects.length ? true : false,
+                    end: gameEnd,
                     objects: { current: null, found: amount },
                   }));
+
+                  if (gameEnd) {
+                    setUser({ name: "Winner", record: game.time });
+                  }
                 }}
               />
             </div>

@@ -6,16 +6,15 @@ import useGetData from "@/hooks/useGetData";
 import Menu from "@/components/Menu";
 import Box from "@/components/Box";
 import GameContext from "@/contexts/GameContext";
+import DataForm from "@/components/DataForm";
+import { formDataReducer } from "@/utils/objectHandler";
+import requestHandler from "@/utils/requestHandler";
 
 export default function Game() {
   const setTitle = useOutletContext();
   setTitle("Game");
 
-  const [image, setImage, setObjects] = useGetData("image/7");
-  const [user, setUser] = useState({
-    name: "Anon",
-    record: "00:00",
-  });
+  const [image, setImage] = useGetData("image/7");
   const [boxPosition, setBoxPosition] = useState(null);
   const [game, setGame] = useState({
     time: "",
@@ -25,9 +24,14 @@ export default function Game() {
       found: 0,
     },
   });
+  const [formData, setFormData] = useState([
+    { name: "name", label: "Name", value: "", type: "text" },
+    { name: "record", label: "Record", value: "", type: "text" },
+  ]);
 
   const imageDialog = useRef(null);
   const recordDialog = useRef(null);
+  const winDialog = useRef(null);
 
   return (
     <GameContext value={game}>
@@ -36,10 +40,10 @@ export default function Game() {
           <div className="data">
             <div className="user">
               <p>
-                Name: <span>{user.name}</span>
+                Name: <span>{formData[0].value}</span>
               </p>
               <p>
-                Record: <span>{user.record}</span>
+                Record: <span>{formData[1].value}</span>
               </p>
             </div>
             <Timer
@@ -70,6 +74,27 @@ export default function Game() {
             </Dialog>
             <Dialog title={"Reset Record"} ref={recordDialog}>
               <p>Are you sure you want to reset your record?</p>
+            </Dialog>
+            <Dialog title={"Congratulations!!"} ref={winDialog}>
+              <p>Input your name to save your record</p>
+              <DataForm
+                data={formData}
+                setData={setFormData}
+                action={{
+                  name: "Save",
+                  handler: async (data) => {
+                    data = formDataReducer(data);
+                    await requestHandler.post(data, "user");
+                    setFormData((prev) =>
+                      prev.map((field) => {
+                        field.value = data[field.name];
+                        return field;
+                      }),
+                    );
+                    winDialog.current.close();
+                  },
+                }}
+              />
             </Dialog>
           </div>
         </div>
@@ -144,7 +169,13 @@ export default function Game() {
                   }));
 
                   if (gameEnd) {
-                    setUser({ name: "Winner", record: game.time });
+                    setFormData((prev) =>
+                      prev.map((field) => {
+                        if (field.name === "record") field.value = game.time;
+                        return field;
+                      }),
+                    );
+                    winDialog.current.show();
                   }
                 }}
               />

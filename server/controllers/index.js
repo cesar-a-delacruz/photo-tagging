@@ -23,4 +23,12 @@ export default {
     },
     validators.object,
   ),
+  user: new RESTController(
+    prisma.user,
+    {
+      name: "string",
+      record: "string",
+    },
+    validators.user,
+  ),
 };

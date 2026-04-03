@@ -35,7 +35,9 @@ export default class RESTController extends BaseController {
           data: this.dataParser.run(req.body),
         });
         console.log(row);
-        res.status(201).json({ message: "Item created successfully" });
+        res
+          .status(201)
+          .json({ message: "Item created successfully", data: { id: row.id } });
       } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Failed to create item" });

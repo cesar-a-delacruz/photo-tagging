@@ -7,6 +7,7 @@ import Menu from "@/components/Menu";
 import Box from "@/components/Box";
 import GameContext from "@/contexts/GameContext";
 import DataForm from "@/components/DataForm";
+import AlertForm from "@/components/AlertForm";
 import { formDataReducer } from "@/utils/objectHandler";
 import requestHandler from "@/utils/requestHandler";
 
@@ -17,15 +18,15 @@ export default function Game() {
   const [boxPosition, setBoxPosition] = useState(null);
   const [game, setGame] = useState({
     end: false,
-    runTimer: true,
     objects: {
       current: null,
       found: 0,
     },
   });
   const [formData, setFormData] = useState([
+    { name: "id", value: "", type: "hidden" },
     { name: "name", label: "Name", value: "", type: "text" },
-    { name: "record", label: "Record", value: "", type: "text" },
+    { name: "record", label: "Record", value: "00:00", type: "text" },
   ]);
 
   const imageDialog = useRef(null);
@@ -38,10 +39,10 @@ export default function Game() {
         <div className="data">
           <div className="user">
             <p>
-              Name: <span>{formData[0].value}</span>
+              Name: <span>{formData[1].value}</span>
             </p>
             <p>
-              Record: <span>{formData[1].value}</span>
+              Record: <span>{formData[2].value}</span>
             </p>
           </div>
           <Timer
@@ -55,7 +56,7 @@ export default function Game() {
               winDialog.current.show();
             }}
             stop={game.end}
-            record={formData[1].value}
+            record={formData[2].value}
           />
         </div>
         <div className="options">
@@ -76,12 +77,43 @@ export default function Game() {
             </div>
           </Dialog>
           <Dialog title={"Reset Record"} ref={recordDialog}>
-            <p>Are you sure you want to reset your record?</p>
+            <AlertForm
+              data={formData.find((field) => field.name === "id")}
+              action={{
+                name: "Reset",
+                handler: async (data) => {
+                  data = {
+                    id: data.value,
+                    name: formData[1].value,
+                    record: "00:00",
+                  };
+
+                  const result = await requestHandler.put(data, "user");
+                  console.log(data, result);
+                  if (!result) return;
+
+                  setFormData((prev) =>
+                    prev.map((field) => {
+                      if (field.name === "record") field.value = "00:00";
+                      return field;
+                    }),
+                  );
+                  setGame((prev) => {
+                    prev.end = false;
+                    prev.objects.found = 0;
+                    return prev;
+                  });
+                  recordDialog.current.close();
+                },
+              }}
+            >
+              Are you sure you want to reset your record?
+            </AlertForm>
           </Dialog>
           <Dialog title={"Congratulations!!"} ref={winDialog}>
             <p>Input your name to save your record</p>
             <DataForm
-              data={formData}
+              data={formData.filter((field) => field.name !== "id")}
               setData={setFormData}
               action={{
                 name: "Save",
@@ -89,6 +121,7 @@ export default function Game() {
                   data = formDataReducer(data);
                   const result = await requestHandler.post(data, "user");
                   if (!result) return;
+                  data.id = result.data.id;
 
                   setFormData((prev) =>
                     prev.map((field) => {

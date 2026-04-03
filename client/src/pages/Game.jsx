@@ -1,6 +1,6 @@
 import Dialog from "@/components/Dialog";
 import Timer from "@/components/Timer";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import useGetData from "@/hooks/useGetData";
 import Menu from "@/components/Menu";
@@ -32,6 +32,21 @@ export default function Game() {
   const imageDialog = useRef(null);
   const recordDialog = useRef(null);
   const winDialog = useRef(null);
+
+  useEffect(() => {
+    (async () => {
+      const userId = localStorage.getItem("userId");
+      if (!userId) return;
+
+      const user = await requestHandler.get(`user/${parseInt(userId)}`);
+      setFormData((prev) => {
+        return prev.map((field) => {
+          field.value = user[field.name];
+          return field;
+        });
+      });
+    })();
+  }, []);
 
   return (
     <GameContext value={game}>
@@ -82,16 +97,12 @@ export default function Game() {
               action={{
                 name: "Reset",
                 handler: async (data) => {
-                  data = {
-                    id: data.value,
-                    name: formData[1].value,
-                    record: "00:00",
-                  };
-
-                  const result = await requestHandler.put(data, "user");
-                  console.log(data, result);
+                  const result = await requestHandler.delete(
+                    data.value,
+                    "user",
+                  );
                   if (!result) return;
-
+                  localStorage.removeItem("userId");
                   setFormData((prev) =>
                     prev.map((field) => {
                       if (field.name === "record") field.value = "00:00";
@@ -121,7 +132,9 @@ export default function Game() {
                   data = formDataReducer(data);
                   const result = await requestHandler.post(data, "user");
                   if (!result) return;
-                  data.id = result.data.id;
+                  const id = result.data.id;
+                  data.id = id;
+                  localStorage.setItem("userId", id);
 
                   setFormData((prev) =>
                     prev.map((field) => {

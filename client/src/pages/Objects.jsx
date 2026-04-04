@@ -56,8 +56,12 @@ export default function Objects() {
                 data.imageId = image.id;
                 data.id = undefined;
                 data.position = JSON.stringify(data.position);
+
+                const result = await requestHandler.post(data, "object");
+                if (!result) return;
+                data.id = result.data.id;
+
                 setObjects("objects", [...image.objects, data]);
-                await requestHandler.post(data, "object");
                 addDialog.current.close();
                 setFormData((prev) => formDataReseter(prev));
               },

@@ -34,8 +34,12 @@ export default function Images() {
               handler: async (data) => {
                 data = formDataReducer(data);
                 data.id = undefined;
+
+                const result = await requestHandler.post(data, "image");
+                if (!result) return;
+                data.id = result.data.id;
+
                 setImages([...images, data]);
-                await requestHandler.post(data, "image");
                 addDialog.current.close();
                 setFormData((prev) => formDataReseter(prev));
               },

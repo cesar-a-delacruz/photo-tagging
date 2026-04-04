@@ -103,6 +103,7 @@ export default function Game() {
                   );
                   if (!result) return;
                   localStorage.removeItem("userId");
+
                   setFormData((prev) =>
                     prev.map((field) => {
                       if (field.name === "record") field.value = "00:00";

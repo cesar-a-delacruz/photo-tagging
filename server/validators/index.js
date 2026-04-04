@@ -11,19 +11,11 @@ export default {
           errorMessage: "name must be between 3 and 25 characters long",
         },
       },
-      url: {
-        isURL: {
-          errorMessage: "url must be a valid url",
-        },
-      },
     },
     {
       create: undefined,
       update: {
         name: {
-          optional: true,
-        },
-        url: {
           optional: true,
         },
       },

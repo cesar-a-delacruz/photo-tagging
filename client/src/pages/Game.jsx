@@ -84,9 +84,15 @@ export default function Game() {
               imageDialog.current.show();
             }}
           >
-            Change Image
+            Select Image
           </button>
-          <button onClick={() => recordDialog.current.show()}>
+          <button
+            onClick={() => {
+              const userId = localStorage.getItem("userId");
+              if (!userId) return;
+              recordDialog.current.show();
+            }}
+          >
             Reset Record
           </button>
         </div>
@@ -134,6 +140,7 @@ export default function Game() {
                   setFormData((prev) =>
                     prev.map((field) => {
                       if (field.name === "record") field.value = "00:00";
+                      if (field.name === "name") field.value = "";
                       return field;
                     }),
                   );
@@ -243,7 +250,6 @@ export default function Game() {
                 setGame((prev) => ({
                   ...prev,
                   stop: gameEnd,
-                  start: !gameEnd,
                   objects: { current: null, found: amount },
                 }));
               }}

@@ -4,16 +4,17 @@ export default function Timer({
   record = "",
   setRecord = () => {},
   stop = false,
+  start = false,
 }) {
-  if (record !== "00:00") return;
+  if (record !== "00:00" || !start) return;
 
   const [time, setTime] = useState("");
-  const start = useRef(new Date().valueOf());
+  const startTime = useRef(new Date().valueOf());
 
   const interval = useRef(
     setInterval(() => {
       let timeString = new Date(
-        new Date().valueOf() - start.current,
+        new Date().valueOf() - startTime.current,
       ).toLocaleTimeString();
 
       const timeStart = timeString.substring(0, timeString.indexOf(":") + 1);

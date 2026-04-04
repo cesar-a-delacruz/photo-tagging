@@ -14,10 +14,12 @@ import requestHandler from "@/utils/requestHandler";
 export default function Game() {
   const setTitle = useOutletContext();
   setTitle("Game");
-  const [image, setImage] = useGetData("image/7");
+  const [images, setImages] = useGetData("image");
+  const [image, setImage] = useState(null);
   const [boxPosition, setBoxPosition] = useState(null);
   const [game, setGame] = useState({
-    end: false,
+    start: false,
+    stop: false,
     objects: {
       current: null,
       found: 0,
@@ -70,12 +72,18 @@ export default function Game() {
               );
               winDialog.current.show();
             }}
-            stop={game.end}
+            stop={game.stop}
+            start={game.start}
             record={formData[2].value}
           />
         </div>
         <div className="options">
-          <button onClick={() => imageDialog.current.show()}>
+          <button
+            onClick={() => {
+              setGame((prev) => ({ ...prev, stop: true, start: false }));
+              imageDialog.current.show();
+            }}
+          >
             Change Image
           </button>
           <button onClick={() => recordDialog.current.show()}>
@@ -85,10 +93,29 @@ export default function Game() {
         <div className="dialogs">
           <Dialog title={"Change Image"} ref={imageDialog}>
             <div className="images">
-              <div className="image">
-                <p>Image 1</p>
-                <button>Select</button>
-              </div>
+              {images &&
+                images.map((image) => (
+                  <div className="image">
+                    <img src={image.url} alt="" />
+                    <h4>{image.name}</h4>
+                    <button
+                      onClick={async () => {
+                        const result = await requestHandler.get(
+                          `image/${image.id}`,
+                        );
+                        setImage(result);
+                        setGame((prev) => ({
+                          ...prev,
+                          start: true,
+                          stop: false,
+                        }));
+                        imageDialog.current.close();
+                      }}
+                    >
+                      Select
+                    </button>
+                  </div>
+                ))}
             </div>
           </Dialog>
           <Dialog title={"Reset Record"} ref={recordDialog}>
@@ -111,7 +138,8 @@ export default function Game() {
                     }),
                   );
                   setGame((prev) => {
-                    prev.end = false;
+                    prev.stop = false;
+                    prev.start = true;
                     prev.objects.found = 0;
                     return prev;
                   });
@@ -158,7 +186,7 @@ export default function Game() {
               src={image.url}
               alt={image.name}
               onClick={(e) => {
-                if (game.end) return;
+                if (game.stop || !game.start) return;
 
                 const imgBoundingSides = {
                   left: e.currentTarget.getBoundingClientRect().left,
@@ -214,7 +242,8 @@ export default function Game() {
                 const gameEnd = amount === image.objects.length;
                 setGame((prev) => ({
                   ...prev,
-                  end: gameEnd,
+                  stop: gameEnd,
+                  start: !gameEnd,
                   objects: { current: null, found: amount },
                 }));
               }}

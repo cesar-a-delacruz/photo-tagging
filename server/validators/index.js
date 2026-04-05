@@ -62,12 +62,6 @@ export default {
           errorMessage: "name must be between 3 and 25 characters long",
         },
       },
-      record: {
-        isEmpty: {
-          negated: true,
-          errorMessage: "position is required",
-        },
-      },
     },
     {
       create: undefined,
@@ -75,6 +69,23 @@ export default {
         name: {
           optional: true,
         },
+      },
+    },
+  ),
+  score: new BaseValidator(
+    {
+      record: {
+        isLength: {
+          options: {
+            max: 8,
+          },
+          errorMessage: "record must be 8 characters long",
+        },
+      },
+    },
+    {
+      create: undefined,
+      update: {
         record: {
           optional: true,
         },

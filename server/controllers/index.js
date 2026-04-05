@@ -27,8 +27,16 @@ export default {
     prisma.user,
     {
       name: "string",
-      record: "string",
     },
     validators.user,
+  ),
+  score: new RESTController(
+    prisma.score,
+    {
+      record: "string",
+      userId: "number",
+      imageId: "number",
+    },
+    validators.score,
   ),
 };

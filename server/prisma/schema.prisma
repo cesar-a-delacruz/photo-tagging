@@ -9,9 +9,9 @@ datasource db {
 }
 
 model User {
-  id     Int    @id @default(autoincrement())
-  name   String @db.VarChar(25)
-  record String @db.VarChar(8)
+  id     Int     @id @default(autoincrement())
+  name   String  @db.VarChar(25)
+  scores Score[]
 
   @@map("user")
 }
@@ -21,6 +21,7 @@ model Image {
   name    String   @db.VarChar(25)
   url     String   @db.Text
   objects Object[]
+  scores  Score[]
 
   @@map("image")
 }
@@ -33,4 +34,15 @@ model Object {
   imageId  Int    @map("image_id")
 
   @@map("object")
+}
+
+model Score {
+  id      Int    @id @default(autoincrement())
+  record  String @db.VarChar(8)
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  Int    @map("user_id")
+  image   Image  @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  imageId Int    @map("image_id")
+
+  @@map("score")
 }

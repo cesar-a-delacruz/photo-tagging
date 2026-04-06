@@ -2,6 +2,7 @@ import RESTController from "./RESTController.js";
 import ImageController from "./ImageController.js";
 import { PrismaClient } from "../generated/prisma/index.js";
 import validators from "../validators/index.js";
+import ScoreController from "./ScoreController.js";
 
 const prisma = new PrismaClient();
 
@@ -30,7 +31,7 @@ export default {
     },
     validators.user,
   ),
-  score: new RESTController(
+  score: new ScoreController(
     prisma.score,
     {
       record: "string",

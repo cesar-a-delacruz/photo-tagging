@@ -34,6 +34,7 @@ export default function Game() {
   const imageDialog = useRef(null);
   const recordDialog = useRef(null);
   const winDialog = useRef(null);
+  const deleteDialog = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -101,6 +102,15 @@ export default function Game() {
           >
             Reset Record
           </button>
+          <button
+            onClick={() => {
+              const userId = localStorage.getItem("userId");
+              if (!userId) return;
+              deleteDialog.current.show();
+            }}
+          >
+            Delete Data
+          </button>
         </div>
         <div className="dialogs">
           <Dialog title={"Change Image"} ref={imageDialog}>
@@ -165,6 +175,42 @@ export default function Game() {
               }}
             >
               Are you sure you want to reset your record?
+            </AlertForm>
+          </Dialog>
+          <Dialog title={"Delete Data"} ref={deleteDialog}>
+            <AlertForm
+              data={formData.find((field) => field.name === "id")}
+              action={{
+                name: "Delete",
+                handler: async (data) => {
+                  const result = await requestHandler.delete(
+                    data.value,
+                    "user",
+                  );
+                  if (!result) return;
+
+                  localStorage.removeItem("userId");
+                  setFormData((prev) =>
+                    prev.map((field) => {
+                      field.value = "";
+                      return field;
+                    }),
+                  );
+
+                  setScore({ record: "" });
+                  setImage(null);
+                  setGame((prev) => {
+                    prev.stop = false;
+                    prev.start = false;
+                    prev.objects.current = null;
+                    prev.objects.found = 0;
+                    return prev;
+                  });
+                  deleteDialog.current.close();
+                },
+              }}
+            >
+              Are you sure you want to delete your data?
             </AlertForm>
           </Dialog>
           <Dialog title={"Congratulations!!"} ref={winDialog}>

@@ -16,6 +16,7 @@ export default function Game() {
   setTitle("Game");
   const [images, setImages] = useGetData("image");
   const [image, setImage] = useState(null);
+  const [score, setScore] = useState({ record: "" });
   const [boxPosition, setBoxPosition] = useState(null);
   const [game, setGame] = useState({
     start: false,
@@ -28,7 +29,6 @@ export default function Game() {
   const [formData, setFormData] = useState([
     { name: "id", value: "", type: "hidden" },
     { name: "name", label: "Name", value: "", type: "text" },
-    { name: "record", label: "Record", value: "00:00", type: "text" },
   ]);
 
   const imageDialog = useRef(null);
@@ -59,22 +59,29 @@ export default function Game() {
               Name: <span>{formData[1].value}</span>
             </p>
             <p>
-              Record: <span>{formData[2].value}</span>
+              Record: <span>{score.record}</span>
             </p>
           </div>
           <Timer
-            setRecord={(timeString) => {
-              setFormData((prev) =>
-                prev.map((field) => {
-                  if (field.name === "record") field.value = timeString;
-                  return field;
-                }),
-              );
-              winDialog.current.show();
+            setRecord={async (timeString) => {
+              setScore((prev) => ({ ...prev, record: timeString }));
+
+              const userId = localStorage.getItem("userId");
+              if (!userId) {
+                winDialog.current.show();
+                return;
+              }
+
+              const scoreData = {
+                record: timeString,
+                userId: parseInt(userId),
+                imageId: image.id,
+              };
+              await requestHandler.post(scoreData, "score");
             }}
             stop={game.stop}
             start={game.start}
-            record={formData[2].value}
+            record={score.record}
           />
         </div>
         <div className="options">
@@ -88,8 +95,7 @@ export default function Game() {
           </button>
           <button
             onClick={() => {
-              const userId = localStorage.getItem("userId");
-              if (!userId) return;
+              if (!score || !score.id) return;
               recordDialog.current.show();
             }}
           >
@@ -101,15 +107,26 @@ export default function Game() {
             <div className="images">
               {images &&
                 images.map((image) => (
-                  <div className="image">
+                  <div className="image" key={image.id}>
                     <img src={image.url} alt="" />
                     <h4>{image.name}</h4>
                     <button
                       onClick={async () => {
-                        const result = await requestHandler.get(
+                        const imageResult = await requestHandler.get(
                           `image/${image.id}`,
                         );
-                        setImage(result);
+
+                        let scoreVal = { record: "00:00" };
+                        const userId = localStorage.getItem("userId");
+                        if (userId) {
+                          const scoreResult = await requestHandler.get(
+                            `score/user/${parseInt(userId)}/image/${image.id}`,
+                          );
+                          if (scoreResult.data) scoreVal = scoreResult.data;
+                          console.log(scoreResult.data);
+                        }
+                        setScore(scoreVal);
+                        setImage(imageResult);
                         setGame((prev) => ({
                           ...prev,
                           start: true,
@@ -126,24 +143,17 @@ export default function Game() {
           </Dialog>
           <Dialog title={"Reset Record"} ref={recordDialog}>
             <AlertForm
-              data={formData.find((field) => field.name === "id")}
+              data={{ name: "id", value: score.id, type: "hidden" }}
               action={{
                 name: "Reset",
                 handler: async (data) => {
                   const result = await requestHandler.delete(
                     data.value,
-                    "user",
+                    "score",
                   );
                   if (!result) return;
-                  localStorage.removeItem("userId");
 
-                  setFormData((prev) =>
-                    prev.map((field) => {
-                      if (field.name === "record") field.value = "00:00";
-                      if (field.name === "name") field.value = "";
-                      return field;
-                    }),
-                  );
+                  setScore({ record: "00:00" });
                   setGame((prev) => {
                     prev.stop = false;
                     prev.start = true;
@@ -166,18 +176,28 @@ export default function Game() {
                 name: "Save",
                 handler: async (data) => {
                   data = formDataReducer(data);
+
                   const result = await requestHandler.post(data, "user");
                   if (!result) return;
                   const id = result.data.id;
                   data.id = id;
                   localStorage.setItem("userId", id);
-
                   setFormData((prev) =>
                     prev.map((field) => {
                       field.value = data[field.name];
                       return field;
                     }),
                   );
+                  const scoreData = {
+                    record: score.record,
+                    userId: id,
+                    imageId: image.id,
+                  };
+                  const scoreResult = await requestHandler.post(
+                    scoreData,
+                    "score",
+                  );
+                  setScore(scoreResult.data);
                   winDialog.current.close();
                 },
               }}

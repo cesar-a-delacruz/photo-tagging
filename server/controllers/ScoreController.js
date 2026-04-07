@@ -5,8 +5,8 @@ export default class ScoreController extends RESTController {
     try {
       const row = await this.model.findMany({
         where: {
-          userId: parseInt(req.params.userId),
-          imageId: parseInt(req.params.imageId),
+          userId: req.params.userId,
+          imageId: req.params.imageId,
         },
       });
       console.info(row[0]);

@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  id     Int     @id @default(autoincrement())
+  id     String  @id @default(uuid(7))
   name   String  @db.VarChar(25)
   scores Score[]
 
@@ -17,7 +17,7 @@ model User {
 }
 
 model Image {
-  id      Int      @id @default(autoincrement())
+  id      String   @id @default(uuid(7))
   name    String   @db.VarChar(25)
   url     String   @db.Text
   objects Object[]
@@ -27,22 +27,22 @@ model Image {
 }
 
 model Object {
-  id       Int    @id @default(autoincrement())
+  id       String @id @default(uuid(7))
   name     String @db.VarChar(25)
   position Json   @db.Json
   image    Image  @relation(fields: [imageId], references: [id], onDelete: Cascade)
-  imageId  Int    @map("image_id")
+  imageId  String @map("image_id")
 
   @@map("object")
 }
 
 model Score {
-  id      Int    @id @default(autoincrement())
+  id      String @id @default(uuid(7))
   record  String @db.VarChar(8)
   user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId  Int    @map("user_id")
+  userId  String @map("user_id")
   image   Image  @relation(fields: [imageId], references: [id], onDelete: Cascade)
-  imageId Int    @map("image_id")
+  imageId String @map("image_id")
 
   @@map("score")
 }

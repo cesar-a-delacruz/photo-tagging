@@ -20,7 +20,7 @@ export default {
     {
       name: "string",
       position: "json",
-      imageId: "number",
+      imageId: "string",
     },
     validators.object,
   ),
@@ -35,8 +35,8 @@ export default {
     prisma.score,
     {
       record: "string",
-      userId: "number",
-      imageId: "number",
+      userId: "string",
+      imageId: "string",
     },
     validators.score,
   ),

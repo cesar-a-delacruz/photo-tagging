@@ -15,7 +15,7 @@ export default class RESTController extends BaseController {
   findOne = async (req, res) => {
     try {
       const row = await this.model.findUnique({
-        where: { id: Number(req.params.id) },
+        where: { id: req.params.id },
       });
       console.info(row);
       res.status(200).json(row);
@@ -52,7 +52,7 @@ export default class RESTController extends BaseController {
 
       try {
         const row = await this.model.update({
-          where: { id: Number(req.params.id) },
+          where: { id: req.params.id },
           data: this.dataParser.run(req.body),
         });
         console.log(row);
@@ -66,7 +66,7 @@ export default class RESTController extends BaseController {
   delete = async (req, res) => {
     try {
       const row = await this.model.delete({
-        where: { id: Number(req.params.id) },
+        where: { id: req.params.id },
       });
       console.log(row);
       res.status(204).end();

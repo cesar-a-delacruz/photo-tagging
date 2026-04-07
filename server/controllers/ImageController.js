@@ -4,7 +4,7 @@ export default class ImageController extends RESTController {
   findOne = async (req, res) => {
     try {
       const row = await this.model.findUnique({
-        where: { id: Number(req.params.id) },
+        where: { id: req.params.id },
         include: { objects: true },
       });
       console.info(row);

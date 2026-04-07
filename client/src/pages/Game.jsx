@@ -41,7 +41,7 @@ export default function Game() {
       const userId = localStorage.getItem("userId");
       if (!userId) return;
 
-      const user = await requestHandler.get(`user/${parseInt(userId)}`);
+      const user = await requestHandler.get(`user/${userId}`);
       setFormData((prev) => {
         return prev.map((field) => {
           field.value = user[field.name];
@@ -125,12 +125,15 @@ export default function Game() {
                         const imageResult = await requestHandler.get(
                           `image/${image.id}`,
                         );
-
+                        if (!imageResult.objects.length) {
+                          alert("The image doesn't have objects");
+                          return;
+                        }
                         let scoreVal = { record: "00:00" };
                         const userId = localStorage.getItem("userId");
                         if (userId) {
                           const scoreResult = await requestHandler.get(
-                            `score/user/${parseInt(userId)}/image/${image.id}`,
+                            `score/user/${userId}/image/${image.id}`,
                           );
                           if (scoreResult.data) scoreVal = scoreResult.data;
                           console.log(scoreResult.data);

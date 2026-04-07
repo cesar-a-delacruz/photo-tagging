@@ -8,7 +8,7 @@ export default function Default() {
   return (
     <>
       <header>
-        <h1>
+        <h1 onClick={() => location.assign("/")}>
           Photo Tagging: <span>{title}</span>
         </h1>
       </header>

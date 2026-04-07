@@ -114,6 +114,7 @@ export default function Game() {
         </div>
         <div className="dialogs">
           <Dialog title={"Change Image"} ref={imageDialog}>
+            <a href="/images">All Images</a>
             <div className="images">
               {images &&
                 images.map((image) => (

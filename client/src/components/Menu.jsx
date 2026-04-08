@@ -24,14 +24,17 @@ export default function Menu({
         <div
           key={item.name}
           className="item"
-          onClick={(e) => {
-            if (!currentItem) alert("No character selected");
+          onClick={() => {
+            if (!currentItem) {
+              alert("No character selected");
+              return;
+            }
 
             if (item.name === currentItem.name) {
               setFoundObjects(foundObjects + 1);
               alert("Found " + item.name);
-              e.currentTarget.style = "background-color: grey";
             } else {
+              setFoundObjects(foundObjects);
               alert("Wrong character");
             }
           }}

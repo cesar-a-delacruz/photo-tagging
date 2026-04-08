@@ -370,12 +370,16 @@ export default function Game() {
               items={image.objects}
               currentItem={game.objects.current}
               setFoundObjects={(amount) => {
-                const gameEnd = amount === image.objects.length;
-                setGame((prev) => ({
-                  ...prev,
-                  stop: gameEnd,
-                  objects: { current: null, found: amount },
-                }));
+                setBoxPosition(null);
+
+                if (amount > game.objects.found) {
+                  const gameEnd = amount === image.objects.length;
+                  setGame((prev) => ({
+                    ...prev,
+                    stop: gameEnd,
+                    objects: { current: null, found: amount },
+                  }));
+                }
               }}
             />
           </div>

@@ -88,7 +88,7 @@ export default function Game() {
             />
           )}
         </div>
-        {game.start && (
+        {image && (
           <div className="options">
             <h3>Options:</h3>
             {image && (
@@ -101,7 +101,7 @@ export default function Game() {
                 Select Image
               </button>
             )}
-            {score.record !== "" && score.record !== "00:00" && (
+            {score.record !== "" && score.record !== "00:00" && userId && (
               <button
                 onClick={() => {
                   if (!score || !score.id) return;

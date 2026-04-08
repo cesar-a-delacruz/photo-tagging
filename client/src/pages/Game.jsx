@@ -55,61 +55,74 @@ export default function Game() {
     <GameContext value={game}>
       <div className="top">
         <div className="data">
-          <div className="user">
-            <p>
-              Name: <span>{formData[1].value}</span>
-            </p>
-            <p>
-              Record: <span>{score.record}</span>
-            </p>
+          {userId && (
+            <div className="user">
+              <p>
+                Name: <span>{formData[1].value}</span>
+              </p>
+              <p>
+                Record: <span>{score.record}</span>
+              </p>
+            </div>
+          )}
+          {(score.record === "00:00" || game.start) && (
+            <Timer
+              setRecord={async (timeString) => {
+                setScore((prev) => ({ ...prev, record: timeString }));
+
+                if (!userId) {
+                  winDialog.current.show();
+                  return;
+                }
+
+                const scoreData = {
+                  record: timeString,
+                  userId: parseInt(userId),
+                  imageId: image.id,
+                };
+                await requestHandler.post(scoreData, "score");
+              }}
+              stop={game.stop}
+              start={game.start}
+              record={score.record}
+            />
+          )}
+        </div>
+        {game.start && (
+          <div className="options">
+            <h3>Options:</h3>
+            {image && (
+              <button
+                onClick={() => {
+                  setGame((prev) => ({ ...prev, stop: true, start: false }));
+                  imageDialog.current.show();
+                }}
+              >
+                Select Image
+              </button>
+            )}
+            {score.record !== "" && score.record !== "00:00" && (
+              <button
+                onClick={() => {
+                  if (!score || !score.id) return;
+                  recordDialog.current.show();
+                }}
+              >
+                Reset Record
+              </button>
+            )}
+            {userId && (
+              <button
+                onClick={() => {
+                  if (!userId) return;
+                  deleteDialog.current.show();
+                }}
+              >
+                Delete Data
+              </button>
+            )}
           </div>
-          <Timer
-            setRecord={async (timeString) => {
-              setScore((prev) => ({ ...prev, record: timeString }));
-
-              if (!userId) {
-                winDialog.current.show();
-                return;
-              }
-
-              const scoreData = {
-                record: timeString,
-                userId: parseInt(userId),
-                imageId: image.id,
-              };
-              await requestHandler.post(scoreData, "score");
-            }}
-            stop={game.stop}
-            start={game.start}
-            record={score.record}
-          />
-        </div>
-        <div className="options">
-          <button
-            onClick={() => {
-              setGame((prev) => ({ ...prev, stop: true, start: false }));
-              imageDialog.current.show();
-            }}
-          >
-            Select Image
-          </button>
-          <button
-            onClick={() => {
-              if (!score || !score.id) return;
-              recordDialog.current.show();
-            }}
-          >
-            Reset Record
-          </button>
-          <button
-            onClick={() => {
-              if (!userId) return;
-              deleteDialog.current.show();
-            }}
-          >
-            Delete Data
-          </button>
-        </div>
+        )}
         <div className="dialogs">
           <Dialog title={"Select Image"} ref={imageDialog}>
             <a href="/images">All Images</a>

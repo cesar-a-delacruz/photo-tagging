@@ -26,16 +26,21 @@ export default function Menu({
           className="item"
           onClick={() => {
             if (!currentItem) {
-              alert("No character selected");
+              alert("No has been character selected");
+              setFoundObjects(null);
+              return;
+            } else if (foundObjects.includes(item.id)) {
+              alert("This character was found already");
+              setFoundObjects(null);
               return;
             }
 
-            if (item.name === currentItem.name) {
-              setFoundObjects(foundObjects + 1);
+            if (item.id === currentItem.id) {
               alert("Found " + item.name);
+              setFoundObjects(item.id);
             } else {
-              setFoundObjects(foundObjects);
               alert("Wrong character");
+              setFoundObjects(null);
             }
           }}
         >

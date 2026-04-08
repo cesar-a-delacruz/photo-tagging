@@ -23,7 +23,7 @@ export default function Game() {
     stop: false,
     objects: {
       current: null,
-      found: 0,
+      found: [],
     },
   });
   const [formData, setFormData] = useState([
@@ -182,7 +182,7 @@ export default function Game() {
                   setGame((prev) => {
                     prev.stop = false;
                     prev.start = true;
-                    prev.objects.found = 0;
+                    prev.objects.found = [];
                     return prev;
                   });
                   recordDialog.current.close();
@@ -218,7 +218,7 @@ export default function Game() {
                     prev.stop = false;
                     prev.start = false;
                     prev.objects.current = null;
-                    prev.objects.found = 0;
+                    prev.objects.found = [];
                     return prev;
                   });
                   deleteDialog.current.close();
@@ -369,15 +369,17 @@ export default function Game() {
               position={{ x: boxPosition.x + 50, y: boxPosition.y - 37 }}
               items={image.objects}
               currentItem={game.objects.current}
-              setFoundObjects={(amount) => {
+              setFoundObjects={(objectId) => {
                 setBoxPosition(null);
 
-                if (amount > game.objects.found) {
-                  const gameEnd = amount === image.objects.length;
+                if (objectId) {
+                  const gameFoundObjects = game.objects.found.concat(objectId);
+                  const gameEnd =
+                    gameFoundObjects.length === image.objects.length;
                   setGame((prev) => ({
                     ...prev,
                     stop: gameEnd,
-                    objects: { current: null, found: amount },
+                    objects: { current: null, found: gameFoundObjects },
                   }));
                 }
               }}

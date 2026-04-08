@@ -5,6 +5,6 @@ export default createContext({
   stop: false,
   objects: {
     current: null,
-    found: 0,
+    found: [],
   },
 });

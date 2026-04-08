@@ -113,7 +113,7 @@ export default function Game() {
           </button>
         </div>
         <div className="dialogs">
-          <Dialog title={"Change Image"} ref={imageDialog}>
+          <Dialog title={"Select Image"} ref={imageDialog} open={true}>
             <a href="/images">All Images</a>
             <div className="images">
               {images &&

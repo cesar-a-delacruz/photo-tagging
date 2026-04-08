@@ -35,10 +35,10 @@ export default function Game() {
   const recordDialog = useRef(null);
   const winDialog = useRef(null);
   const deleteDialog = useRef(null);
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     (async () => {
-      const userId = localStorage.getItem("userId");
       if (!userId) return;
 
       const user = await requestHandler.get(`user/${userId}`);
@@ -67,7 +67,6 @@ export default function Game() {
             setRecord={async (timeString) => {
               setScore((prev) => ({ ...prev, record: timeString }));
 
-              const userId = localStorage.getItem("userId");
               if (!userId) {
                 winDialog.current.show();
                 return;
@@ -104,7 +103,6 @@ export default function Game() {
           </button>
           <button
             onClick={() => {
-              const userId = localStorage.getItem("userId");
               if (!userId) return;
               deleteDialog.current.show();
             }}
@@ -113,7 +111,7 @@ export default function Game() {
           </button>
         </div>
         <div className="dialogs">
-          <Dialog title={"Select Image"} ref={imageDialog} open={true}>
+          <Dialog title={"Select Image"} ref={imageDialog}>
             <a href="/images">All Images</a>
             <div className="images">
               {images &&
@@ -131,7 +129,7 @@ export default function Game() {
                           return;
                         }
                         let scoreVal = { record: "00:00" };
-                        const userId = localStorage.getItem("userId");
+
                         if (userId) {
                           const scoreResult = await requestHandler.get(
                             `score/user/${userId}/image/${image.id}`,
@@ -256,6 +254,48 @@ export default function Game() {
         </div>
       </div>
       <div className="bottom">
+        {images && !image && (
+          <>
+            <h2>Select an Image</h2>
+            <div className="images">
+              {images.map((image) => (
+                <div className="image" key={image.id}>
+                  <img src={image.url} alt="" />
+                  <h4>{image.name}</h4>
+                  <button
+                    onClick={async () => {
+                      const imageResult = await requestHandler.get(
+                        `image/${image.id}`,
+                      );
+                      if (!imageResult.objects.length) {
+                        alert("The image doesn't have objects");
+                        return;
+                      }
+                      let scoreVal = { record: "00:00" };
+
+                      if (userId) {
+                        const scoreResult = await requestHandler.get(
+                          `score/user/${userId}/image/${image.id}`,
+                        );
+                        if (scoreResult.data) scoreVal = scoreResult.data;
+                        console.log(scoreResult.data);
+                      }
+                      setScore(scoreVal);
+                      setImage(imageResult);
+                      setGame((prev) => ({
+                        ...prev,
+                        start: true,
+                        stop: false,
+                      }));
+                    }}
+                  >
+                    Select
+                  </button>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
         {image && (
           <>
             <h3>{image.name}</h3>
@@ -299,15 +339,16 @@ export default function Game() {
             />
           </>
         )}
-        <div className="objects">
-          <h3>Objects to find</h3>
-          <ol>
-            {image &&
-              image.objects.map((object) => (
+        {image && (
+          <div className="objects">
+            <h3>Objects to find</h3>
+            <ol>
+              {image.objects.map((object) => (
                 <li key={object.id}>{object.name}</li>
               ))}
-          </ol>
-        </div>
+            </ol>
+          </div>
+        )}
         {boxPosition && image && (
           <div className="target">
             <Box position={boxPosition} setPosition={setBoxPosition} />

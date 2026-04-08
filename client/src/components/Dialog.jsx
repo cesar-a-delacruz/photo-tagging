@@ -1,4 +1,4 @@
-export default function Dialog({ children, title, ref, open = false }) {
+export default function Dialog({ children, title, ref }) {
   const className = title.toLowerCase().replace(" ", "-");
 
   return (
@@ -8,7 +8,6 @@ export default function Dialog({ children, title, ref, open = false }) {
       style={{
         backgroundColor: "rgb(22, 56, 80) ",
       }}
-      open={open}
     >
       <div className="top">
         <h2>{title}</h2>

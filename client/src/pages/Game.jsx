@@ -55,16 +55,18 @@ export default function Game() {
     <GameContext value={game}>
       <div className="top">
         <div className="data">
-          {userId && (
-            <div className="user">
+          <div className="user">
+            {userId && (
               <p>
                 Name: <span>{formData[1].value}</span>
               </p>
+            )}
+            {score.record !== "" && score.record !== "00:00" && (
               <p>
                 Record: <span>{score.record}</span>
               </p>
-            </div>
-          )}
+            )}
+          </div>
           {(score.record === "00:00" || game.start) && (
             <Timer
               setRecord={async (timeString) => {

@@ -1,7 +1,6 @@
 import Dialog from "@/components/Dialog";
 import Timer from "@/components/Timer";
 import { useState, useRef, useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
 import useData from "@/hooks/useData";
 import Menu from "@/components/Menu";
 import Box from "@/components/Box";
@@ -12,9 +11,9 @@ import { formDataReducer } from "@/utils/objectHandler";
 import requestHandler from "@/utils/requestHandler";
 
 export default function Game() {
-  const setTitle = useOutletContext();
-  setTitle("Game");
-  const [images, setImages] = useData("image");
+  document.title = `${import.meta.env.VITE_TITLE}: Game`;
+
+  const [images] = useData("image");
   const [image, setImage] = useState(null);
   const [score, setScore] = useState({ record: "" });
   const [boxPosition, setBoxPosition] = useState(null);
@@ -26,6 +25,7 @@ export default function Game() {
       found: [],
     },
   });
+
   const [formData, setFormData] = useState([
     { name: "id", value: "", type: "hidden" },
     { name: "name", label: "Name", value: "", type: "text" },
@@ -35,6 +35,7 @@ export default function Game() {
   const recordDialog = useRef(null);
   const winDialog = useRef(null);
   const deleteDialog = useRef(null);
+
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
@@ -271,9 +272,10 @@ export default function Game() {
       <div className="bottom">
         {images && !image && (
           <>
-            <h2>
+            <h2>Game</h2>
+            <h3>
               Select an Image or <a href="/images">edit them</a>
-            </h2>
+            </h3>
             <div className="images">
               {images.map((image) => (
                 <div className="image" key={image.id}>

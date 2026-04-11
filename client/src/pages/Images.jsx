@@ -4,12 +4,11 @@ import DataForm from "@/components/DataForm";
 import useData from "@/hooks/useData";
 import requestHandler from "@/utils/requestHandler";
 import { useRef, useState } from "react";
-import { useOutletContext } from "react-router-dom";
 import { formDataReducer, formDataReseter } from "@/utils/objectHandler";
 
 export default function Images() {
-  const setTitle = useOutletContext();
-  setTitle("Images");
+  document.title = `${import.meta.env.VITE_TITLE}: Images`;
+
   const [images, setImages] = useData("image");
 
   const addDialog = useRef(null);
@@ -24,6 +23,11 @@ export default function Images() {
 
   return (
     <>
+      <h2>Images</h2>
+      <div className="options">
+        <h3>Options:</h3>
+        <button onClick={() => addDialog.current.show()}>Add</button>
+      </div>
       <div className="dialogs">
         <Dialog title={"Add Image"} ref={addDialog}>
           <DataForm
@@ -81,8 +85,6 @@ export default function Images() {
           </AlertForm>
         </Dialog>
       </div>
-
-      <button onClick={() => addDialog.current.show()}>Add</button>
       <div className="images">
         {images &&
           images.map((image) => (

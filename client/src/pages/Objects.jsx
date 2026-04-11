@@ -5,12 +5,12 @@ import Box from "@/components/Box";
 import useData from "@/hooks/useData";
 import requestHandler from "@/utils/requestHandler";
 import { useRef, useState } from "react";
-import { useOutletContext, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { formDataReducer, formDataReseter } from "@/utils/objectHandler";
 
 export default function Objects() {
-  const setTitle = useOutletContext();
-  setTitle("Objects");
+  document.title = `${import.meta.env.VITE_TITLE}: Objects`;
+
   const imageId = useParams().id;
   const [image, setImage, setObjects] = useData(`image/${imageId}`);
 
@@ -28,6 +28,7 @@ export default function Objects() {
       type: "json",
     },
   ]);
+
   const [boxPosition, setBoxPosition] = useState(null);
   const [clickPosition, setClickPosition] = useState({
     active: false,
@@ -122,7 +123,13 @@ export default function Objects() {
       <div className="left">
         {image && (
           <>
-            <h2>{image.name}</h2>
+            <h2>{image.name} objects</h2>
+            <div className="options">
+              <h3>Options:</h3>
+              <button onClick={() => location.assign("/images")}>
+                Go back
+              </button>
+            </div>
             <img
               className={"image"}
               src={image.url}
@@ -176,7 +183,6 @@ export default function Objects() {
           >
             Add
           </button>
-          <a href={"/images"}>Go Back</a>
         </div>
         <div className="objects">
           {image &&

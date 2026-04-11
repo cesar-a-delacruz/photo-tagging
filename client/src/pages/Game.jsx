@@ -271,7 +271,9 @@ export default function Game() {
       <div className="bottom">
         {images && !image && (
           <>
-            <h2>Select an Image</h2>
+            <h2>
+              Select an Image or <a href="/images">edit them</a>
+            </h2>
             <div className="images">
               {images.map((image) => (
                 <div className="image" key={image.id}>

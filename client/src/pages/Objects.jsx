@@ -2,7 +2,7 @@ import AlertForm from "@/components/AlertForm";
 import Dialog from "@/components/Dialog";
 import DataForm from "@/components/DataForm";
 import Box from "@/components/Box";
-import useGetData from "@/hooks/useGetData";
+import useData from "@/hooks/useData";
 import requestHandler from "@/utils/requestHandler";
 import { useRef, useState } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
@@ -12,7 +12,7 @@ export default function Objects() {
   const setTitle = useOutletContext();
   setTitle("Objects");
   const imageId = useParams().id;
-  const [image, setImage, setObjects] = useGetData(`image/${imageId}`);
+  const [image, setImage, setObjects] = useData(`image/${imageId}`);
 
   const addDialog = useRef(null);
   const updateDialog = useRef(null);

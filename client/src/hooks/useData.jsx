@@ -1,7 +1,7 @@
 import requestHandler from "@/utils/requestHandler";
 import { useEffect, useState } from "react";
 
-export default function useGetData(endpoint = "") {
+export default function useData(endpoint = "") {
   const [data, setData] = useState(null);
 
   useEffect(() => {

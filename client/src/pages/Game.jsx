@@ -2,7 +2,7 @@ import Dialog from "@/components/Dialog";
 import Timer from "@/components/Timer";
 import { useState, useRef, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
-import useGetData from "@/hooks/useGetData";
+import useData from "@/hooks/useData";
 import Menu from "@/components/Menu";
 import Box from "@/components/Box";
 import GameContext from "@/contexts/GameContext";
@@ -14,7 +14,7 @@ import requestHandler from "@/utils/requestHandler";
 export default function Game() {
   const setTitle = useOutletContext();
   setTitle("Game");
-  const [images, setImages] = useGetData("image");
+  const [images, setImages] = useData("image");
   const [image, setImage] = useState(null);
   const [score, setScore] = useState({ record: "" });
   const [boxPosition, setBoxPosition] = useState(null);

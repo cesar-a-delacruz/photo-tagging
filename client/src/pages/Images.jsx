@@ -1,7 +1,7 @@
 import AlertForm from "@/components/AlertForm";
 import Dialog from "@/components/Dialog";
 import DataForm from "@/components/DataForm";
-import useGetData from "@/hooks/useGetData";
+import useData from "@/hooks/useData";
 import requestHandler from "@/utils/requestHandler";
 import { useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
@@ -10,7 +10,7 @@ import { formDataReducer, formDataReseter } from "@/utils/objectHandler";
 export default function Images() {
   const setTitle = useOutletContext();
   setTitle("Images");
-  const [images, setImages] = useGetData("image");
+  const [images, setImages] = useData("image");
 
   const addDialog = useRef(null);
   const updateDialog = useRef(null);

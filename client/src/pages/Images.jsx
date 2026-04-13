@@ -3,8 +3,9 @@ import Dialog from "@/components/Dialog";
 import DataForm from "@/components/DataForm";
 import useData from "@/hooks/useData";
 import requestHandler from "@/utils/requestHandler";
-import { useRef, useState } from "react";
-import { formDataReducer, formDataReseter } from "@/utils/objectHandler";
+import { useReducer, useRef } from "react";
+import { formDataReducer } from "@/utils/objectHandler";
+import DataFormReducer from "@/reducers/DataFormReducer";
 
 export default function Images() {
   document.title = `${import.meta.env.VITE_TITLE}: Images`;
@@ -15,7 +16,7 @@ export default function Images() {
   const updateDialog = useRef(null);
   const deleteDialog = useRef(null);
 
-  const [formData, setFormData] = useState([
+  const [formData, dispatchFormData] = useReducer(DataFormReducer, [
     { name: "id", value: "", type: "hidden" },
     { name: "name", label: "Name", value: "", type: "text" },
     { name: "url", label: "URL", value: "", type: "text" },
@@ -32,7 +33,7 @@ export default function Images() {
         <Dialog title={"Add Image"} ref={addDialog}>
           <DataForm
             data={formData.filter((field) => field.name !== "id")}
-            setData={setFormData}
+            dispatchFormData={dispatchFormData}
             action={{
               name: "Add",
               handler: async (data) => {
@@ -45,7 +46,7 @@ export default function Images() {
 
                 setImages([...images, data]);
                 addDialog.current.close();
-                setFormData((prev) => formDataReseter(prev));
+                dispatchFormData({ type: "clear" });
               },
             }}
           />
@@ -53,7 +54,7 @@ export default function Images() {
         <Dialog title={"Update Image"} ref={updateDialog}>
           <DataForm
             data={formData}
-            setData={setFormData}
+            dispatchFormData={dispatchFormData}
             action={{
               name: "Update",
               handler: async (data) => {
@@ -63,7 +64,7 @@ export default function Images() {
                   images.map((image) => (image.id === data.id ? data : image)),
                 );
                 updateDialog.current.close();
-                setFormData((prev) => formDataReseter(prev));
+                dispatchFormData({ type: "clear" });
               },
             }}
           />
@@ -77,7 +78,7 @@ export default function Images() {
                 await requestHandler.delete(data.value, "image");
                 setImages(images.filter((image) => image.id !== data.value));
                 deleteDialog.current.close();
-                setFormData((prev) => formDataReseter(prev));
+                dispatchFormData({ type: "clear" });
               },
             }}
           >
@@ -95,17 +96,7 @@ export default function Images() {
                   <a href={`images/${image.id}/objects`}>View Objects</a>
                   <button
                     onClick={() => {
-                      setFormData((prev) => {
-                        for (let i = 0; i < prev.length; i++) {
-                          if (
-                            prev[i].type === "json" &&
-                            typeof prev[i].value === "string"
-                          )
-                            prev[i].value = JSON.parse(image[prev[i].name]);
-                          else prev[i].value = image[prev[i].name];
-                        }
-                        return [...prev];
-                      });
+                      dispatchFormData({ type: "load", payload: image });
                       updateDialog.current.show();
                     }}
                   >
@@ -113,12 +104,7 @@ export default function Images() {
                   </button>
                   <button
                     onClick={() => {
-                      setFormData((prev) => {
-                        for (let i = 0; i < prev.length; i++) {
-                          prev[i].value = image[prev[i].name];
-                        }
-                        return [...prev];
-                      });
+                      dispatchFormData({ type: "load", payload: image });
                       deleteDialog.current.show();
                     }}
                   >

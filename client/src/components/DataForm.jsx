@@ -1,27 +1,12 @@
-import { formDataReseter } from "@/utils/objectHandler";
 import Field from "./Field";
 
 export default function DataForm({
   action = { name: "", handler: () => {} },
   data = [],
-  setData = () => {},
+  dispatchFormData = () => {},
 }) {
   const changeHandler = (id, value) => {
-    setData((prev) => {
-      for (let i = 0; i < prev.length; i++) {
-        if (prev[i].name === id) {
-          prev[i].value = value;
-          return [...prev];
-        } else if (prev[i].type === "json") {
-          for (const key in prev[i].value) {
-            if (key === id) {
-              prev[i].value[key] = value;
-              return [...prev];
-            }
-          }
-        }
-      }
-    });
+    dispatchFormData({ type: "change", payload: { id, value } });
   };
 
   return (
@@ -30,7 +15,7 @@ export default function DataForm({
         e.preventDefault();
         action.handler(data);
       }}
-      onReset={() => setData((prev) => formDataReseter(prev))}
+      onReset={() => dispatchFormData({ type: "clear" })}
     >
       <div className="fields">
         {data.map((field) => (

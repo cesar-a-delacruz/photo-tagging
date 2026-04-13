@@ -4,9 +4,10 @@ import DataForm from "@/components/DataForm";
 import Box from "@/components/Box";
 import useData from "@/hooks/useData";
 import requestHandler from "@/utils/requestHandler";
-import { useRef, useState } from "react";
+import { useRef, useState, useReducer } from "react";
 import { useParams } from "react-router-dom";
-import { formDataReducer, formDataReseter } from "@/utils/objectHandler";
+import { formDataReducer } from "@/utils/objectHandler";
+import DataFormReducer from "@/reducers/DataFormReducer";
 
 export default function Objects() {
   document.title = `${import.meta.env.VITE_TITLE}: Objects`;
@@ -18,7 +19,7 @@ export default function Objects() {
   const updateDialog = useRef(null);
   const deleteDialog = useRef(null);
 
-  const [formData, setFormData] = useState([
+  const [formData, dispatchFormData] = useReducer(DataFormReducer, [
     { name: "id", value: "", type: "hidden" },
     { name: "name", label: "Name", value: "", type: "text" },
     {
@@ -49,7 +50,7 @@ export default function Objects() {
           </button>
           <DataForm
             data={formData.filter((field) => field.name !== "id")}
-            setData={setFormData}
+            dispatchFormData={dispatchFormData}
             action={{
               name: "Add",
               handler: async (data) => {
@@ -64,7 +65,7 @@ export default function Objects() {
 
                 setObjects("objects", [...image.objects, data]);
                 addDialog.current.close();
-                setFormData((prev) => formDataReseter(prev));
+                dispatchFormData({ type: "clear" });
               },
             }}
           />
@@ -80,7 +81,7 @@ export default function Objects() {
           </button>
           <DataForm
             data={formData}
-            setData={setFormData}
+            dispatchFormData={dispatchFormData}
             action={{
               name: "Update",
               handler: async (data) => {
@@ -95,7 +96,7 @@ export default function Objects() {
                 );
                 await requestHandler.put(data, "object");
                 updateDialog.current.close();
-                setFormData((prev) => formDataReseter(prev));
+                dispatchFormData({ type: "clear" });
               },
             }}
           />
@@ -112,7 +113,7 @@ export default function Objects() {
                   image.objects.filter((object) => object.id !== data.value),
                 );
                 deleteDialog.current.close();
-                setFormData((prev) => formDataReseter(prev));
+                dispatchFormData({ type: "clear" });
               },
             }}
           >
@@ -152,16 +153,18 @@ export default function Objects() {
                   x: (e.clientX - imgBoundingSides.left) * imgSizeRatio.width,
                   y: (e.clientY - imgBoundingSides.top) * imgSizeRatio.height,
                 };
-                setFormData((prev) => {
-                  for (let i = 0; i < prev.length; i++) {
-                    if (prev[i].name === "position")
-                      prev[i].value = {
-                        x: parseInt(clickedPosition.x),
-                        y: parseInt(clickedPosition.y),
-                      };
-                  }
-                  return [...prev];
+
+                dispatchFormData({
+                  type: "change",
+                  payload: {
+                    id: "position",
+                    value: {
+                      x: parseInt(clickedPosition.x),
+                      y: parseInt(clickedPosition.y),
+                    },
+                  },
                 });
+
                 setBoxPosition({ x: e.pageX, y: e.pageY });
                 clickPosition.dialog.current.show();
                 setClickPosition({ active: false, dialog: null });
@@ -177,7 +180,7 @@ export default function Objects() {
         <div className="options">
           <button
             onClick={() => {
-              setFormData((prev) => formDataReseter(prev));
+              dispatchFormData({ type: "clear" });
               addDialog.current.show();
             }}
           >
@@ -192,17 +195,7 @@ export default function Objects() {
                 <div className="options">
                   <button
                     onClick={() => {
-                      setFormData((prev) => {
-                        for (let i = 0; i < prev.length; i++) {
-                          if (
-                            prev[i].type === "json" &&
-                            typeof prev[i].value === "string"
-                          )
-                            prev[i].value = JSON.parse(object[prev[i].name]);
-                          else prev[i].value = object[prev[i].name];
-                        }
-                        return [...prev];
-                      });
+                      dispatchFormData({ type: "load", payload: object });
                       updateDialog.current.show();
                     }}
                   >
@@ -210,12 +203,7 @@ export default function Objects() {
                   </button>
                   <button
                     onClick={() => {
-                      setFormData((prev) => {
-                        for (let i = 0; i < prev.length; i++) {
-                          prev[i].value = object[prev[i].name];
-                        }
-                        return [...prev];
-                      });
+                      dispatchFormData({ type: "load", payload: object });
                       deleteDialog.current.show();
                     }}
                   >

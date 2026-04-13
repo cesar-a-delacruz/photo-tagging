@@ -9,15 +9,3 @@ export function formDataReducer(formData) {
     return acc;
   }, {});
 }
-
-export function formDataReseter(formData) {
-  for (let i = 0; i < formData.length; i++) {
-    if (formData[i].type === "json") {
-      formData[i].value = Object.keys(formData[i].value).reduce((acc, key) => {
-        acc[key] = "";
-        return acc;
-      }, {});
-    } else formData[i].value = "";
-  }
-  return [...formData];
-}

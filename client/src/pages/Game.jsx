@@ -1,6 +1,6 @@
 import Dialog from "@/components/Dialog";
 import Timer from "@/components/Timer";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useReducer } from "react";
 import useData from "@/hooks/useData";
 import Menu from "@/components/Menu";
 import Box from "@/components/Box";
@@ -9,6 +9,7 @@ import DataForm from "@/components/DataForm";
 import AlertForm from "@/components/AlertForm";
 import { formDataReducer } from "@/utils/objectHandler";
 import requestHandler from "@/utils/requestHandler";
+import DataFormReducer from "@/reducers/DataFormReducer";
 
 export default function Game() {
   document.title = `${import.meta.env.VITE_TITLE}: Game`;
@@ -26,7 +27,7 @@ export default function Game() {
     },
   });
 
-  const [formData, setFormData] = useState([
+  const [formData, dispatchFormData] = useReducer(DataFormReducer, [
     { name: "id", value: "", type: "hidden" },
     { name: "name", label: "Name", value: "", type: "text" },
   ]);
@@ -43,12 +44,7 @@ export default function Game() {
       if (!userId) return;
 
       const user = await requestHandler.get(`user/${userId}`);
-      setFormData((prev) => {
-        return prev.map((field) => {
-          field.value = user[field.name];
-          return field;
-        });
-      });
+      dispatchFormData({ type: "load", payload: user });
     })();
   }, []);
 
@@ -208,12 +204,7 @@ export default function Game() {
                   if (!result) return;
 
                   localStorage.removeItem("userId");
-                  setFormData((prev) =>
-                    prev.map((field) => {
-                      field.value = "";
-                      return field;
-                    }),
-                  );
+                  dispatchFormData({ type: "clear" });
 
                   setScore({ record: "" });
                   setImage(null);
@@ -235,7 +226,7 @@ export default function Game() {
             <p>Input your name to save your record</p>
             <DataForm
               data={formData.filter((field) => field.name !== "id")}
-              setData={setFormData}
+              dispatchFormData={dispatchFormData}
               action={{
                 name: "Save",
                 handler: async (data) => {
@@ -246,12 +237,8 @@ export default function Game() {
                   const id = result.data.id;
                   data.id = id;
                   localStorage.setItem("userId", id);
-                  setFormData((prev) =>
-                    prev.map((field) => {
-                      field.value = data[field.name];
-                      return field;
-                    }),
-                  );
+
+                  dispatchFormData({ type: "load", payload: data });
                   const scoreData = {
                     record: score.record,
                     userId: id,

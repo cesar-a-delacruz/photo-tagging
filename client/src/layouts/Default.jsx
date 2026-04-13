@@ -3,7 +3,7 @@ import "./styles/Default.css";
 
 export default function Default() {
   return (
-    <>
+    <div className="layout default">
       <header>
         <h1 onClick={() => location.assign("/")}>
           Photo Tagging <img src="/icons/tag.svg" alt="" />
@@ -12,6 +12,6 @@ export default function Default() {
       <main>
         <Outlet />
       </main>
-    </>
+    </div>
   );
 }

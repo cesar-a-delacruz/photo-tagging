@@ -1,0 +1,49 @@
+.page {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.page h2 {
+  font-size: 2rem;
+}
+
+.page h3 {
+  font-size: 1.5rem;
+}
+
+.page button {
+  background-color: rgb(0, 34, 55);
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(193, 193, 193);
+  cursor: pointer;
+  transition: transform 0.2s;
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  & img {
+    height: fit-content;
+    width: 1.7rem;
+    height: auto;
+  }
+}
+.page button:hover {
+  background-color: rgb(0, 70, 114);
+}
+.page button:active {
+  background-color: rgb(0, 85, 138);
+  transform: scale(0.95);
+}
+
+.page div.options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}

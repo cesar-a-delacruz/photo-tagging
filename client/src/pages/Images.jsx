@@ -6,6 +6,8 @@ import requestHandler from "@/utils/requestHandler";
 import { useReducer, useRef } from "react";
 import { formDataReducer } from "@/utils/objectHandler";
 import DataFormReducer from "@/reducers/DataFormReducer";
+import "./styles/pages.css";
+import styles from "./styles/Images.module.css";
 
 export default function Images() {
   document.title = `${import.meta.env.VITE_TITLE}: Images`;
@@ -13,7 +15,7 @@ export default function Images() {
   const [images, setImages] = useData("image");
 
   const addDialog = useRef(null);
-  const updateDialog = useRef(null);
+  const editDialog = useRef(null);
   const deleteDialog = useRef(null);
 
   const [formData, dispatchFormData] = useReducer(DataFormReducer, [
@@ -23,12 +25,7 @@ export default function Images() {
   ]);
 
   return (
-    <>
-      <h2>Images</h2>
-      <div className="options">
-        <h3>Options:</h3>
-        <button onClick={() => addDialog.current.show()}>Add</button>
-      </div>
+    <div className="page images">
       <div className="dialogs">
         <Dialog title={"Add Image"} ref={addDialog}>
           <DataForm
@@ -51,19 +48,19 @@ export default function Images() {
             }}
           />
         </Dialog>
-        <Dialog title={"Update Image"} ref={updateDialog}>
+        <Dialog title={"Edit Image"} ref={editDialog}>
           <DataForm
             data={formData}
             dispatchFormData={dispatchFormData}
             action={{
-              name: "Update",
+              name: "Edit",
               handler: async (data) => {
                 data = formDataReducer(data);
                 await requestHandler.put(data, "image");
                 setImages(
                   images.map((image) => (image.id === data.id ? data : image)),
                 );
-                updateDialog.current.close();
+                editDialog.current.close();
                 dispatchFormData({ type: "clear" });
               },
             }}
@@ -86,28 +83,48 @@ export default function Images() {
           </AlertForm>
         </Dialog>
       </div>
-      <div className="images">
+      <h2>Images</h2>
+      <div className="options">
+        <h3>Options:</h3>
+        <button
+          className="option"
+          onClick={() => addDialog.current.showModal()}
+        >
+          <img src="/icons/add.svg" alt="" />
+          Add
+        </button>
+      </div>
+      <div className={styles.images}>
         {images &&
           images.map((image) => (
-            <div key={image.id} className="image">
+            <div key={image.id} className={styles.image}>
               <div className="top">
-                <h2>{image.name}</h2>
+                <h3>{image.name}</h3>
                 <div className="options">
-                  <a href={`images/${image.id}/objects`}>View Objects</a>
                   <button
-                    onClick={() => {
-                      dispatchFormData({ type: "load", payload: image });
-                      updateDialog.current.show();
-                    }}
+                    onClick={() =>
+                      location.assign(`images/${image.id}/objects`)
+                    }
                   >
-                    Update
+                    <img src="/icons/view.svg" alt="" />
+                    View objects
                   </button>
                   <button
                     onClick={() => {
                       dispatchFormData({ type: "load", payload: image });
-                      deleteDialog.current.show();
+                      editDialog.current.showModal();
                     }}
                   >
+                    <img src="/icons/edit.svg" alt="" />
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => {
+                      dispatchFormData({ type: "load", payload: image });
+                      deleteDialog.current.showModal();
+                    }}
+                  >
+                    <img src="/icons/delete.svg" alt="" />
                     Delete
                   </button>
                 </div>
@@ -116,6 +133,6 @@ export default function Images() {
             </div>
           ))}
       </div>
-    </>
+    </div>
   );
 }

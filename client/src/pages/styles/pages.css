@@ -18,7 +18,7 @@
   font-size: 1rem;
   font-weight: bold;
   border-radius: 0.5rem;
-  border: 1px solid rgb(193, 193, 193);
+  border: 1px rgb(113, 196, 255) solid;
   cursor: pointer;
   transition: transform 0.2s;
   width: max-content;

@@ -2,11 +2,11 @@ import AlertForm from "@/components/AlertForm";
 import Dialog from "@/components/Dialog";
 import DataForm from "@/components/DataForm";
 import useData from "@/hooks/useData";
-import requestHandler from "@/utils/requestHandler";
+import requestHandler from "@/utils/js/requestHandler";
 import { useReducer, useRef } from "react";
-import { formDataReducer } from "@/utils/objectHandler";
+import { formDataReducer } from "@/utils/js/objectHandler";
 import DataFormReducer from "@/reducers/DataFormReducer";
-import "./styles/pages.css";
+import "@/utils/css/pages.css";
 import styles from "./styles/Images.module.css";
 
 export default function Images() {

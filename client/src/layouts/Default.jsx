@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import "./styles/layouts.css";
+import "@/utils/css/layouts.css";
 import styles from "./styles/Default.module.css";
 
 export default function Default() {

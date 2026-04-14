@@ -7,8 +7,8 @@ import Box from "@/components/Box";
 import GameContext from "@/contexts/GameContext";
 import DataForm from "@/components/DataForm";
 import AlertForm from "@/components/AlertForm";
-import { formDataReducer } from "@/utils/objectHandler";
-import requestHandler from "@/utils/requestHandler";
+import { formDataReducer } from "@/utils/js/objectHandler";
+import requestHandler from "@/utils/js/requestHandler";
 import DataFormReducer from "@/reducers/DataFormReducer";
 
 export default function Game() {

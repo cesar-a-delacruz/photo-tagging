@@ -3,10 +3,10 @@ import Dialog from "@/components/Dialog";
 import DataForm from "@/components/DataForm";
 import Box from "@/components/Box";
 import useData from "@/hooks/useData";
-import requestHandler from "@/utils/requestHandler";
+import requestHandler from "@/utils/js/requestHandler";
 import { useRef, useState, useReducer } from "react";
 import { useParams } from "react-router-dom";
-import { formDataReducer } from "@/utils/objectHandler";
+import { formDataReducer } from "@/utils/js/objectHandler";
 import DataFormReducer from "@/reducers/DataFormReducer";
 
 export default function Objects() {

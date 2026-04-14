@@ -1,4 +1,4 @@
-import requestHandler from "@/utils/requestHandler";
+import requestHandler from "@/utils/js/requestHandler";
 import { useEffect, useState } from "react";
 
 export default function useData(endpoint = "") {

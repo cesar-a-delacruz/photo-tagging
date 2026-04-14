@@ -1,23 +1,18 @@
-export default function Dialog({ children, title, ref }) {
-  const className = title.toLowerCase().replace(" ", "-");
+import styles from "./styles/Dialog.module.css";
 
+export default function Dialog({ children, title, ref }) {
   return (
-    <dialog
-      className={className}
-      ref={ref}
-      style={{
-        backgroundColor: "rgb(22, 56, 80) ",
-      }}
-    >
-      <div className="top">
+    <dialog ref={ref}>
+      <div className={styles.top}>
         <h2>{title}</h2>
-        <button
+        <img
+          className={styles.exit}
+          src="/icons/exit.svg"
+          alt="Exit"
           onClick={(e) => e.currentTarget.parentElement.parentElement.close()}
-        >
-          X
-        </button>
+        />
       </div>
-      <div className="bottom">{children}</div>
+      <div className={styles.bottom}>{children}</div>
     </dialog>
   );
 }

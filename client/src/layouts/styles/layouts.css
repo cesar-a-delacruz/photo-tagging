@@ -1,0 +1,10 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.layout * {
+  color: white;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}

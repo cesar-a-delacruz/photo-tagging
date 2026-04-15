@@ -1,0 +1,18 @@
+:root {
+  --color-primary: rgb(2, 117, 199);
+  --color-primary-light: rgb(113, 196, 255);
+  --color-primary-dark-20: rgb(0, 114, 185);
+  --color-primary-dark-40: rgb(0, 70, 114);
+  --color-primary-dark-60: rgb(0, 53, 86);
+  --color-primary-dark-80: rgb(0, 34, 55);
+  --color-primary-dark-100: rgb(0, 19, 31);
+
+  --border: 1px var(--color-primary-light) solid;
+
+  --mouse-transition: transform 0.2s;
+  --mouse-transition-shrink-5: scale(0.95);
+  --mouse-transition-shrink-10: scale(0.9);
+  --mouse-transition-grow-1: scale(1.01);
+  --mouse-transition-grow-5: scale(1.05);
+  --mouse-transition-grow-10: scale(1.1);
+}

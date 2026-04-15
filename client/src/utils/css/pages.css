@@ -1,3 +1,5 @@
+@import url("../../utils/css/vars.css");
+
 .page {
   display: flex;
   align-items: center;
@@ -13,31 +15,32 @@
 }
 
 .page button {
-  background-color: rgb(0, 34, 55);
+  background-color: var(--color-primary-dark-60);
   padding: 0.5rem 1rem;
   font-size: 1rem;
   font-weight: bold;
   border-radius: 0.5rem;
-  border: 1px rgb(113, 196, 255) solid;
+  border: var(--border);
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: var(--mouse-transition);
   width: max-content;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
+  &:hover {
+    background-color: var(--color-primary-dark-40);
+  }
+  &:active {
+    background-color: var(--color-primary-dark-20);
+    transform: var(--mouse-transition-shrink-5);
+  }
 
   & img {
     height: fit-content;
     width: 1.7rem;
     height: auto;
   }
-}
-.page button:hover {
-  background-color: rgb(0, 70, 114);
-}
-.page button:active {
-  background-color: rgb(0, 85, 138);
-  transform: scale(0.95);
 }
 
 .page div.options {

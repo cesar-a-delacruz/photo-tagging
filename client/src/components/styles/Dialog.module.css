@@ -1,19 +1,23 @@
+@import url("../../utils/css/vars.css");
+
 dialog:open {
   display: flex;
   flex-direction: column;
   gap: 2rem;
   padding: 2rem;
-  background-color: rgb(0, 44, 71);
+  background-color: var(--color-primary-dark-80);
   border-radius: 0.7rem;
-  border: 1px white solid;
+  border: var(--border);
   opacity: 1;
   animation: open 0.2s forwards;
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(2px);
+    animation: open 0.5s forwards;
+  }
 }
-dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(2px);
-  animation: open 0.2s forwards;
-}
+
 @keyframes open {
   from {
     opacity: 0;
@@ -37,11 +41,12 @@ dialog::backdrop {
 .exit {
   width: 2.5rem;
   height: auto;
-  transition: transform 0.2s;
-}
-.exit:hover {
-  transform: scale(1.1);
-}
-.exit:active {
-  transform: scale(0.9);
+  transition: var(--mouse-transition);
+
+  &:hover {
+    transform: var(--mouse-transition-grow-10);
+  }
+  &:active {
+    transform: var(--mouse-transition-shrink-10);
+  }
 }

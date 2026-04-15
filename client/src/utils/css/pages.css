@@ -40,6 +40,11 @@
     height: auto;
   }
 }
+.page button:focus,
+.page input:focus {
+  border-style: none;
+  outline: 2px white solid;
+}
 
 .page div.options {
   display: flex;

@@ -31,13 +31,9 @@ export default function DataForm({
           />
         ))}
       </div>
-      <div className={styles.buttons}>
-        <button className="action" type="submit">
-          {action.name}
-        </button>
-        <button className="cancel" type="reset">
-          Cancel
-        </button>
+      <div className={styles.actions}>
+        <button type="submit">{action.name}</button>
+        <button type="reset">Cancel</button>
       </div>
     </form>
   );

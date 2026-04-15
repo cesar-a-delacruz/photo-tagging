@@ -10,7 +10,11 @@
   width: max-content;
 }
 
-.data .buttons {
+.data .actions {
   display: flex;
   gap: 1rem;
+
+  & button {
+    font-size: 1.5rem;
+  }
 }

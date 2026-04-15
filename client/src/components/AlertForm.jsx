@@ -16,7 +16,7 @@ export default function AlertForm({
     >
       <p>{children}</p>
       <Field name={data.name} value={data.value} type={data.type} />
-      <button>{action.name}</button>
+      <button className={styles.action}>{action.name}</button>
     </form>
   );
 }

@@ -90,7 +90,7 @@ export default function Images() {
           className="option"
           onClick={() => addDialog.current.showModal()}
         >
-          <img src="/icons/add.svg" alt="" />
+          <img src="/icons/add.svg" alt="Add image" className="icon" />
           Add
         </button>
       </div>
@@ -106,7 +106,11 @@ export default function Images() {
                       location.assign(`images/${image.id}/objects`)
                     }
                   >
-                    <img src="/icons/view.svg" alt="" />
+                    <img
+                      src="/icons/view.svg"
+                      alt="View Objects"
+                      className="icon"
+                    />
                     View objects
                   </button>
                   <button
@@ -115,7 +119,11 @@ export default function Images() {
                       editDialog.current.showModal();
                     }}
                   >
-                    <img src="/icons/edit.svg" alt="" />
+                    <img
+                      src="/icons/edit.svg"
+                      alt="Edit image"
+                      className="icon"
+                    />
                     Edit
                   </button>
                   <button
@@ -124,12 +132,17 @@ export default function Images() {
                       deleteDialog.current.showModal();
                     }}
                   >
-                    <img src="/icons/delete.svg" alt="" />
+                    <img
+                      src="/icons/delete.svg"
+                      alt="Delete image"
+                      className="icon
+                    "
+                    />
                     Delete
                   </button>
                 </div>
               </div>
-              <img src={image.url} alt={image.name} />
+              <img src={image.url} alt={`${image.name} image`} />
             </div>
           ))}
       </div>

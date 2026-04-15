@@ -30,6 +30,6 @@
   }
 }
 .image,
-.image img {
+.image img:not([class="icon"]) {
   border-radius: 1rem;
 }

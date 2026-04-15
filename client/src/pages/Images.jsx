@@ -88,7 +88,10 @@ export default function Images() {
         <h3>Options:</h3>
         <button
           className="option"
-          onClick={() => addDialog.current.showModal()}
+          onClick={() => {
+            dispatchFormData({ type: "clear" });
+            addDialog.current.showModal();
+          }}
         >
           <img src="/icons/add.svg" alt="Add image" className="icon" />
           Add

@@ -1,4 +1,5 @@
 import Field from "./Field";
+import styles from "./styles/AlertForm.module.css";
 
 export default function AlertForm({
   action = { name: "", handler: () => {} },
@@ -11,6 +12,7 @@ export default function AlertForm({
         e.preventDefault();
         action.handler(data);
       }}
+      className={styles.alert}
     >
       <p>{children}</p>
       <Field name={data.name} value={data.value} type={data.type} />

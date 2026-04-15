@@ -1,0 +1,11 @@
+.alert {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+
+  & p {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,20 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 300px;
+  width: 20vw;
+  font-size: 1.3rem;
+
+  & input {
+    background-color: var(--color-primary-dark-60);
+    border: var(--border);
+    border-radius: 0.5rem;
+    height: 1.5rem;
+    padding: 0.5rem;
+
+    &:focus {
+      background-color: var(--color-primary-dark-40);
+    }
+  }
+}

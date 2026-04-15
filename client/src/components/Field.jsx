@@ -1,3 +1,5 @@
+import styles from "./styles/Field.module.css";
+
 export default function Field({
   name,
   label,
@@ -18,7 +20,6 @@ export default function Field({
             onChange={(e) =>
               onChange(e.currentTarget.id, e.currentTarget.value)
             }
-            style={{ backgroundColor: "rgb(29, 72, 103) " }}
           />
         </div>
       ));
@@ -30,20 +31,16 @@ export default function Field({
           id={name}
           value={value}
           onChange={(e) => onChange(e.currentTarget.id, e.currentTarget.value)}
-          style={{ backgroundColor: "rgb(29, 72, 103) " }}
         />
       );
       break;
   }
-  return (
-    <div className="field">
-      {label && (
-        <>
-          <label htmlFor={name}>{label}:</label>
-          <br />
-        </>
-      )}
+  return type !== "hidden" ? (
+    <div className={styles.field}>
+      {label && <label htmlFor={name}>{label}:</label>}
       {input}
     </div>
+  ) : (
+    input
   );
 }

@@ -1,4 +1,5 @@
 import Field from "./Field";
+import styles from "./styles/DataForm.module.css";
 
 export default function DataForm({
   action = { name: "", handler: () => {} },
@@ -16,8 +17,9 @@ export default function DataForm({
         action.handler(data);
       }}
       onReset={() => dispatchFormData({ type: "clear" })}
+      className={styles.data}
     >
-      <div className="fields">
+      <div className={styles.fields}>
         {data.map((field) => (
           <Field
             key={field.name}
@@ -29,7 +31,7 @@ export default function DataForm({
           />
         ))}
       </div>
-      <div className="buttons">
+      <div className={styles.buttons}>
         <button className="action" type="submit">
           {action.name}
         </button>

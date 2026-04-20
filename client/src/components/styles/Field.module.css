@@ -6,6 +6,9 @@
   width: 20vw;
   font-size: 1.3rem;
 
+  & label {
+    font-weight: bold;
+  }
   & input {
     background-color: var(--color-primary-dark-60);
     border: var(--border);
@@ -16,5 +19,30 @@
     &:focus {
       background-color: var(--color-primary-dark-40);
     }
+    &:disabled {
+      background-color: var(--color-primary-dark-100);
+    }
   }
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.value {
+  margin-top: 0.5rem;
+}
+.entry {
+  width: 30%;
+}
+.entry input {
+  width: 80%;
+}
+.value,
+.entry {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
 }

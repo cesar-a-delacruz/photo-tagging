@@ -8,6 +8,8 @@ import { useRef, useState, useReducer } from "react";
 import { useParams } from "react-router-dom";
 import { formDataReducer } from "@/utils/js/objectHandler";
 import DataFormReducer from "@/reducers/DataFormReducer";
+import "@/utils/css/pages.css";
+import styles from "./styles/Objects.module.css";
 
 export default function Objects() {
   document.title = `${import.meta.env.VITE_TITLE}: Objects`;
@@ -16,7 +18,7 @@ export default function Objects() {
   const [image, setImage, setObjects] = useData(`image/${imageId}`);
 
   const addDialog = useRef(null);
-  const updateDialog = useRef(null);
+  const editDialog = useRef(null);
   const deleteDialog = useRef(null);
 
   const [formData, dispatchFormData] = useReducer(DataFormReducer, [
@@ -27,6 +29,15 @@ export default function Objects() {
       label: "Position",
       value: { x: "", y: "" },
       type: "json",
+      buttonInput: {
+        text: "Click Position",
+        handler: () => {
+          setClickPosition((prev) => {
+            prev.dialog.close();
+            return { ...prev, active: true };
+          });
+        },
+      },
     },
   ]);
 
@@ -37,17 +48,9 @@ export default function Objects() {
   });
 
   return (
-    <>
+    <div className="page objects">
       <div className="dialogs">
         <Dialog title={"Add Object"} ref={addDialog}>
-          <button
-            onClick={() => {
-              setClickPosition({ active: true, dialog: addDialog });
-              addDialog.current.close();
-            }}
-          >
-            Click Position
-          </button>
           <DataForm
             data={formData.filter((field) => field.name !== "id")}
             dispatchFormData={dispatchFormData}
@@ -70,20 +73,12 @@ export default function Objects() {
             }}
           />
         </Dialog>
-        <Dialog title={"Update Object"} ref={updateDialog}>
-          <button
-            onClick={() => {
-              setClickPosition({ active: true, dialog: updateDialog });
-              updateDialog.current.close();
-            }}
-          >
-            Click Position
-          </button>
+        <Dialog title={"Edit Object"} ref={editDialog}>
           <DataForm
             data={formData}
             dispatchFormData={dispatchFormData}
             action={{
-              name: "Update",
+              name: "Edit",
               handler: async (data) => {
                 data = formDataReducer(data);
                 data.imageId = image.id;
@@ -95,7 +90,7 @@ export default function Objects() {
                   ),
                 );
                 await requestHandler.put(data, "object");
-                updateDialog.current.close();
+                editDialog.current.close();
                 dispatchFormData({ type: "clear" });
               },
             }}
@@ -121,99 +116,119 @@ export default function Objects() {
           </AlertForm>
         </Dialog>
       </div>
-      <div className="left">
-        {image && (
-          <>
+      {image && (
+        <>
+          <div className="top">
             <h2>{image.name} objects</h2>
             <div className="options">
               <h3>Options:</h3>
               <button onClick={() => location.assign("/images")}>
                 Go back
               </button>
+              <button
+                onClick={() => {
+                  dispatchFormData({ type: "clear" });
+                  setClickPosition({
+                    ...clickPosition,
+                    dialog: addDialog.current,
+                  });
+                  addDialog.current.showModal();
+                }}
+              >
+                Add
+              </button>
             </div>
-            <img
-              className={"image"}
-              src={image.url}
-              alt={image.name}
-              onClick={(e) => {
-                if (!clickPosition.active) return;
+          </div>
+          <div className={styles.bottom}>
+            <div className={styles.left}>
+              <img
+                src={image.url}
+                alt={image.name}
+                onClick={(e) => {
+                  if (!clickPosition.active) return;
 
-                const imgBoundingSides = {
-                  left: e.currentTarget.getBoundingClientRect().left,
-                  top: e.currentTarget.getBoundingClientRect().top,
-                };
-                const imgSizeRatio = {
-                  width:
-                    e.currentTarget.naturalWidth / e.currentTarget.clientWidth,
-                  height:
-                    e.currentTarget.naturalHeight /
-                    e.currentTarget.clientHeight,
-                };
-                const clickedPosition = {
-                  x: (e.clientX - imgBoundingSides.left) * imgSizeRatio.width,
-                  y: (e.clientY - imgBoundingSides.top) * imgSizeRatio.height,
-                };
+                  const imgBoundingSides = {
+                    left: e.currentTarget.getBoundingClientRect().left,
+                    top: e.currentTarget.getBoundingClientRect().top,
+                  };
+                  const imgSizeRatio = {
+                    width:
+                      e.currentTarget.naturalWidth /
+                      e.currentTarget.clientWidth,
+                    height:
+                      e.currentTarget.naturalHeight /
+                      e.currentTarget.clientHeight,
+                  };
+                  const clickedPosition = {
+                    x: (e.clientX - imgBoundingSides.left) * imgSizeRatio.width,
+                    y: (e.clientY - imgBoundingSides.top) * imgSizeRatio.height,
+                  };
 
-                dispatchFormData({
-                  type: "change",
-                  payload: {
-                    id: "position",
-                    value: {
-                      x: parseInt(clickedPosition.x),
-                      y: parseInt(clickedPosition.y),
+                  dispatchFormData({
+                    type: "change",
+                    payload: {
+                      id: "position",
+                      value: {
+                        x: parseInt(clickedPosition.x),
+                        y: parseInt(clickedPosition.y),
+                      },
                     },
-                  },
-                });
+                  });
 
-                setBoxPosition({ x: e.pageX, y: e.pageY });
-                clickPosition.dialog.current.show();
-                setClickPosition({ active: false, dialog: null });
-              }}
-            />
-          </>
-        )}
-      </div>
-      {image && boxPosition && (
-        <Box position={boxPosition} setPosition={setBoxPosition} />
-      )}
-      <div className="right">
-        <div className="options">
-          <button
-            onClick={() => {
-              dispatchFormData({ type: "clear" });
-              addDialog.current.show();
-            }}
-          >
-            Add
-          </button>
-        </div>
-        <div className="objects">
-          {image &&
-            image.objects.map((object) => (
-              <div key={object.id} className="object">
-                <h3>{object.name}</h3>
-                <div className="options">
-                  <button
-                    onClick={() => {
-                      dispatchFormData({ type: "load", payload: object });
-                      updateDialog.current.show();
-                    }}
-                  >
-                    Update
-                  </button>
-                  <button
-                    onClick={() => {
-                      dispatchFormData({ type: "load", payload: object });
-                      deleteDialog.current.show();
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
+                  setBoxPosition({ x: e.pageX, y: e.pageY });
+                  setClickPosition((prev) => {
+                    prev.dialog.showModal();
+                    return { ...prev, active: false };
+                  });
+                }}
+              />
+            </div>
+            <div className={styles.right}>
+              <div className={styles.objects}>
+                {image &&
+                  image.objects.map((object, index) => (
+                    <div key={object.id} className={styles.object}>
+                      <h3>
+                        {index + 1}. {object.name}
+                      </h3>
+                      <div className={styles.options}>
+                        <button
+                          onClick={() => {
+                            dispatchFormData({
+                              type: "load",
+                              payload: object,
+                            });
+                            setClickPosition({
+                              ...clickPosition,
+                              dialog: editDialog.current,
+                            });
+                            editDialog.current.showModal();
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => {
+                            dispatchFormData({
+                              type: "load",
+                              payload: object,
+                            });
+                            deleteDialog.current.showModal();
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
               </div>
-            ))}
-        </div>
-      </div>
-    </>
+            </div>
+          </div>
+          {boxPosition && (
+            <Box position={boxPosition} setPosition={setBoxPosition} />
+          )}
+        </>
+      )}
+    </div>
   );
 }

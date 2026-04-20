@@ -3,7 +3,7 @@ import Timer from "@/components/Timer";
 import { useState, useRef, useEffect, useReducer } from "react";
 import useData from "@/hooks/useData";
 import Menu from "@/components/Menu";
-import Box from "@/components/Box";
+import Pin from "@/components/Pin";
 import GameContext from "@/contexts/GameContext";
 import DataForm from "@/components/DataForm";
 import AlertForm from "@/components/AlertForm";
@@ -17,7 +17,7 @@ export default function Game() {
   const [images] = useData("image");
   const [image, setImage] = useState(null);
   const [score, setScore] = useState({ record: "" });
-  const [boxPosition, setBoxPosition] = useState(null);
+  const [pinPosition, setPinPosition] = useState(null);
   const [game, setGame] = useState({
     start: false,
     stop: false,
@@ -340,7 +340,7 @@ export default function Game() {
                     }));
                   }
                 });
-                setBoxPosition({ x: e.pageX, y: e.pageY });
+                setPinPosition({ x: e.pageX, y: e.pageY });
               }}
             />
           </>
@@ -355,15 +355,15 @@ export default function Game() {
             </ol>
           </div>
         )}
-        {boxPosition && image && (
+        {pinPosition && image && (
           <div className="target">
-            <Box position={boxPosition} setPosition={setBoxPosition} />
+            <Pin position={pinPosition} setPosition={setPinPosition} />
             <Menu
-              position={{ x: boxPosition.x + 50, y: boxPosition.y - 37 }}
+              position={{ x: pinPosition.x + 50, y: pinPosition.y - 37 }}
               items={image.objects}
               currentItem={game.objects.current}
               setFoundObjects={(objectId) => {
-                setBoxPosition(null);
+                setPinPosition(null);
 
                 if (objectId) {
                   const gameFoundObjects = game.objects.found.concat(objectId);

@@ -1,7 +1,7 @@
 import AlertForm from "@/components/AlertForm";
 import Dialog from "@/components/Dialog";
 import DataForm from "@/components/DataForm";
-import Box from "@/components/Box";
+import Pin from "@/components/Pin";
 import useData from "@/hooks/useData";
 import requestHandler from "@/utils/js/requestHandler";
 import { useRef, useState, useReducer } from "react";
@@ -41,7 +41,7 @@ export default function Objects() {
     },
   ]);
 
-  const [boxPosition, setBoxPosition] = useState(null);
+  const [pinPosition, setPinPosition] = useState(null);
   const [clickPosition, setClickPosition] = useState({
     active: false,
     dialog: null,
@@ -175,7 +175,7 @@ export default function Objects() {
                     },
                   });
 
-                  setBoxPosition({ x: e.pageX, y: e.pageY });
+                  setPinPosition({ x: e.pageX, y: e.pageY });
                   setClickPosition((prev) => {
                     prev.dialog.showModal();
                     return { ...prev, active: false };
@@ -224,8 +224,8 @@ export default function Objects() {
               </div>
             </div>
           </div>
-          {boxPosition && (
-            <Box position={boxPosition} setPosition={setBoxPosition} />
+          {pinPosition && (
+            <Pin position={pinPosition} setPosition={setPinPosition} />
           )}
         </>
       )}

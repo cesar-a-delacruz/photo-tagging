@@ -1,0 +1,13 @@
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  & img {
+    width: 3rem;
+    height: auto;
+  }
+  & span {
+    font-size: 1.5rem;
+  }
+}

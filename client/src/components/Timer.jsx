@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import styles from "./styles/Timer.module.css";
 
 export default function Timer({
   record = "",
@@ -34,10 +35,9 @@ export default function Timer({
   }
 
   return (
-    <div className="time">
-      <p>
-        Time: <span>{time}</span>
-      </p>
+    <div className={styles.timer}>
+      <img src="/icons/clock.svg" alt="Time" className="icon" />
+      <span>{time}</span>
     </div>
   );
 }

@@ -123,7 +123,12 @@ export default function Objects() {
             <div className="options">
               <h3>Options:</h3>
               <button onClick={() => location.assign("/images")}>
-                Go back
+                <img
+                  src="/icons/return.svg"
+                  alt="Add object"
+                  className="icon"
+                />
+                Return
               </button>
               <button
                 onClick={() => {
@@ -135,6 +140,7 @@ export default function Objects() {
                   addDialog.current.showModal();
                 }}
               >
+                <img src="/icons/add.svg" alt="Add object" className="icon" />
                 Add
               </button>
             </div>
@@ -205,6 +211,11 @@ export default function Objects() {
                             editDialog.current.showModal();
                           }}
                         >
+                          <img
+                            src="/icons/edit.svg"
+                            alt="Edit object"
+                            className="icon"
+                          />
                           Edit
                         </button>
                         <button
@@ -216,6 +227,11 @@ export default function Objects() {
                             deleteDialog.current.showModal();
                           }}
                         >
+                          <img
+                            src="/icons/delete.svg"
+                            alt="Delete object"
+                            className="icon"
+                          />
                           Delete
                         </button>
                       </div>

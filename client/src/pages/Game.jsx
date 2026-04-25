@@ -326,13 +326,13 @@ export default function Game() {
                   x: (e.clientX - imgBoundingSides.left) * imgSizeRatio.width,
                   y: (e.clientY - imgBoundingSides.top) * imgSizeRatio.height,
                 };
-                const targetBoxCenter = 50;
+                const pinCenter = 37;
                 image.objects.forEach((object) => {
                   if (
-                    clickedPosition.x < object.position.x + targetBoxCenter &&
-                    clickedPosition.x > object.position.x - targetBoxCenter &&
-                    clickedPosition.y < object.position.y + targetBoxCenter &&
-                    clickedPosition.y > object.position.y - targetBoxCenter
+                    clickedPosition.x < object.position.x + pinCenter &&
+                    clickedPosition.x > object.position.x - pinCenter &&
+                    clickedPosition.y < object.position.y + pinCenter &&
+                    clickedPosition.y > object.position.y - pinCenter
                   ) {
                     setGame((prev) => ({
                       ...prev,

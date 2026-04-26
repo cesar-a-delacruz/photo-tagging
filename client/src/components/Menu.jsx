@@ -1,5 +1,6 @@
 import GameContext from "@/contexts/GameContext";
 import { useContext } from "react";
+import styles from "./styles/Menu.module.css";
 
 export default function Menu({
   position,
@@ -11,11 +12,8 @@ export default function Menu({
 
   return (
     <div
-      className="menu"
+      className={styles.menu}
       style={{
-        backgroundColor: "rgb(22, 56, 80) ",
-        padding: "15px 15px",
-        position: "absolute",
         top: `${position.y}px`,
         left: `${position.x}px`,
       }}
@@ -23,7 +21,7 @@ export default function Menu({
       {items.map((item) => (
         <div
           key={item.name}
-          className="item"
+          className={styles.item}
           onClick={() => {
             if (!currentItem) {
               alert("No has been character selected");

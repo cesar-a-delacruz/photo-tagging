@@ -1,0 +1,16 @@
+.menu {
+  background-color: var(--color-primary-dark-40);
+  position: absolute;
+  font-size: 1.2rem;
+  border: var(--border);
+  border-radius: 0.5rem;
+}
+
+.item {
+  border-radius: 0.5rem;
+  padding: 1rem;
+
+  &:hover {
+    background-color: var(--color-primary-dark-20);
+  }
+}

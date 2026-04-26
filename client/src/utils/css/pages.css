@@ -2,9 +2,11 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  padding: 2.5rem;
 }
 
 .page h2 {
+  margin-top: 0;
   font-size: 2rem;
   text-align: center;
 }

@@ -8,6 +8,7 @@ dialog:open {
   border: var(--border);
   opacity: 1;
   animation: open 0.2s forwards;
+  max-width: 75%;
 
   &::backdrop {
     background-color: rgba(0, 0, 0, 0.1);

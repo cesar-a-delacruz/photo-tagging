@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./styles/Timer.module.css";
 
 export default function Timer({
@@ -12,8 +12,10 @@ export default function Timer({
   const [time, setTime] = useState("");
   const startTime = useRef(new Date().valueOf());
 
-  const interval = useRef(
-    setInterval(() => {
+  const interval = useRef(null);
+
+  useEffect(() => {
+    interval.current = setInterval(() => {
       let timeString = new Date(
         new Date().valueOf() - startTime.current,
       ).toLocaleTimeString();
@@ -23,11 +25,11 @@ export default function Timer({
         timeString.lastIndexOf(" "),
         timeString.length,
       );
-
+      console.log("time");
       timeString = timeString.replace(timeStart, "").replace(timeEnd, "");
       setTime(timeString);
-    }, 1000),
-  );
+    }, 1000);
+  }, []);
 
   if (stop) {
     clearInterval(interval.current);

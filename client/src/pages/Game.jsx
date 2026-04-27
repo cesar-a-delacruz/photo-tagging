@@ -187,7 +187,7 @@ export default function Game() {
                 <button
                   className="option"
                   onClick={() => {
-                    if (!score.id) return;
+                    if (score.record === "" || score.record === "00:00") return;
                     recordDialog.current.showModal();
                   }}
                 >
@@ -322,7 +322,6 @@ export default function Game() {
                           winDialog.current.showModal();
                           return;
                         }
-
                         const scoreData = {
                           record: timeString,
                           userId: userId,
@@ -333,7 +332,10 @@ export default function Game() {
                           "score",
                         );
                         if (result.data)
-                          setScore((prev) => ({ ...prev, id: result.data.id }));
+                          setScore((prev) => ({
+                            ...prev,
+                            id: result.data.id,
+                          }));
                       }}
                       stop={game.stop}
                       start={game.start}

@@ -359,7 +359,9 @@ export default function Game() {
               <Pin position={pinPosition} setPosition={setPinPosition} />
               <Menu
                 position={{ x: pinPosition.x + 12, y: pinPosition.y }}
-                items={gameImage.objects}
+                items={gameImage.objects.filter(
+                  (object) => !game.objects.found.includes(object.id),
+                )}
                 currentItem={game.objects.current}
                 setFoundObjects={(objectId) => {
                   setPinPosition(null);

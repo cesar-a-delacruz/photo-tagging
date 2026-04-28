@@ -45,7 +45,7 @@ h4 {
   width: 100%;
   grid-template-columns: repeat(auto-fit, minmax(300px, 26vw));
   justify-content: center;
-  column-gap: 2rem;
+  gap: 2rem;
 }
 
 .image {
@@ -76,6 +76,7 @@ h4 {
   display: flex;
   gap: 5rem;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .left {
@@ -139,4 +140,31 @@ h4 {
 dialog p {
   font-size: 1.5rem;
   margin-top: 0;
+}
+
+@media (orientation: portrait) {
+  .image {
+    & img {
+      width: 100%;
+      height: auto;
+    }
+  }
+  .gameContainer {
+    gap: 2rem;
+  }
+  .left {
+    & img {
+      width: 100%;
+      height: auto;
+    }
+  }
+  .right {
+    width: 100%;
+
+    & .objects {
+      & .object {
+        flex-wrap: wrap;
+      }
+    }
+  }
 }

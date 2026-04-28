@@ -7,6 +7,7 @@ export default function Field({
   type = "text",
   onChange,
   buttonInput = { text: "", handler: () => {} },
+  url = "",
 }) {
   let input;
   let field;
@@ -51,6 +52,36 @@ export default function Field({
         </>
       );
       break;
+    case "file":
+      input = (
+        <>
+          <input
+            type={type}
+            id={name}
+            onChange={(e) => {
+              const img = document.getElementById(`${name}Preview`);
+              const file = e.currentTarget.files[0];
+              img.src = file ? URL.createObjectURL(file) : "";
+              img.style.display = file ? "block" : "none";
+            }}
+            accept="image/*"
+          />
+          <img
+            src={url ? url : null}
+            style={{ display: url ? "block" : "none" }}
+            alt="Preview"
+            id={`${name}Preview`}
+          />
+        </>
+      );
+      field = (
+        <>
+          {label && <label htmlFor={name}>{label}:</label>}
+          {input}
+        </>
+      );
+      break;
+
     default:
       input = (
         <input

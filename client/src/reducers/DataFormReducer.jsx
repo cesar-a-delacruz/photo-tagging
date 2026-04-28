@@ -6,6 +6,7 @@ export default function DataFormReducer(state, action) {
       for (let i = 0; i < data.length; i++) {
         if (data[i].type === "json" && typeof data[i].value === "string")
           data[i].value = JSON.parse(action.payload[data[i].name]);
+        else if (data[i].type === "file") data[i].url = action.payload.url;
         else data[i].value = action.payload[data[i].name];
       }
 
@@ -39,6 +40,10 @@ export default function DataFormReducer(state, action) {
             acc[key] = "";
             return acc;
           }, {});
+        } else if (data[i].type === "file") {
+          data[i].value = "";
+          const img = document.getElementById(`${data[i].name}Preview`);
+          img.style.display = "none";
         } else data[i].value = "";
       }
 

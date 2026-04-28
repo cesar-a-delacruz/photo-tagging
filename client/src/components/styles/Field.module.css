@@ -23,6 +23,12 @@
       background-color: var(--color-primary-dark-100);
     }
   }
+
+  & img {
+    margin-top: 0.5rem;
+    border-radius: 0.5rem;
+    border: var(--border);
+  }
 }
 
 .label {

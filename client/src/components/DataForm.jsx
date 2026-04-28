@@ -29,6 +29,7 @@ export default function DataForm({
             value={field.value}
             onChange={changeHandler}
             buttonInput={field.buttonInput}
+            url={field.url}
           />
         ))}
       </div>

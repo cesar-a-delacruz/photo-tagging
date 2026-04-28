@@ -21,7 +21,7 @@ export default function Images() {
   const [formData, dispatchFormData] = useReducer(DataFormReducer, [
     { name: "id", value: "", type: "hidden" },
     { name: "name", label: "Name", value: "", type: "text" },
-    { name: "url", label: "URL", value: "", type: "text" },
+    { name: "file", label: "File", type: "file", url: "" },
   ]);
 
   return (
@@ -37,7 +37,7 @@ export default function Images() {
                 data = formDataReducer(data);
                 data.id = undefined;
 
-                const result = await requestHandler.post(data, "image");
+                const result = await requestHandler.postFile(data, "image");
                 if (!result) return;
                 data.id = result.data.id;
 

@@ -35,7 +35,6 @@ export default function Images() {
               name: "Add",
               handler: async (data) => {
                 data = formDataReducer(data);
-                data.id = undefined;
 
                 const result = await requestHandler.postFile(data, "image");
                 if (!result) return;

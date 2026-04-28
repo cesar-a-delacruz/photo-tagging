@@ -58,6 +58,7 @@ export default function Field({
           <input
             type={type}
             id={name}
+            name={name}
             onChange={(e) => {
               const img = document.getElementById(`${name}Preview`);
               const file = e.currentTarget.files[0];

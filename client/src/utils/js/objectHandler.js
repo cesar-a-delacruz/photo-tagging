@@ -5,6 +5,9 @@ export function formDataReducer(formData) {
         a[key] = data.value[key];
         return a;
       }, {});
+    } else if (data.type === "file") {
+      const file = document.getElementById(`${data.name}`).files[0];
+      acc[data.name] = file;
     } else acc[data.name] = data.value;
     return acc;
   }, {});

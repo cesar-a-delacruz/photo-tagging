@@ -8,7 +8,7 @@ export default function Dialog({ children, title, ref }) {
         <img
           className={styles.exit}
           src="/icons/exit.svg"
-          alt="Exit"
+          aria-label="Exit button"
           onClick={(e) => e.currentTarget.parentElement.parentElement.close()}
         />
       </div>

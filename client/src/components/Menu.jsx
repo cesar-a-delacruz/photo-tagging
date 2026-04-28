@@ -11,15 +11,16 @@ export default function Menu({
   const foundObjects = useContext(GameContext).objects.found;
 
   return (
-    <div
+    <ul
       className={styles.menu}
       style={{
         top: `${position.y}px`,
         left: `${position.x}px`,
       }}
+      aria-label="Menu"
     >
       {items.map((item) => (
-        <div
+        <li
           key={item.name}
           className={styles.item}
           onClick={() => {
@@ -41,10 +42,11 @@ export default function Menu({
               setFoundObjects(null);
             }
           }}
+          aria-label="Menu item"
         >
           {item.name}
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }

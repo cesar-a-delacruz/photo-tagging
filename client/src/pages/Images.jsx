@@ -92,8 +92,9 @@ export default function Images() {
             dispatchFormData({ type: "clear" });
             addDialog.current.showModal();
           }}
+          aria-label="Add image"
         >
-          <img src="/icons/add.svg" alt="Add image" className="icon" />
+          <img src="/icons/add.svg" className="icon" aria-hidden="true" />
           Add
         </button>
       </div>
@@ -108,11 +109,12 @@ export default function Images() {
                     onClick={() =>
                       location.assign(`images/${image.id}/objects`)
                     }
+                    aria-label="View objects"
                   >
                     <img
                       src="/icons/view.svg"
-                      alt="View Objects"
                       className="icon"
+                      aria-hidden="true"
                     />
                     View objects
                   </button>
@@ -121,11 +123,12 @@ export default function Images() {
                       dispatchFormData({ type: "load", payload: image });
                       editDialog.current.showModal();
                     }}
+                    aria-label="Edit image"
                   >
                     <img
                       src="/icons/edit.svg"
-                      alt="Edit image"
                       className="icon"
+                      aria-hidden="true"
                     />
                     Edit
                   </button>
@@ -134,18 +137,18 @@ export default function Images() {
                       dispatchFormData({ type: "load", payload: image });
                       deleteDialog.current.showModal();
                     }}
+                    aria-label="Delete image"
                   >
                     <img
                       src="/icons/delete.svg"
-                      alt="Delete image"
-                      className="icon
-                    "
+                      className="icon"
+                      aria-hidden="true"
                     />
                     Delete
                   </button>
                 </div>
               </div>
-              <img src={image.url} alt={`${image.name} image`} />
+              <img src={image.url} alt={`${image.name}`} />
             </div>
           ))}
       </div>

@@ -4,11 +4,14 @@
   font-size: 1.2rem;
   border: var(--border);
   border-radius: 0.5rem;
+  padding: 0;
+  overflow: hidden;
 }
 
 .item {
-  border-radius: 0.5rem;
+  /* border-radius: 0.5rem; */
   padding: 1rem;
+  list-style: none;
 
   &:hover {
     background-color: var(--color-primary-dark-20);

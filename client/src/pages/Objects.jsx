@@ -122,11 +122,14 @@ export default function Objects() {
             <h2>{image.name} objects</h2>
             <div className="options">
               <h3>Options:</h3>
-              <button onClick={() => location.assign("/images")}>
+              <button
+                onClick={() => location.assign("/images")}
+                aria-label="Return to images"
+              >
                 <img
                   src="/icons/return.svg"
-                  alt="Add object"
                   className="icon"
+                  aria-hidden="true"
                 />
                 Return
               </button>
@@ -139,8 +142,9 @@ export default function Objects() {
                   });
                   addDialog.current.showModal();
                 }}
+                aria-label="Add object"
               >
-                <img src="/icons/add.svg" alt="Add object" className="icon" />
+                <img src="/icons/add.svg" className="icon" aria-hidden="true" />
                 Add
               </button>
             </div>
@@ -194,7 +198,7 @@ export default function Objects() {
                 {image &&
                   image.objects.map((object, index) => (
                     <div key={object.id} className={styles.object}>
-                      <h3>
+                      <h3 aria-label={`${object.name} object`}>
                         {index + 1}. {object.name}
                       </h3>
                       <div className={styles.options}>
@@ -210,11 +214,12 @@ export default function Objects() {
                             });
                             editDialog.current.showModal();
                           }}
+                          aria-label={`Edit ${object.name} object`}
                         >
                           <img
                             src="/icons/edit.svg"
-                            alt="Edit object"
                             className="icon"
+                            aria-hidden="true"
                           />
                           Edit
                         </button>
@@ -226,11 +231,12 @@ export default function Objects() {
                             });
                             deleteDialog.current.showModal();
                           }}
+                          aria-label={`Delete ${object.name} object`}
                         >
                           <img
                             src="/icons/delete.svg"
-                            alt="Delete object"
                             className="icon"
+                            aria-hidden="true"
                           />
                           Delete
                         </button>

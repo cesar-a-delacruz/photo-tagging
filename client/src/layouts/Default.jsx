@@ -7,7 +7,7 @@ export default function Default() {
     <div className={`layout ${styles.default}`}>
       <header>
         <h1 onClick={() => location.assign("/")}>
-          Photo Tagging <img src="/icons/tag.svg" alt="" />
+          {import.meta.env.VITE_TITLE} <img src="/icons/tag.svg" />
         </h1>
       </header>
       <main>

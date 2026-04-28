@@ -148,15 +148,19 @@ export default function Game() {
           {userId && (
             <div className={styles.data}>
               <div className={styles.item}>
-                <img src="/icons/user.svg" alt="User name" className="icon" />
+                <img
+                  src="/icons/user.svg"
+                  className="icon"
+                  aria-hidden="true"
+                />
                 <span>Name:</span> {formData[1].value}
               </div>
               {score.record !== "" && score.record !== "00:00" && (
                 <div className={styles.item}>
                   <img
                     src="/icons/timer.svg"
-                    alt="User record"
                     className="icon"
+                    aria-hidden="true"
                   />
                   <span>Record:</span> {score.record}
                 </div>
@@ -174,11 +178,12 @@ export default function Game() {
                     setGameImage(null);
                     setScore({ record: "" });
                   }}
+                  aria-label="Select another image"
                 >
                   <img
                     src="/icons/images.svg"
-                    alt="Select another image"
                     className="icon"
+                    aria-hidden="true"
                   />
                   Select another image
                 </button>
@@ -190,11 +195,12 @@ export default function Game() {
                     if (score.record === "" || score.record === "00:00") return;
                     recordDialog.current.showModal();
                   }}
+                  aria-label="Reset record"
                 >
                   <img
                     src="/icons/timer-reset.svg"
-                    alt="Reset Record"
                     className="icon"
+                    aria-hidden="true"
                   />
                   Reset record
                 </button>
@@ -206,11 +212,12 @@ export default function Game() {
                     if (!userId) return;
                     deleteDialog.current.showModal();
                   }}
+                  aria-label="Delete data"
                 >
                   <img
                     src="/icons/user-delete.svg"
-                    alt="Delete Data"
                     className="icon"
+                    aria-hidden="true"
                   />
                   Delete data
                 </button>
@@ -222,7 +229,10 @@ export default function Game() {
           {images && !gameImage && (
             <>
               <h3>
-                Select an Image or <a href="/images">edit them</a>
+                Select an Image or{" "}
+                <a href="/images" aria-label="Open images page">
+                  edit them
+                </a>
               </h3>
               <div className={styles.images}>
                 {images.map((image) => (
@@ -344,9 +354,14 @@ export default function Game() {
                   )}
                   <div className={styles.objects}>
                     <h3>Objects to find</h3>
-                    <ol>
+                    <ol aria-label="Object list">
                       {gameImage.objects.map((object) => (
-                        <li key={object.id}>{object.name}</li>
+                        <li
+                          key={object.id}
+                          aria-label={`${object.name} object`}
+                        >
+                          {object.name}
+                        </li>
                       ))}
                     </ol>
                   </div>

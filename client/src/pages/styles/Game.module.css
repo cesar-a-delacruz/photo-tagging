@@ -142,6 +142,19 @@ dialog p {
   margin-top: 0;
 }
 
+.bottom > *,
+.top > * {
+  animation: show 0.5s forwards;
+}
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @media (orientation: portrait) {
   .image {
     & img {

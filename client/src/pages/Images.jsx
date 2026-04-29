@@ -3,9 +3,10 @@ import Dialog from "@/components/Dialog";
 import DataForm from "@/components/DataForm";
 import useData from "@/hooks/useData";
 import requestHandler from "@/utils/js/requestHandler";
-import { useReducer, useRef } from "react";
 import { formDataValues } from "@/utils/js/objectHandler";
+import { useReducer, useRef } from "react";
 import formDataReducer from "@/reducers/formDataReducer";
+import actions from "@/reducers/actions";
 import "@/utils/css/pages.css";
 import styles from "./styles/Images.module.css";
 
@@ -32,7 +33,7 @@ export default function Images() {
         <button
           className="option"
           onClick={() => {
-            dispatchFormData({ type: "clear" });
+            dispatchFormData({ type: actions.formData.CLEAR });
             addDialog.current.showModal();
           }}
           aria-label="Add image"
@@ -63,7 +64,10 @@ export default function Images() {
                   </button>
                   <button
                     onClick={() => {
-                      dispatchFormData({ type: "load", payload: image });
+                      dispatchFormData({
+                        type: actions.formData.LOAD,
+                        payload: image,
+                      });
                       editDialog.current.showModal();
                     }}
                     aria-label="Edit image"
@@ -77,7 +81,10 @@ export default function Images() {
                   </button>
                   <button
                     onClick={() => {
-                      dispatchFormData({ type: "load", payload: image });
+                      dispatchFormData({
+                        type: actions.formData.LOAD,
+                        payload: image,
+                      });
                       deleteDialog.current.showModal();
                     }}
                     aria-label="Delete image"
@@ -112,7 +119,7 @@ export default function Images() {
 
                 setImages([...images, data]);
                 addDialog.current.close();
-                dispatchFormData({ type: "clear" });
+                dispatchFormData({ type: actions.formData.CLEAR });
                 alert(result.message);
               },
             }}
@@ -135,7 +142,7 @@ export default function Images() {
                   }),
                 );
                 editDialog.current.close();
-                dispatchFormData({ type: "clear" });
+                dispatchFormData({ type: actions.formData.CLEAR });
               },
             }}
           />
@@ -149,7 +156,7 @@ export default function Images() {
                 await requestHandler.delete(data.value, "image");
                 setImages(images.filter((image) => image.id !== data.value));
                 deleteDialog.current.close();
-                dispatchFormData({ type: "clear" });
+                dispatchFormData({ type: actions.formData.CLEAR });
               },
             }}
           >

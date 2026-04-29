@@ -1,6 +1,8 @@
+import actions from "./actions";
+
 export default function formDataReducer(state, action) {
   switch (action.type) {
-    case "load": {
+    case actions.formData.LOAD: {
       const data = state;
 
       for (let i = 0; i < data.length; i++) {
@@ -12,7 +14,7 @@ export default function formDataReducer(state, action) {
 
       return [...data];
     }
-    case "change": {
+    case actions.formData.CHANGE: {
       const data = state;
 
       for (let i = 0; i < data.length; i++) {
@@ -31,7 +33,7 @@ export default function formDataReducer(state, action) {
 
       return [...data];
     }
-    case "clear": {
+    case actions.formData.CLEAR: {
       const data = state;
 
       for (let i = 0; i < data.length; i++) {

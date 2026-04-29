@@ -10,6 +10,7 @@ import { formDataValues, imageClickedPosition } from "@/utils/js/objectHandler";
 import formDataReducer from "@/reducers/formDataReducer";
 import "@/utils/css/pages.css";
 import styles from "./styles/Objects.module.css";
+import actions from "@/reducers/actions";
 
 export default function Objects() {
   document.title = `${import.meta.env.VITE_TITLE}: Objects`;
@@ -68,7 +69,7 @@ export default function Objects() {
               </button>
               <button
                 onClick={() => {
-                  dispatchFormData({ type: "clear" });
+                  dispatchFormData({ type: actions.formData.CLEAR });
                   setClickPosition({
                     ...clickPosition,
                     dialog: addDialog.current,
@@ -92,7 +93,7 @@ export default function Objects() {
 
                   const clickedPosition = imageClickedPosition(e);
                   dispatchFormData({
-                    type: "change",
+                    type: actions.formData.CHANGE,
                     payload: {
                       id: "position",
                       value: {
@@ -122,7 +123,7 @@ export default function Objects() {
                         <button
                           onClick={() => {
                             dispatchFormData({
-                              type: "load",
+                              type: actions.formData.LOAD,
                               payload: object,
                             });
                             setClickPosition({
@@ -143,7 +144,7 @@ export default function Objects() {
                         <button
                           onClick={() => {
                             dispatchFormData({
-                              type: "load",
+                              type: actions.formData.LOAD,
                               payload: object,
                             });
                             deleteDialog.current.showModal();
@@ -186,7 +187,7 @@ export default function Objects() {
 
                 setObjects("objects", [...image.objects, data]);
                 addDialog.current.close();
-                dispatchFormData({ type: "clear" });
+                dispatchFormData({ type: actions.formData.CLEAR });
                 alert(result.message);
               },
             }}
@@ -210,7 +211,7 @@ export default function Objects() {
                 );
                 await requestHandler.put(data, "object");
                 editDialog.current.close();
-                dispatchFormData({ type: "clear" });
+                dispatchFormData({ type: actions.formData.CLEAR });
               },
             }}
           />
@@ -227,7 +228,7 @@ export default function Objects() {
                   image.objects.filter((object) => object.id !== data.value),
                 );
                 deleteDialog.current.close();
-                dispatchFormData({ type: "clear" });
+                dispatchFormData({ type: actions.formData.CLEAR });
               },
             }}
           >

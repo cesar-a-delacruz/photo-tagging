@@ -12,6 +12,7 @@ import requestHandler from "@/utils/js/requestHandler";
 import formDataReducer from "@/reducers/formDataReducer";
 import "@/utils/css/pages.css";
 import styles from "./styles/Game.module.css";
+import actions from "@/reducers/actions";
 
 export default function Game() {
   document.title = `${import.meta.env.VITE_TITLE}: Game`;
@@ -45,7 +46,7 @@ export default function Game() {
       if (!userId) return;
 
       const user = await requestHandler.get(`user/${userId}`);
-      dispatchFormData({ type: "load", payload: user });
+      dispatchFormData({ type: actions.formData.LOAD, payload: user });
     })();
   }, []);
 
@@ -328,7 +329,7 @@ export default function Game() {
                   if (!result) return;
 
                   localStorage.removeItem("userId");
-                  dispatchFormData({ type: "clear" });
+                  dispatchFormData({ type: actions.formData.CLEAR });
 
                   setScore({ record: "" });
                   setGameImage(null);
@@ -362,7 +363,10 @@ export default function Game() {
                   data.id = id;
                   localStorage.setItem("userId", id);
 
-                  dispatchFormData({ type: "load", payload: data });
+                  dispatchFormData({
+                    type: actions.formData.LOAD,
+                    payload: data,
+                  });
                   const scoreData = {
                     record: score.record,
                     userId: id,

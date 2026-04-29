@@ -18,11 +18,10 @@ export default function Game() {
   document.title = `${import.meta.env.VITE_TITLE}: Game`;
 
   const [images] = useData("image");
+  const [pinPosition, setPinPosition] = useState(null);
   const [gameImage, setGameImage] = useState(null);
   const [score, setScore] = useState({ record: "" });
-  const [pinPosition, setPinPosition] = useState(null);
   const [game, setGame] = useState({
-    start: false,
     stop: false,
     objects: {
       current: null,
@@ -84,7 +83,7 @@ export default function Game() {
                 <button
                   className="option"
                   onClick={() => {
-                    setGame((prev) => ({ ...prev, stop: true, start: false }));
+                    setGame((prev) => ({ ...prev, stop: true }));
                     setGameImage(null);
                     setScore({ record: "" });
                   }}
@@ -170,7 +169,6 @@ export default function Game() {
                         setGameImage(imageResult);
                         setGame((prev) => ({
                           ...prev,
-                          start: true,
                           stop: false,
                         }));
                       }}
@@ -188,7 +186,7 @@ export default function Game() {
                   src={gameImage.url}
                   alt={gameImage.name}
                   onClick={(e) => {
-                    if (game.stop || !game.start) return;
+                    if (game.stop) return;
 
                     const clickedPosition = imageClickedPosition(e);
                     const pinCenter = 37;
@@ -214,7 +212,7 @@ export default function Game() {
               </div>
               <div className={styles.right}>
                 <div className={styles.rightContainer}>
-                  {(score.record === "00:00" || game.start) && (
+                  {(score.record === "00:00" || score.record === "") && (
                     <Timer
                       setRecord={async (timeString) => {
                         setScore((prev) => ({ ...prev, record: timeString }));
@@ -232,15 +230,13 @@ export default function Game() {
                           scoreData,
                           "score",
                         );
-                        if (result.data)
+                        if (result)
                           setScore((prev) => ({
                             ...prev,
                             id: result.data.id,
                           }));
-                        alert(result.message);
                       }}
                       stop={game.stop}
-                      start={game.start}
                       record={score.record}
                     />
                   )}
@@ -305,7 +301,6 @@ export default function Game() {
                   setScore({ record: "00:00" });
                   setGame((prev) => {
                     prev.stop = false;
-                    prev.start = true;
                     prev.objects.found = [];
                     return prev;
                   });
@@ -335,7 +330,6 @@ export default function Game() {
                   setGameImage(null);
                   setGame((prev) => {
                     prev.stop = false;
-                    prev.start = false;
                     prev.objects.current = null;
                     prev.objects.found = [];
                     return prev;
@@ -378,7 +372,6 @@ export default function Game() {
                   );
                   setScore(scoreResult.data);
                   winDialog.current.close();
-                  alert(scoreResult.message);
                 },
               }}
             />

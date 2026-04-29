@@ -7,7 +7,10 @@ import Pin from "@/components/Pin";
 import GameContext from "@/contexts/GameContext";
 import DataForm from "@/components/DataForm";
 import AlertForm from "@/components/AlertForm";
-import { formDataReducer } from "@/utils/js/objectHandler";
+import {
+  formDataReducer,
+  imageClickedPosition,
+} from "@/utils/js/objectHandler";
 import requestHandler from "@/utils/js/requestHandler";
 import DataFormReducer from "@/reducers/DataFormReducer";
 import "@/utils/css/pages.css";
@@ -189,26 +192,7 @@ export default function Game() {
                   onClick={(e) => {
                     if (game.stop || !game.start) return;
 
-                    const imgBoundingSides = {
-                      left: e.currentTarget.getBoundingClientRect().left,
-                      top: e.currentTarget.getBoundingClientRect().top,
-                    };
-                    const imgSizeRatio = {
-                      width:
-                        e.currentTarget.naturalWidth /
-                        e.currentTarget.clientWidth,
-                      height:
-                        e.currentTarget.naturalHeight /
-                        e.currentTarget.clientHeight,
-                    };
-                    const clickedPosition = {
-                      x:
-                        (e.clientX - imgBoundingSides.left) *
-                        imgSizeRatio.width,
-                      y:
-                        (e.clientY - imgBoundingSides.top) *
-                        imgSizeRatio.height,
-                    };
+                    const clickedPosition = imageClickedPosition(e);
                     const pinCenter = 37;
                     gameImage.objects.forEach((object) => {
                       if (

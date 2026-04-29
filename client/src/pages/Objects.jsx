@@ -6,7 +6,10 @@ import useData from "@/hooks/useData";
 import requestHandler from "@/utils/js/requestHandler";
 import { useRef, useState, useReducer } from "react";
 import { useParams } from "react-router-dom";
-import { formDataReducer } from "@/utils/js/objectHandler";
+import {
+  formDataReducer,
+  imageClickedPosition,
+} from "@/utils/js/objectHandler";
 import DataFormReducer from "@/reducers/DataFormReducer";
 import "@/utils/css/pages.css";
 import styles from "./styles/Objects.module.css";
@@ -90,23 +93,7 @@ export default function Objects() {
                 onClick={(e) => {
                   if (!clickPosition.active) return;
 
-                  const imgBoundingSides = {
-                    left: e.currentTarget.getBoundingClientRect().left,
-                    top: e.currentTarget.getBoundingClientRect().top,
-                  };
-                  const imgSizeRatio = {
-                    width:
-                      e.currentTarget.naturalWidth /
-                      e.currentTarget.clientWidth,
-                    height:
-                      e.currentTarget.naturalHeight /
-                      e.currentTarget.clientHeight,
-                  };
-                  const clickedPosition = {
-                    x: (e.clientX - imgBoundingSides.left) * imgSizeRatio.width,
-                    y: (e.clientY - imgBoundingSides.top) * imgSizeRatio.height,
-                  };
-
+                  const clickedPosition = imageClickedPosition(e);
                   dispatchFormData({
                     type: "change",
                     payload: {
@@ -118,11 +105,11 @@ export default function Objects() {
                     },
                   });
 
-                  setPinPosition({ x: e.pageX, y: e.pageY });
                   setClickPosition((prev) => {
                     prev.dialog.showModal();
                     return { ...prev, active: false };
                   });
+                  setPinPosition({ x: e.pageX, y: e.pageY });
                 }}
               />
             </div>

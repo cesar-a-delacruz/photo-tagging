@@ -49,73 +49,6 @@ export default function Objects() {
 
   return (
     <div className="page objects">
-      <div className="dialogs">
-        <Dialog title={"Add Object"} ref={addDialog}>
-          <DataForm
-            data={formData.filter((field) => field.name !== "id")}
-            dispatchFormData={dispatchFormData}
-            action={{
-              name: "Add",
-              handler: async (data) => {
-                data = formDataReducer(data);
-                data.imageId = image.id;
-                data.position = JSON.stringify(data.position);
-
-                const result = await requestHandler.post(data, "object");
-                if (!result) return;
-                data.id = result.data.id;
-
-                setObjects("objects", [...image.objects, data]);
-                addDialog.current.close();
-                dispatchFormData({ type: "clear" });
-                alert(result.message);
-              },
-            }}
-          />
-        </Dialog>
-        <Dialog title={"Edit Object"} ref={editDialog}>
-          <DataForm
-            data={formData}
-            dispatchFormData={dispatchFormData}
-            action={{
-              name: "Edit",
-              handler: async (data) => {
-                data = formDataReducer(data);
-                data.imageId = image.id;
-                data.position = JSON.stringify(data.position);
-                setObjects(
-                  "objects",
-                  image.objects.map((object) =>
-                    object.id === data.id ? data : object,
-                  ),
-                );
-                await requestHandler.put(data, "object");
-                editDialog.current.close();
-                dispatchFormData({ type: "clear" });
-              },
-            }}
-          />
-        </Dialog>
-        <Dialog title={"Delete Object"} ref={deleteDialog}>
-          <AlertForm
-            data={formData.find((field) => field.name === "id")}
-            action={{
-              name: "Delete",
-              handler: async (data) => {
-                await requestHandler.delete(data.value, "object");
-                setObjects(
-                  "objects",
-                  image.objects.filter((object) => object.id !== data.value),
-                );
-                deleteDialog.current.close();
-                dispatchFormData({ type: "clear" });
-              },
-            }}
-          >
-            Are you sure you want to delete this object?
-          </AlertForm>
-        </Dialog>
-      </div>
       {image && (
         <>
           <div className="top">
@@ -251,6 +184,73 @@ export default function Objects() {
           )}
         </>
       )}
+      <div className="dialogs">
+        <Dialog title={"Add Object"} ref={addDialog}>
+          <DataForm
+            data={formData.filter((field) => field.name !== "id")}
+            dispatchFormData={dispatchFormData}
+            action={{
+              name: "Add",
+              handler: async (data) => {
+                data = formDataReducer(data);
+                data.imageId = image.id;
+                data.position = JSON.stringify(data.position);
+
+                const result = await requestHandler.post(data, "object");
+                if (!result) return;
+                data.id = result.data.id;
+
+                setObjects("objects", [...image.objects, data]);
+                addDialog.current.close();
+                dispatchFormData({ type: "clear" });
+                alert(result.message);
+              },
+            }}
+          />
+        </Dialog>
+        <Dialog title={"Edit Object"} ref={editDialog}>
+          <DataForm
+            data={formData}
+            dispatchFormData={dispatchFormData}
+            action={{
+              name: "Edit",
+              handler: async (data) => {
+                data = formDataReducer(data);
+                data.imageId = image.id;
+                data.position = JSON.stringify(data.position);
+                setObjects(
+                  "objects",
+                  image.objects.map((object) =>
+                    object.id === data.id ? data : object,
+                  ),
+                );
+                await requestHandler.put(data, "object");
+                editDialog.current.close();
+                dispatchFormData({ type: "clear" });
+              },
+            }}
+          />
+        </Dialog>
+        <Dialog title={"Delete Object"} ref={deleteDialog}>
+          <AlertForm
+            data={formData.find((field) => field.name === "id")}
+            action={{
+              name: "Delete",
+              handler: async (data) => {
+                await requestHandler.delete(data.value, "object");
+                setObjects(
+                  "objects",
+                  image.objects.filter((object) => object.id !== data.value),
+                );
+                deleteDialog.current.close();
+                dispatchFormData({ type: "clear" });
+              },
+            }}
+          >
+            Are you sure you want to delete this object?
+          </AlertForm>
+        </Dialog>
+      </div>
     </div>
   );
 }

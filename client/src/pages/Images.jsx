@@ -26,68 +26,6 @@ export default function Images() {
 
   return (
     <div className="page images">
-      <div className="dialogs">
-        <Dialog title={"Add Image"} ref={addDialog}>
-          <DataForm
-            data={formData.filter((field) => field.name !== "id")}
-            dispatchFormData={dispatchFormData}
-            action={{
-              name: "Add",
-              handler: async (data) => {
-                data = formDataReducer(data);
-
-                const result = await requestHandler.postFile(data, "image");
-                if (!result) return;
-                data.id = result.data.id;
-                data.url = result.data.url;
-
-                setImages([...images, data]);
-                addDialog.current.close();
-                dispatchFormData({ type: "clear" });
-                alert(result.message);
-              },
-            }}
-          />
-        </Dialog>
-        <Dialog title={"Edit Image"} ref={editDialog}>
-          <DataForm
-            data={formData}
-            dispatchFormData={dispatchFormData}
-            action={{
-              name: "Edit",
-              handler: async (data) => {
-                data = formDataReducer(data);
-                await requestHandler.put(data, "image");
-                setImages(
-                  images.map((image) => {
-                    if (image.id !== data.id) return image;
-                    data.url = image.url;
-                    return data;
-                  }),
-                );
-                editDialog.current.close();
-                dispatchFormData({ type: "clear" });
-              },
-            }}
-          />
-        </Dialog>
-        <Dialog title={"Delete Image"} ref={deleteDialog}>
-          <AlertForm
-            data={formData.find((field) => field.name === "id")}
-            action={{
-              name: "Delete",
-              handler: async (data) => {
-                await requestHandler.delete(data.value, "image");
-                setImages(images.filter((image) => image.id !== data.value));
-                deleteDialog.current.close();
-                dispatchFormData({ type: "clear" });
-              },
-            }}
-          >
-            Are you sure you want to delete this image?
-          </AlertForm>
-        </Dialog>
-      </div>
       <h2>Images</h2>
       <div className="options">
         <h3>Options:</h3>
@@ -153,9 +91,71 @@ export default function Images() {
                   </button>
                 </div>
               </div>
-              <img src={image.url} alt={`${image.name}`} />
+              <img src={image.url} alt={image.name} />
             </div>
           ))}
+      </div>
+      <div className="dialogs">
+        <Dialog title={"Add Image"} ref={addDialog}>
+          <DataForm
+            data={formData.filter((field) => field.name !== "id")}
+            dispatchFormData={dispatchFormData}
+            action={{
+              name: "Add",
+              handler: async (data) => {
+                data = formDataReducer(data);
+
+                const result = await requestHandler.postFile(data, "image");
+                if (!result) return;
+                data.id = result.data.id;
+                data.url = result.data.url;
+
+                setImages([...images, data]);
+                addDialog.current.close();
+                dispatchFormData({ type: "clear" });
+                alert(result.message);
+              },
+            }}
+          />
+        </Dialog>
+        <Dialog title={"Edit Image"} ref={editDialog}>
+          <DataForm
+            data={formData}
+            dispatchFormData={dispatchFormData}
+            action={{
+              name: "Edit",
+              handler: async (data) => {
+                data = formDataReducer(data);
+                await requestHandler.put(data, "image");
+                setImages(
+                  images.map((image) => {
+                    if (image.id !== data.id) return image;
+                    data.url = image.url;
+                    return data;
+                  }),
+                );
+                editDialog.current.close();
+                dispatchFormData({ type: "clear" });
+              },
+            }}
+          />
+        </Dialog>
+        <Dialog title={"Delete Image"} ref={deleteDialog}>
+          <AlertForm
+            data={formData.find((field) => field.name === "id")}
+            action={{
+              name: "Delete",
+              handler: async (data) => {
+                await requestHandler.delete(data.value, "image");
+                setImages(images.filter((image) => image.id !== data.value));
+                deleteDialog.current.close();
+                dispatchFormData({ type: "clear" });
+              },
+            }}
+          >
+            Are you sure you want to delete this image?
+          </AlertForm>
+        </Dialog>
       </div>
     </div>
   );

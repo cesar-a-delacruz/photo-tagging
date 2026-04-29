@@ -52,98 +52,6 @@ export default function Game() {
   return (
     <GameContext value={game}>
       <div className="page game">
-        <div className="dialogs">
-          <Dialog title={"Reset Record"} ref={recordDialog}>
-            <AlertForm
-              data={{ name: "id", value: score.id, type: "hidden" }}
-              action={{
-                name: "Reset",
-                handler: async (data) => {
-                  const result = await requestHandler.delete(
-                    data.value,
-                    "score",
-                  );
-                  if (!result) return;
-
-                  setScore({ record: "00:00" });
-                  setGame((prev) => {
-                    prev.stop = false;
-                    prev.start = true;
-                    prev.objects.found = [];
-                    return prev;
-                  });
-                  recordDialog.current.close();
-                },
-              }}
-            >
-              Are you sure you want to reset your record?
-            </AlertForm>
-          </Dialog>
-          <Dialog title={"Delete Data"} ref={deleteDialog}>
-            <AlertForm
-              data={formData.find((field) => field.name === "id")}
-              action={{
-                name: "Delete",
-                handler: async (data) => {
-                  const result = await requestHandler.delete(
-                    data.value,
-                    "user",
-                  );
-                  if (!result) return;
-
-                  localStorage.removeItem("userId");
-                  dispatchFormData({ type: "clear" });
-
-                  setScore({ record: "" });
-                  setGameImage(null);
-                  setGame((prev) => {
-                    prev.stop = false;
-                    prev.start = false;
-                    prev.objects.current = null;
-                    prev.objects.found = [];
-                    return prev;
-                  });
-                  deleteDialog.current.close();
-                },
-              }}
-            >
-              Are you sure you want to delete your data?
-            </AlertForm>
-          </Dialog>
-          <Dialog title={"Congratulations!!"} ref={winDialog}>
-            <p>Input your name to save your record</p>
-            <DataForm
-              data={formData.filter((field) => field.name !== "id")}
-              dispatchFormData={dispatchFormData}
-              action={{
-                name: "Save",
-                handler: async (data) => {
-                  data = formDataReducer(data);
-
-                  const result = await requestHandler.post(data, "user");
-                  if (!result) return;
-                  const id = result.data.id;
-                  data.id = id;
-                  localStorage.setItem("userId", id);
-
-                  dispatchFormData({ type: "load", payload: data });
-                  const scoreData = {
-                    record: score.record,
-                    userId: id,
-                    imageId: gameImage.id,
-                  };
-                  const scoreResult = await requestHandler.post(
-                    scoreData,
-                    "score",
-                  );
-                  setScore(scoreResult.data);
-                  winDialog.current.close();
-                  alert(scoreResult.message);
-                },
-              }}
-            />
-          </Dialog>
-        </div>
         <div className={styles.top}>
           <h2>{gameImage ? gameImage.name : ""} Game</h2>
           {userId && (
@@ -398,6 +306,98 @@ export default function Game() {
               />
             </div>
           )}
+        </div>
+        <div className="dialogs">
+          <Dialog title={"Reset Record"} ref={recordDialog}>
+            <AlertForm
+              data={{ name: "id", value: score.id, type: "hidden" }}
+              action={{
+                name: "Reset",
+                handler: async (data) => {
+                  const result = await requestHandler.delete(
+                    data.value,
+                    "score",
+                  );
+                  if (!result) return;
+
+                  setScore({ record: "00:00" });
+                  setGame((prev) => {
+                    prev.stop = false;
+                    prev.start = true;
+                    prev.objects.found = [];
+                    return prev;
+                  });
+                  recordDialog.current.close();
+                },
+              }}
+            >
+              Are you sure you want to reset your record?
+            </AlertForm>
+          </Dialog>
+          <Dialog title={"Delete Data"} ref={deleteDialog}>
+            <AlertForm
+              data={formData.find((field) => field.name === "id")}
+              action={{
+                name: "Delete",
+                handler: async (data) => {
+                  const result = await requestHandler.delete(
+                    data.value,
+                    "user",
+                  );
+                  if (!result) return;
+
+                  localStorage.removeItem("userId");
+                  dispatchFormData({ type: "clear" });
+
+                  setScore({ record: "" });
+                  setGameImage(null);
+                  setGame((prev) => {
+                    prev.stop = false;
+                    prev.start = false;
+                    prev.objects.current = null;
+                    prev.objects.found = [];
+                    return prev;
+                  });
+                  deleteDialog.current.close();
+                },
+              }}
+            >
+              Are you sure you want to delete your data?
+            </AlertForm>
+          </Dialog>
+          <Dialog title={"Congratulations!!"} ref={winDialog}>
+            <p>Input your name to save your record</p>
+            <DataForm
+              data={formData.filter((field) => field.name !== "id")}
+              dispatchFormData={dispatchFormData}
+              action={{
+                name: "Save",
+                handler: async (data) => {
+                  data = formDataReducer(data);
+
+                  const result = await requestHandler.post(data, "user");
+                  if (!result) return;
+                  const id = result.data.id;
+                  data.id = id;
+                  localStorage.setItem("userId", id);
+
+                  dispatchFormData({ type: "load", payload: data });
+                  const scoreData = {
+                    record: score.record,
+                    userId: id,
+                    imageId: gameImage.id,
+                  };
+                  const scoreResult = await requestHandler.post(
+                    scoreData,
+                    "score",
+                  );
+                  setScore(scoreResult.data);
+                  winDialog.current.close();
+                  alert(scoreResult.message);
+                },
+              }}
+            />
+          </Dialog>
         </div>
       </div>
     </GameContext>

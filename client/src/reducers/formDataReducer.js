@@ -1,4 +1,4 @@
-export default function DataFormReducer(state, action) {
+export default function formDataReducer(state, action) {
   switch (action.type) {
     case "load": {
       const data = state;

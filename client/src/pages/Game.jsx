@@ -7,12 +7,9 @@ import Pin from "@/components/Pin";
 import GameContext from "@/contexts/GameContext";
 import DataForm from "@/components/DataForm";
 import AlertForm from "@/components/AlertForm";
-import {
-  formDataReducer,
-  imageClickedPosition,
-} from "@/utils/js/objectHandler";
+import { formDataValues, imageClickedPosition } from "@/utils/js/objectHandler";
 import requestHandler from "@/utils/js/requestHandler";
-import DataFormReducer from "@/reducers/DataFormReducer";
+import formDataReducer from "@/reducers/formDataReducer";
 import "@/utils/css/pages.css";
 import styles from "./styles/Game.module.css";
 
@@ -32,7 +29,7 @@ export default function Game() {
     },
   });
 
-  const [formData, dispatchFormData] = useReducer(DataFormReducer, [
+  const [formData, dispatchFormData] = useReducer(formDataReducer, [
     { name: "id", value: "", type: "hidden" },
     { name: "name", label: "Name", value: "", type: "text" },
   ]);
@@ -357,7 +354,7 @@ export default function Game() {
               action={{
                 name: "Save",
                 handler: async (data) => {
-                  data = formDataReducer(data);
+                  data = formDataValues(data);
 
                   const result = await requestHandler.post(data, "user");
                   if (!result) return;

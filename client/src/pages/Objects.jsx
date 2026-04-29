@@ -6,11 +6,8 @@ import useData from "@/hooks/useData";
 import requestHandler from "@/utils/js/requestHandler";
 import { useRef, useState, useReducer } from "react";
 import { useParams } from "react-router-dom";
-import {
-  formDataReducer,
-  imageClickedPosition,
-} from "@/utils/js/objectHandler";
-import DataFormReducer from "@/reducers/DataFormReducer";
+import { formDataValues, imageClickedPosition } from "@/utils/js/objectHandler";
+import formDataReducer from "@/reducers/formDataReducer";
 import "@/utils/css/pages.css";
 import styles from "./styles/Objects.module.css";
 
@@ -24,7 +21,7 @@ export default function Objects() {
   const editDialog = useRef(null);
   const deleteDialog = useRef(null);
 
-  const [formData, dispatchFormData] = useReducer(DataFormReducer, [
+  const [formData, dispatchFormData] = useReducer(formDataReducer, [
     { name: "id", value: "", type: "hidden" },
     { name: "name", label: "Name", value: "", type: "text" },
     {
@@ -179,7 +176,7 @@ export default function Objects() {
             action={{
               name: "Add",
               handler: async (data) => {
-                data = formDataReducer(data);
+                data = formDataValues(data);
                 data.imageId = image.id;
                 data.position = JSON.stringify(data.position);
 
@@ -202,7 +199,7 @@ export default function Objects() {
             action={{
               name: "Edit",
               handler: async (data) => {
-                data = formDataReducer(data);
+                data = formDataValues(data);
                 data.imageId = image.id;
                 data.position = JSON.stringify(data.position);
                 setObjects(

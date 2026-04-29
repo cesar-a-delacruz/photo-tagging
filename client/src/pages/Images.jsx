@@ -4,8 +4,8 @@ import DataForm from "@/components/DataForm";
 import useData from "@/hooks/useData";
 import requestHandler from "@/utils/js/requestHandler";
 import { useReducer, useRef } from "react";
-import { formDataReducer } from "@/utils/js/objectHandler";
-import DataFormReducer from "@/reducers/DataFormReducer";
+import { formDataValues } from "@/utils/js/objectHandler";
+import formDataReducer from "@/reducers/formDataReducer";
 import "@/utils/css/pages.css";
 import styles from "./styles/Images.module.css";
 
@@ -18,7 +18,7 @@ export default function Images() {
   const editDialog = useRef(null);
   const deleteDialog = useRef(null);
 
-  const [formData, dispatchFormData] = useReducer(DataFormReducer, [
+  const [formData, dispatchFormData] = useReducer(formDataReducer, [
     { name: "id", value: "", type: "hidden" },
     { name: "name", label: "Name", value: "", type: "text" },
     { name: "file", label: "File", type: "file", url: "" },
@@ -103,7 +103,7 @@ export default function Images() {
             action={{
               name: "Add",
               handler: async (data) => {
-                data = formDataReducer(data);
+                data = formDataValues(data);
 
                 const result = await requestHandler.postFile(data, "image");
                 if (!result) return;
@@ -125,7 +125,7 @@ export default function Images() {
             action={{
               name: "Edit",
               handler: async (data) => {
-                data = formDataReducer(data);
+                data = formDataValues(data);
                 await requestHandler.put(data, "image");
                 setImages(
                   images.map((image) => {

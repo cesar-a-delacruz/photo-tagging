@@ -4,7 +4,7 @@
  * @param formData array of fields with their name, type and value
  * @returns object with the name as the key for each field and their value)
  */
-export function formDataReducer(formData) {
+export function formDataValues(formData) {
   return formData.reduce((acc, data) => {
     if (data.type === "json") {
       acc[data.name] = Object.keys(data.value).reduce((a, key) => {

@@ -101,7 +101,7 @@ export default function Field({
       break;
   }
   return type !== "hidden" ? (
-    <div className={`${styles.field} ${styles[type]}`}>{field}</div>
+    <div className={`${styles.field}`}>{field}</div>
   ) : (
     input
   );

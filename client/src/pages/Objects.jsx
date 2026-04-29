@@ -59,7 +59,6 @@ export default function Objects() {
               handler: async (data) => {
                 data = formDataReducer(data);
                 data.imageId = image.id;
-                data.id = undefined;
                 data.position = JSON.stringify(data.position);
 
                 const result = await requestHandler.post(data, "object");

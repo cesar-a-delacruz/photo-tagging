@@ -57,7 +57,11 @@ export default function Images() {
                 data = formDataReducer(data);
                 await requestHandler.put(data, "image");
                 setImages(
-                  images.map((image) => (image.id === data.id ? data : image)),
+                  images.map((image) => {
+                    if (image.id !== data.id) return image;
+                    data.url = image.url;
+                    return data;
+                  }),
                 );
                 editDialog.current.close();
                 dispatchFormData({ type: "clear" });

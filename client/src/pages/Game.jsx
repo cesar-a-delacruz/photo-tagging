@@ -263,20 +263,17 @@ export default function Game() {
                 currentItem={game.objects.current}
                 setFoundObjects={(objectId) => {
                   setPinPosition(null);
+                  if (!objectId) return;
 
-                  if (objectId) {
-                    const gameFoundObjects =
-                      game.objects.found.concat(objectId);
-                    const gameEnd =
-                      gameFoundObjects.length !== gameImage.objects.length;
-                    dispatchGame({
-                      type: actions.game.OBJECT_ADD,
-                      payload: {
-                        start: gameEnd,
-                        found: gameFoundObjects,
-                      },
-                    });
-                  }
+                  const gameEnd =
+                    game.objects.found.length + 1 !== gameImage.objects.length;
+                  dispatchGame({
+                    type: actions.game.OBJECT_ADD,
+                    payload: {
+                      start: gameEnd,
+                      found: objectId,
+                    },
+                  });
                 }}
               />
             </div>

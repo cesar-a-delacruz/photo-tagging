@@ -31,7 +31,7 @@ export default function gameReducer(state, action) {
       data.start = action.payload.start;
       data.objects = {
         current: null,
-        found: action.payload.found,
+        found: [...data.objects.found, action.payload.found],
       };
       return { ...data };
     }

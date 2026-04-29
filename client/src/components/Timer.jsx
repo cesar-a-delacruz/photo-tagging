@@ -24,7 +24,6 @@ export default function Timer({
         timeString.lastIndexOf(" "),
         timeString.length,
       );
-      console.log("time");
       timeString = timeString.replace(timeStart, "").replace(timeEnd, "");
       setTime(timeString);
     }, 1000);

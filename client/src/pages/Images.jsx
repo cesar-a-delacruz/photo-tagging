@@ -1,12 +1,12 @@
+import { useReducer, useRef } from "react";
 import AlertForm from "@/components/AlertForm";
 import Dialog from "@/components/Dialog";
 import DataForm from "@/components/DataForm";
 import useData from "@/hooks/useData";
 import requestHandler from "@/utils/js/requestHandler";
 import { formDataValues } from "@/utils/js/objectHandler";
-import { useReducer, useRef } from "react";
-import formDataReducer from "@/reducers/formDataReducer";
 import actions from "@/reducers/actions";
+import formDataReducer from "@/reducers/formDataReducer";
 import "@/utils/css/pages.css";
 import styles from "./styles/Images.module.css";
 

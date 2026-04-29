@@ -1,5 +1,5 @@
-import GameContext from "@/contexts/GameContext";
 import { useContext } from "react";
+import GameContext from "@/contexts/GameContext";
 import styles from "./styles/Menu.module.css";
 
 export default function Menu({

@@ -1,19 +1,19 @@
+import { useState, useRef, useEffect, useReducer } from "react";
 import Dialog from "@/components/Dialog";
 import Timer from "@/components/Timer";
-import { useState, useRef, useEffect, useReducer } from "react";
 import useData from "@/hooks/useData";
 import Menu from "@/components/Menu";
 import Pin from "@/components/Pin";
 import GameContext from "@/contexts/GameContext";
 import DataForm from "@/components/DataForm";
 import AlertForm from "@/components/AlertForm";
-import { formDataValues, imageClickedPosition } from "@/utils/js/objectHandler";
 import requestHandler from "@/utils/js/requestHandler";
+import { formDataValues, imageClickedPosition } from "@/utils/js/objectHandler";
+import actions from "@/reducers/actions";
+import gameReducer from "@/reducers/gameReducer";
 import formDataReducer from "@/reducers/formDataReducer";
 import "@/utils/css/pages.css";
 import styles from "./styles/Game.module.css";
-import actions from "@/reducers/actions";
-import gameReducer from "@/reducers/gameReducer";
 
 export default function Game() {
   document.title = `${import.meta.env.VITE_TITLE}: Game`;

@@ -1,16 +1,16 @@
+import { useRef, useState, useReducer } from "react";
+import { useParams } from "react-router-dom";
 import AlertForm from "@/components/AlertForm";
 import Dialog from "@/components/Dialog";
 import DataForm from "@/components/DataForm";
 import Pin from "@/components/Pin";
 import useData from "@/hooks/useData";
 import requestHandler from "@/utils/js/requestHandler";
-import { useRef, useState, useReducer } from "react";
-import { useParams } from "react-router-dom";
 import { formDataValues, imageClickedPosition } from "@/utils/js/objectHandler";
+import actions from "@/reducers/actions";
 import formDataReducer from "@/reducers/formDataReducer";
 import "@/utils/css/pages.css";
 import styles from "./styles/Objects.module.css";
-import actions from "@/reducers/actions";
 
 export default function Objects() {
   document.title = `${import.meta.env.VITE_TITLE}: Objects`;

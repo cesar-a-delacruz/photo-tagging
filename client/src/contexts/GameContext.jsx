@@ -1,8 +1,7 @@
 import { createContext } from "react";
 
 export default createContext({
-  start: false,
-  stop: false,
+  start: true,
   objects: {
     current: null,
     found: [],

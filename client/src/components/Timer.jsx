@@ -30,10 +30,12 @@ export default function Timer({
     }, 1000);
   }, []);
 
-  if (!start) {
-    clearInterval(interval.current);
-    setRecord(time);
-  }
+  useEffect(() => {
+    if (!start) {
+      clearInterval(interval.current);
+      setRecord(time);
+    }
+  }, [start]);
 
   return (
     <div className={styles.timer}>

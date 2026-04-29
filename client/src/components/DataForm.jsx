@@ -21,16 +21,7 @@ export default function DataForm({
     >
       <div className={styles.fields}>
         {data.map((field) => (
-          <Field
-            key={field.name}
-            name={field.name}
-            label={field.label}
-            type={field.type}
-            value={field.value}
-            onChange={changeHandler}
-            buttonInput={field.buttonInput}
-            url={field.url}
-          />
+          <Field {...field} key={field.name} onChange={changeHandler} />
         ))}
       </div>
       <div className={styles.actions}>

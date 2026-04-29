@@ -6,6 +6,9 @@
   width: 20vw;
   font-size: 1.3rem;
 
+  &:has(input[type="hidden"]) {
+    margin-bottom: -1.5rem;
+  }
   & label {
     font-weight: bold;
   }

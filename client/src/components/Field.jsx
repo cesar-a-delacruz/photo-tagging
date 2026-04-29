@@ -75,14 +75,7 @@ export default function Field({
           />
         </>
       );
-      field = (
-        <>
-          {label && <label htmlFor={name}>{label}:</label>}
-          {input}
-        </>
-      );
       break;
-
     default:
       input = (
         <input
@@ -92,17 +85,18 @@ export default function Field({
           onChange={(e) => onChange(e.currentTarget.id, e.currentTarget.value)}
         />
       );
-      field = (
+      break;
+  }
+  return (
+    <div className={`${styles.field}`}>
+      {type !== "json" ? (
         <>
           {label && <label htmlFor={name}>{label}:</label>}
           {input}
         </>
-      );
-      break;
-  }
-  return type !== "hidden" ? (
-    <div className={`${styles.field}`}>{field}</div>
-  ) : (
-    input
+      ) : (
+        field
+      )}
+    </div>
   );
 }

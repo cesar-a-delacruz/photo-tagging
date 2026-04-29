@@ -1,27 +1,17 @@
-import requestInfo from "./requestInfo.js";
 export default {
   get: async (path) => {
-    const response = await fetch(
-      `${requestInfo.origin}/${path}`,
-      //   {
-      //   headers: { Authorization: `Bearer ${requestInfo.token()}` },
-      // }
-    );
+    const response = await fetch(`${import.meta.env.VITE_SERVER}/${path}`);
 
-    const data = await response.json();
-    if (response.ok) return data;
-    return alert(data.error);
+    if (!response.ok && response.status === 500) return alert(data.error);
+    return await response.json();
   },
   post: async (data, path) => {
-    const response = await fetch(`${requestInfo.origin}/${path}`, {
+    const response = await fetch(`${import.meta.env.VITE_SERVER}/${path}`, {
       method: "POST",
-      // headers: {
-      //   Authorization: `Bearer ${requestInfo.token}`,
-      // },
       body: new URLSearchParams(data),
     });
 
-    if (!response.ok) return console.log(response);
+    if (!response.ok && response.status === 500) return alert(data.error);
     return await response.json();
   },
   postFile: async (item, path) => {
@@ -30,37 +20,33 @@ export default {
       formData.append(field, item[field]);
     }
 
-    const response = await fetch(`${requestInfo.origin}/${path}`, {
+    const response = await fetch(`${import.meta.env.VITE_SERVER}/${path}`, {
       method: "POST",
-      // headers: {
-      //   Authorization: `Bearer ${requestInfo.token()}`,
-      // },
       body: formData,
     });
 
-    const data = await response.json();
-    if (response.ok) return alert(data.message);
-    else if (response.status === 500) return alert(data.error);
+    if (!response.ok && response.status === 500) return alert(data.error);
+    return await response.json();
   },
   put: async (item, path) => {
-    const response = await fetch(`${requestInfo.origin}/${path}/${item.id}`, {
-      method: "PUT",
-      // headers: {
-      //   Authorization: `Bearer ${requestInfo.token}`,
-      // },
-      body: new URLSearchParams(item),
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_SERVER}/${path}/${item.id}`,
+      {
+        method: "PUT",
+        body: new URLSearchParams(item),
+      },
+    );
 
     if (!response.ok) return console.log(response);
     return response;
   },
   delete: async (id, path) => {
-    const response = await fetch(`${requestInfo.origin}/${path}/${id}`, {
-      method: "DELETE",
-      // headers: {
-      //   Authorization: `Bearer ${requestInfo.token}`,
-      // },
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_SERVER}/${path}/${id}`,
+      {
+        method: "DELETE",
+      },
+    );
 
     if (!response.ok) return console.log(response);
     return response;

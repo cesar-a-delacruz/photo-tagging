@@ -29,3 +29,11 @@
   box-shadow: inset 0px 2px 2px black;
   flex-grow: 1;
 }
+
+.default footer {
+  text-align: center;
+  background-color: var(--color-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

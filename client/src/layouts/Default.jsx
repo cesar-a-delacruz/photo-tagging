@@ -13,6 +13,12 @@ export default function Default() {
       <main>
         <Outlet />
       </main>
+      <footer>
+        <p>
+          Developed by{" "}
+          <a href="https://github.com/cesar-a-delacruz">César De La Cruz</a>
+        </p>
+      </footer>
     </div>
   );
 }

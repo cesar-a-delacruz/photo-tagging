@@ -4,7 +4,7 @@ import styles from "./styles/Timer.module.css";
 export default function Timer({
   record = "",
   setRecord = () => {},
-  stop = false,
+  start = true,
 }) {
   if (record !== "00:00") return;
 
@@ -30,7 +30,7 @@ export default function Timer({
     }, 1000);
   }, []);
 
-  if (stop) {
+  if (!start) {
     clearInterval(interval.current);
     setRecord(time);
   }

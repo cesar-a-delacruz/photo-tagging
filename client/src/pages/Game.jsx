@@ -13,6 +13,7 @@ import formDataReducer from "@/reducers/formDataReducer";
 import "@/utils/css/pages.css";
 import styles from "./styles/Game.module.css";
 import actions from "@/reducers/actions";
+import gameReducer from "@/reducers/gameReducer";
 
 export default function Game() {
   document.title = `${import.meta.env.VITE_TITLE}: Game`;
@@ -21,14 +22,14 @@ export default function Game() {
   const [pinPosition, setPinPosition] = useState(null);
   const [gameImage, setGameImage] = useState(null);
   const [score, setScore] = useState({ record: "" });
-  const [game, setGame] = useState({
-    stop: false,
+
+  const [game, dispatchGame] = useReducer(gameReducer, {
+    start: true,
     objects: {
       current: null,
       found: [],
     },
   });
-
   const [formData, dispatchFormData] = useReducer(formDataReducer, [
     { name: "id", value: "", type: "hidden" },
     { name: "name", label: "Name", value: "", type: "text" },
@@ -83,7 +84,7 @@ export default function Game() {
                 <button
                   className="option"
                   onClick={() => {
-                    setGame((prev) => ({ ...prev, stop: true }));
+                    dispatchGame({ type: actions.game.STOP });
                     setGameImage(null);
                     setScore({ record: "" });
                   }}
@@ -167,10 +168,7 @@ export default function Game() {
                         }
                         setScore(scoreVal);
                         setGameImage(imageResult);
-                        setGame((prev) => ({
-                          ...prev,
-                          stop: false,
-                        }));
+                        dispatchGame({ type: actions.game.START });
                       }}
                     />
                     <h4>{image.name}</h4>
@@ -186,7 +184,7 @@ export default function Game() {
                   src={gameImage.url}
                   alt={gameImage.name}
                   onClick={(e) => {
-                    if (game.stop) return;
+                    if (!game.start) return;
 
                     const clickedPosition = imageClickedPosition(e);
                     const pinCenter = 37;
@@ -197,13 +195,10 @@ export default function Game() {
                         clickedPosition.y < object.position.y + pinCenter &&
                         clickedPosition.y > object.position.y - pinCenter
                       ) {
-                        setGame((prev) => ({
-                          ...prev,
-                          objects: {
-                            current: object,
-                            found: prev.objects.found,
-                          },
-                        }));
+                        dispatchGame({
+                          type: actions.game.OBJECT_SELECT,
+                          payload: object,
+                        });
                       }
                     });
                     setPinPosition({ x: e.pageX, y: e.pageY });
@@ -236,7 +231,7 @@ export default function Game() {
                             id: result.data.id,
                           }));
                       }}
-                      stop={game.stop}
+                      start={game.start}
                       record={score.record}
                     />
                   )}
@@ -273,12 +268,14 @@ export default function Game() {
                     const gameFoundObjects =
                       game.objects.found.concat(objectId);
                     const gameEnd =
-                      gameFoundObjects.length === gameImage.objects.length;
-                    setGame((prev) => ({
-                      ...prev,
-                      stop: gameEnd,
-                      objects: { current: null, found: gameFoundObjects },
-                    }));
+                      gameFoundObjects.length !== gameImage.objects.length;
+                    dispatchGame({
+                      type: actions.game.OBJECT_ADD,
+                      payload: {
+                        start: gameEnd,
+                        found: gameFoundObjects,
+                      },
+                    });
                   }
                 }}
               />
@@ -299,11 +296,7 @@ export default function Game() {
                   if (!result) return;
 
                   setScore({ record: "00:00" });
-                  setGame((prev) => {
-                    prev.stop = false;
-                    prev.objects.found = [];
-                    return prev;
-                  });
+                  dispatchGame({ type: actions.game.RESET });
                   recordDialog.current.close();
                 },
               }}
@@ -328,12 +321,7 @@ export default function Game() {
 
                   setScore({ record: "" });
                   setGameImage(null);
-                  setGame((prev) => {
-                    prev.stop = false;
-                    prev.objects.current = null;
-                    prev.objects.found = [];
-                    return prev;
-                  });
+                  dispatchGame({ type: actions.game.RESET });
                   deleteDialog.current.close();
                 },
               }}

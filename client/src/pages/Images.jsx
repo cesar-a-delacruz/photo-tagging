@@ -39,10 +39,12 @@ export default function Images() {
                 const result = await requestHandler.postFile(data, "image");
                 if (!result) return;
                 data.id = result.data.id;
+                data.url = result.data.url;
 
                 setImages([...images, data]);
                 addDialog.current.close();
                 dispatchFormData({ type: "clear" });
+                alert(result.message);
               },
             }}
           />

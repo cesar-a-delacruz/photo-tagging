@@ -138,6 +138,7 @@ export default function Game() {
                   );
                   setScore(scoreResult.data);
                   winDialog.current.close();
+                  alert(scoreResult.message);
                 },
               }}
             />
@@ -346,6 +347,7 @@ export default function Game() {
                             ...prev,
                             id: result.data.id,
                           }));
+                        alert(result.message);
                       }}
                       stop={game.stop}
                       start={game.start}

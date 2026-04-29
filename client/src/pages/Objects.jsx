@@ -68,6 +68,7 @@ export default function Objects() {
                 setObjects("objects", [...image.objects, data]);
                 addDialog.current.close();
                 dispatchFormData({ type: "clear" });
+                alert(result.message);
               },
             }}
           />

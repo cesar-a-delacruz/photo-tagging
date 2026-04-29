@@ -66,6 +66,7 @@ export default class ImageController extends RESTController {
             row.url.lastIndexOf("."),
           ),
         ]);
+        resolve();
       });
       res.status(204).end();
     } catch (error) {

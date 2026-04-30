@@ -35,17 +35,16 @@ dialog:open {
   & h2 {
     margin: 0;
   }
-}
+  & .exit {
+    width: 2.5rem;
+    height: auto;
+    transition: var(--mouse-transition);
 
-.exit {
-  width: 2.5rem;
-  height: auto;
-  transition: var(--mouse-transition);
-
-  &:hover {
-    transform: var(--mouse-transition-grow-10);
-  }
-  &:active {
-    transform: var(--mouse-transition-shrink-10);
+    &:hover {
+      transform: var(--mouse-transition-grow-10);
+    }
+    &:active {
+      transform: var(--mouse-transition-shrink-10);
+    }
   }
 }

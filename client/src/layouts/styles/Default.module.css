@@ -1,4 +1,5 @@
-.default header {
+.default header,
+.default footer {
   text-align: center;
   background-color: var(--color-primary);
   display: flex;
@@ -30,12 +31,4 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-}
-
-.default footer {
-  text-align: center;
-  background-color: var(--color-primary);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }

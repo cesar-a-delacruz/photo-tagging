@@ -11,29 +11,30 @@ h4 {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.data {
-  background-color: var(--color-primary-dark-40);
-  border: var(--border);
-  padding: 0.7rem;
-  border-radius: var(--border-radius-80);
-  width: fit-content;
-  display: flex;
-  gap: 1.5rem;
-  font-size: 1.2rem;
 
-  .item {
+  & .data {
+    background-color: var(--color-primary-dark-40);
+    border: var(--border);
+    padding: 0.7rem;
+    border-radius: var(--border-radius-80);
+    width: fit-content;
     display: flex;
-    gap: 0.2rem;
-    align-items: center;
+    gap: 1.5rem;
+    font-size: var(--font-size-20);
 
-    & img {
-      width: 1.7rem;
-      height: auto;
-    }
-    & span {
-      font-weight: bold;
-      margin-right: 0.2rem;
+    & .item {
+      display: flex;
+      gap: 0.2rem;
+      align-items: center;
+
+      & img {
+        width: 1.7rem;
+        height: auto;
+      }
+      & span {
+        font-weight: bold;
+        margin-right: 0.2rem;
+      }
     }
   }
 }
@@ -46,27 +47,28 @@ h4 {
   grid-template-columns: repeat(auto-fit, minmax(300px, 26vw));
   justify-content: center;
   gap: 2rem;
+
+  & .image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-primary-dark-80);
+    padding: 1.5rem;
+    transition: var(--mouse-transition);
+    border: var(--border);
+
+    &:hover {
+      transform: var(--mouse-transition-grow-1);
+    }
+
+    & img {
+      width: 20vw;
+      height: 20vw;
+      object-fit: cover;
+    }
+  }
 }
 
-.image {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: var(--color-primary-dark-80);
-  padding: 1.5rem;
-  transition: var(--mouse-transition);
-  border: var(--border);
-
-  &:hover {
-    transform: var(--mouse-transition-grow-1);
-  }
-
-  & img {
-    width: 20vw;
-    height: 20vw;
-    object-fit: cover;
-  }
-}
 .image,
 .image img:not([class="icon"]) {
   border-radius: var(--border-radius-100);
@@ -77,23 +79,53 @@ h4 {
   gap: 5rem;
   justify-content: center;
   flex-wrap: wrap;
+
+  & .left {
+    padding: 1.7rem;
+    background-color: var(--color-primary-dark-80);
+    transition: var(--mouse-transition);
+    border: var(--border);
+
+    &:hover {
+      transform: var(--mouse-transition-grow-1);
+    }
+
+    & img {
+      width: 40vw;
+      height: auto;
+    }
+  }
+  & .right {
+    width: fit-content;
+
+    & .rightContainer {
+      background-color: var(--color-primary-dark-80);
+      padding: 2rem;
+      border: var(--border);
+      border-radius: var(--border-radius-80);
+
+      & .objects {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        & h3 {
+          font-size: var(--font-size-80);
+          margin: 0;
+        }
+        & ol {
+          font-size: var(--font-size-40);
+
+          & li {
+            margin-bottom: 0.5rem;
+            margin-left: 2rem;
+          }
+        }
+      }
+    }
+  }
 }
 
-.left {
-  padding: 1.7rem;
-  background-color: var(--color-primary-dark-80);
-  transition: var(--mouse-transition);
-  border: var(--border);
-
-  &:hover {
-    transform: var(--mouse-transition-grow-1);
-  }
-
-  & img {
-    width: 40vw;
-    height: auto;
-  }
-}
 .left,
 .left img,
 .right {
@@ -106,35 +138,6 @@ h4 {
   justify-content: start;
   align-items: center;
   gap: 2rem;
-}
-.right {
-  width: fit-content;
-
-  & .rightContainer {
-    background-color: var(--color-primary-dark-80);
-    padding: 2rem;
-    border: var(--border);
-    border-radius: var(--border-radius-80);
-
-    & .objects {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-
-      & h3 {
-        font-size: var(--font-size-80);
-        margin: 0;
-      }
-      & ol {
-        font-size: var(--font-size-40);
-
-        & li {
-          margin-bottom: 0.5rem;
-          margin-left: 2rem;
-        }
-      }
-    }
-  }
 }
 
 dialog p {
@@ -164,19 +167,20 @@ dialog p {
   }
   .gameContainer {
     gap: 2rem;
-  }
-  .left {
-    & img {
-      width: 100%;
-      height: auto;
-    }
-  }
-  .right {
-    width: 100%;
 
-    & .objects {
-      & .object {
-        flex-wrap: wrap;
+    & .left {
+      & img {
+        width: 100%;
+        height: auto;
+      }
+    }
+    & .right {
+      width: 100%;
+
+      & .objects {
+        & .object {
+          flex-wrap: wrap;
+        }
       }
     }
   }

@@ -6,13 +6,13 @@
   border-radius: var(--border-radius-40);
   padding: 0;
   overflow: hidden;
-}
 
-.item {
-  padding: 1rem;
-  list-style: none;
+  & .item {
+    padding: 1rem;
+    list-style: none;
 
-  &:hover {
-    background-color: var(--color-primary-dark-20);
+    &:hover {
+      background-color: var(--color-primary-dark-20);
+    }
   }
 }

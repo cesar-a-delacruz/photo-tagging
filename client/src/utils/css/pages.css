@@ -5,59 +5,57 @@
   flex-direction: column;
   padding: 2.5rem;
   flex-grow: 1;
-}
 
-.page h2 {
-  margin-top: 0;
-  font-size: var(--font-size-100);
-  text-align: center;
-}
-
-.page h3 {
-  font-size: var(--font-size-80);
-}
-
-.page button {
-  background-color: var(--color-primary-dark-60);
-  padding: 0.5rem 1rem;
-  font-size: var(--font-size);
-  font-weight: bold;
-  border-radius: var(--border-radius-40);
-  border: var(--border);
-  cursor: pointer;
-  transition: var(--mouse-transition);
-  width: max-content;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  &:hover {
-    background-color: var(--color-primary-dark-40);
+  & h2 {
+    margin-top: 0;
+    font-size: var(--font-size-100);
+    text-align: center;
   }
-  &:active {
-    background-color: var(--color-primary-dark-20);
-    transform: var(--mouse-transition-shrink-5);
+  & h3 {
+    font-size: var(--font-size-80);
   }
+  & button {
+    background-color: var(--color-primary-dark-60);
+    padding: 0.5rem 1rem;
+    font-size: var(--font-size);
+    font-weight: bold;
+    border-radius: var(--border-radius-40);
+    border: var(--border);
+    cursor: pointer;
+    transition: var(--mouse-transition);
+    width: max-content;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 
-  & img {
-    height: fit-content;
-    width: 1.7rem;
-    height: auto;
+    &:hover {
+      background-color: var(--color-primary-dark-40);
+    }
+    &:active {
+      background-color: var(--color-primary-dark-20);
+      transform: var(--mouse-transition-shrink-5);
+    }
+
+    & img.icon {
+      height: fit-content;
+      width: 1.7rem;
+      height: auto;
+    }
+  }
+  & div.options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
   }
 }
+
 .page button:focus,
 .page input:focus {
   border-style: none;
   outline: var(--outline);
-}
-
-.page div.options {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1.2rem;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
 }
 
 .page > * {

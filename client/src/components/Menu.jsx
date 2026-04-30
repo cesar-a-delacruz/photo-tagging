@@ -1,15 +1,12 @@
-import { useContext } from "react";
-import GameContext from "@/contexts/GameContext";
 import styles from "./styles/Menu.module.css";
 
 export default function Menu({
   position,
   items,
   currentItem,
+  foundObjects,
   setFoundObjects = () => {},
 }) {
-  const foundObjects = useContext(GameContext).objects.found;
-
   return (
     <ul
       className={styles.menu}

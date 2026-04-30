@@ -11,6 +11,7 @@ import actions from "@/reducers/actions";
 import formDataReducer from "@/reducers/formDataReducer";
 import "@/utils/css/pages.css";
 import styles from "./styles/Objects.module.css";
+import Loader from "@/components/Loader";
 
 export default function Objects() {
   document.title = `${import.meta.env.VITE_TITLE}: Objects`;
@@ -47,6 +48,13 @@ export default function Objects() {
     active: false,
     dialog: null,
   });
+
+  if (!image)
+    return (
+      <div className="page">
+        <Loader />
+      </div>
+    );
 
   return (
     <div className="page objects">

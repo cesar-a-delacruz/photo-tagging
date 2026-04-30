@@ -13,6 +13,7 @@ import gameReducer from "@/reducers/gameReducer";
 import formDataReducer from "@/reducers/formDataReducer";
 import "@/utils/css/pages.css";
 import styles from "./styles/Game.module.css";
+import Loader from "@/components/Loader";
 
 export default function Game() {
   document.title = `${import.meta.env.VITE_TITLE}: Game`;
@@ -48,6 +49,13 @@ export default function Game() {
       dispatchFormData({ type: actions.formData.LOAD, payload: user });
     })();
   }, []);
+
+  if (!images)
+    return (
+      <div className="page">
+        <Loader />
+      </div>
+    );
 
   return (
     <div className="page game">

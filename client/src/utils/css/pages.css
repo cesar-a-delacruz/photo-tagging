@@ -1,8 +1,10 @@
 .page {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
   padding: 2.5rem;
+  flex-grow: 1;
 }
 
 .page h2 {

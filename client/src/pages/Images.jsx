@@ -9,6 +9,7 @@ import actions from "@/reducers/actions";
 import formDataReducer from "@/reducers/formDataReducer";
 import "@/utils/css/pages.css";
 import styles from "./styles/Images.module.css";
+import Loader from "@/components/Loader";
 
 export default function Images() {
   document.title = `${import.meta.env.VITE_TITLE}: Images`;
@@ -24,6 +25,13 @@ export default function Images() {
     { name: "name", label: "Name", value: "", type: "text" },
     { name: "file", label: "File", type: "file", url: "" },
   ]);
+
+  if (!images)
+    return (
+      <div className="page">
+        <Loader />
+      </div>
+    );
 
   return (
     <div className="page images">

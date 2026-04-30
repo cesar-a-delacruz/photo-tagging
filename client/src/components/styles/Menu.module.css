@@ -1,15 +1,14 @@
 .menu {
   background-color: var(--color-primary-dark-40);
   position: absolute;
-  font-size: 1.2rem;
+  font-size: var(--font-size-20);
   border: var(--border);
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius-40);
   padding: 0;
   overflow: hidden;
 }
 
 .item {
-  /* border-radius: 0.5rem; */
   padding: 1rem;
   list-style: none;
 

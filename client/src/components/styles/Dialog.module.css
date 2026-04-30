@@ -4,7 +4,7 @@ dialog:open {
   gap: 2rem;
   padding: 2rem;
   background-color: var(--color-primary-dark-80);
-  border-radius: 0.7rem;
+  border-radius: var(--border-radius-80);
   border: var(--border);
   opacity: 1;
   animation: open 0.2s forwards;

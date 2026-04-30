@@ -9,20 +9,20 @@
 
 .page h2 {
   margin-top: 0;
-  font-size: 2rem;
+  font-size: var(--font-size-100);
   text-align: center;
 }
 
 .page h3 {
-  font-size: 1.5rem;
+  font-size: var(--font-size-80);
 }
 
 .page button {
   background-color: var(--color-primary-dark-60);
   padding: 0.5rem 1rem;
-  font-size: 1rem;
+  font-size: var(--font-size);
   font-weight: bold;
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius-40);
   border: var(--border);
   cursor: pointer;
   transition: var(--mouse-transition);
@@ -48,7 +48,7 @@
 .page button:focus,
 .page input:focus {
   border-style: none;
-  outline: 2px white solid;
+  outline: var(--outline);
 }
 
 .page div.options {

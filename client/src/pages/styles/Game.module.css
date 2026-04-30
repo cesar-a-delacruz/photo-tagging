@@ -3,7 +3,7 @@ h3 {
   margin-bottom: 2rem;
 }
 h4 {
-  font-size: 1.5rem;
+  font-size: var(--font-size-40);
   text-align: center;
 }
 
@@ -16,7 +16,7 @@ h4 {
   background-color: var(--color-primary-dark-40);
   border: var(--border);
   padding: 0.7rem;
-  border-radius: 0.7rem;
+  border-radius: var(--border-radius-80);
   width: fit-content;
   display: flex;
   gap: 1.5rem;
@@ -69,7 +69,7 @@ h4 {
 }
 .image,
 .image img:not([class="icon"]) {
-  border-radius: 1rem;
+  border-radius: var(--border-radius-100);
 }
 
 .gameContainer {
@@ -97,7 +97,7 @@ h4 {
 .left,
 .left img,
 .right {
-  border-radius: 1rem;
+  border-radius: var(--border-radius-100);
 }
 .right,
 .rightContainer {
@@ -114,7 +114,7 @@ h4 {
     background-color: var(--color-primary-dark-80);
     padding: 2rem;
     border: var(--border);
-    border-radius: 0.7rem;
+    border-radius: var(--border-radius-80);
 
     & .objects {
       display: flex;
@@ -122,11 +122,11 @@ h4 {
       gap: 0.5rem;
 
       & h3 {
-        font-size: 2rem;
+        font-size: var(--font-size-80);
         margin: 0;
       }
       & ol {
-        font-size: 1.5rem;
+        font-size: var(--font-size-40);
 
         & li {
           margin-bottom: 0.5rem;

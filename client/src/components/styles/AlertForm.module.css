@@ -6,10 +6,10 @@
 
   & p {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: var(--font-size-40);
   }
 
   & .action {
-    font-size: 1.5rem;
+    font-size: var(--font-size-40);
   }
 }

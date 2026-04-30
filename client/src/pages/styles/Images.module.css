@@ -20,7 +20,7 @@
   }
 
   & h3 {
-    font-size: 1.7rem;
+    font-size: var(--font-size-80);
     text-align: center;
     margin-top: 0;
   }
@@ -32,7 +32,7 @@
 }
 .image,
 .image img:not([class="icon"]) {
-  border-radius: 1rem;
+  border-radius: var(--border-radius-100);
 }
 
 @media (orientation: portrait) {

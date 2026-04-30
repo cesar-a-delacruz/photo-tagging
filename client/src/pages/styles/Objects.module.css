@@ -22,7 +22,7 @@
 .left,
 .left img,
 .right {
-  border-radius: 1rem;
+  border-radius: var(--border-radius-100);
 }
 
 .right {
@@ -47,7 +47,7 @@
   justify-content: space-between;
   background-color: var(--color-primary-dark-40);
   padding: 1rem;
-  border-radius: 0.7rem;
+  border-radius: var(--border-radius-80);
   border: var(--border);
 
   & .options {

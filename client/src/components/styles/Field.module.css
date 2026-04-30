@@ -4,7 +4,7 @@
   gap: 0.2rem;
   min-width: 300px;
   width: 20vw;
-  font-size: 1.3rem;
+  font-size: var(--font-size-40);
 
   &:has(input[type="hidden"]) {
     margin-bottom: -1.5rem;
@@ -15,7 +15,7 @@
   & input {
     background-color: var(--color-primary-dark-60);
     border: var(--border);
-    border-radius: 0.5rem;
+    border-radius: var(--border-radius-40);
     height: 1.5rem;
     padding: 0.5rem;
 
@@ -29,7 +29,7 @@
 
   & img {
     margin-top: 0.5rem;
-    border-radius: 0.5rem;
+    border-radius: var(--border-radius-40);
     border: var(--border);
   }
 }

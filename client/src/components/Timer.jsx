@@ -6,7 +6,7 @@ export default function Timer({
   setRecord = () => {},
   start = true,
 }) {
-  if (record !== "00:00") return;
+  if (record !== "") return;
 
   const [time, setTime] = useState("");
   const startTime = useRef(new Date().valueOf());

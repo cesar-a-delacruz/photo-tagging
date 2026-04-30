@@ -65,7 +65,7 @@ export default function Game() {
                 />
                 <span>Name:</span> {formData[1].value}
               </div>
-              {score.record !== "" && score.record !== "00:00" && (
+              {score.record !== "" && (
                 <div className={styles.item}>
                   <img
                     src="/icons/timer.svg"
@@ -98,11 +98,11 @@ export default function Game() {
                   Select another image
                 </button>
               )}
-              {score.record !== "" && score.record !== "00:00" && userId && (
+              {score.record !== "" && userId && (
                 <button
                   className="option"
                   onClick={() => {
-                    if (score.record === "" || score.record === "00:00") return;
+                    if (score.record === "") return;
                     recordDialog.current.showModal();
                   }}
                   aria-label="Reset record"
@@ -158,7 +158,7 @@ export default function Game() {
                           alert("The image doesn't have objects");
                           return;
                         }
-                        let scoreVal = { record: "00:00" };
+                        let scoreVal = { record: "" };
 
                         if (userId) {
                           const scoreResult = await requestHandler.get(
@@ -207,7 +207,7 @@ export default function Game() {
               </div>
               <div className={styles.right}>
                 <div className={styles.rightContainer}>
-                  {(score.record === "00:00" || score.record === "") && (
+                  {score.record === "" && (
                     <Timer
                       setRecord={async (timeString) => {
                         setScore((prev) => ({ ...prev, record: timeString }));
@@ -292,7 +292,7 @@ export default function Game() {
                   );
                   if (!result) return;
 
-                  setScore({ record: "00:00" });
+                  setScore({ record: "" });
                   dispatchGame({ type: actions.game.RESET });
                   recordDialog.current.close();
                 },

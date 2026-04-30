@@ -9,6 +9,6 @@ export default {
     STOP: "stop",
     RESET: "reset",
     OBJECT_SELECT: "objectSelect",
-    OBJECT_ADD: "objectFind",
+    OBJECT_ADD: "objectAdd",
   },
 };

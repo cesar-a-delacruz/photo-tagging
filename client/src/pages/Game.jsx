@@ -219,6 +219,7 @@ export default function Game() {
                         scoreData,
                         "score",
                       );
+
                       if (result)
                         setScore((prev) => ({
                           ...prev,
@@ -280,8 +281,8 @@ export default function Game() {
               handler: async (data) => {
                 const result = await requestHandler.delete(data.value, "score");
                 if (!result) return;
-
                 setScore({ record: "" });
+
                 dispatchGame({ type: actions.game.RESET });
                 recordDialog.current.close();
               },
@@ -301,9 +302,9 @@ export default function Game() {
 
                 localStorage.removeItem("userId");
                 dispatchFormData({ type: actions.formData.CLEAR });
-
                 setScore({ record: "" });
                 setGameImage(null);
+
                 dispatchGame({ type: actions.game.RESET });
                 deleteDialog.current.close();
               },
@@ -341,6 +342,7 @@ export default function Game() {
                   scoreData,
                   "score",
                 );
+
                 setScore(scoreResult.data);
                 winDialog.current.close();
               },

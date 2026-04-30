@@ -70,11 +70,12 @@ export default function Objects() {
               <button
                 onClick={() => {
                   dispatchFormData({ type: actions.formData.CLEAR });
+                  addDialog.current.showModal();
+
                   setClickPosition({
                     ...clickPosition,
                     dialog: addDialog.current,
                   });
-                  addDialog.current.showModal();
                 }}
                 aria-label="Add object"
               >
@@ -126,11 +127,12 @@ export default function Objects() {
                               type: actions.formData.LOAD,
                               payload: object,
                             });
+                            editDialog.current.showModal();
+
                             setClickPosition({
                               ...clickPosition,
                               dialog: editDialog.current,
                             });
-                            editDialog.current.showModal();
                           }}
                           aria-label={`Edit ${object.name} object`}
                         >
@@ -178,15 +180,16 @@ export default function Objects() {
               name: "Add",
               handler: async (data) => {
                 data = formDataValues(data);
+
                 data.imageId = image.id;
                 data.position = JSON.stringify(data.position);
-
                 const result = await requestHandler.post(data, "object");
                 if (!result) return;
                 data.id = result.data.id;
 
                 setObjects("objects", [...image.objects, data]);
                 addDialog.current.close();
+
                 dispatchFormData({ type: actions.formData.CLEAR });
                 alert(result.message);
               },
@@ -201,6 +204,7 @@ export default function Objects() {
               name: "Edit",
               handler: async (data) => {
                 data = formDataValues(data);
+
                 data.imageId = image.id;
                 data.position = JSON.stringify(data.position);
                 setObjects(
@@ -210,6 +214,7 @@ export default function Objects() {
                   ),
                 );
                 await requestHandler.put(data, "object");
+
                 editDialog.current.close();
                 dispatchFormData({ type: actions.formData.CLEAR });
               },
@@ -227,6 +232,7 @@ export default function Objects() {
                   "objects",
                   image.objects.filter((object) => object.id !== data.value),
                 );
+
                 deleteDialog.current.close();
                 dispatchFormData({ type: actions.formData.CLEAR });
               },

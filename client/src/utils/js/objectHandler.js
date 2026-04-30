@@ -2,7 +2,7 @@
  * Keeps formData fields values while identifying them
  * with ther name
  * @param formData array of fields with their name, type and value
- * @returns object with the name as the key for each field and their value)
+ * @returns object with the name as the key for each field and their value
  */
 export function formDataValues(formData) {
   return formData.reduce((acc, data) => {

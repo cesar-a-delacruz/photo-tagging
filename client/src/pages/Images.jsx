@@ -116,8 +116,8 @@ export default function Images() {
                 if (!result) return;
                 data.id = result.data.id;
                 data.url = result.data.url;
-
                 setImages([...images, data]);
+
                 addDialog.current.close();
                 dispatchFormData({ type: actions.formData.CLEAR });
                 alert(result.message);
@@ -133,6 +133,7 @@ export default function Images() {
               name: "Edit",
               handler: async (data) => {
                 data = formDataValues(data);
+
                 await requestHandler.put(data, "image");
                 setImages(
                   images.map((image) => {
@@ -141,6 +142,7 @@ export default function Images() {
                     return data;
                   }),
                 );
+
                 editDialog.current.close();
                 dispatchFormData({ type: actions.formData.CLEAR });
               },
@@ -155,6 +157,7 @@ export default function Images() {
               handler: async (data) => {
                 await requestHandler.delete(data.value, "image");
                 setImages(images.filter((image) => image.id !== data.value));
+
                 deleteDialog.current.close();
                 dispatchFormData({ type: actions.formData.CLEAR });
               },

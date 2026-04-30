@@ -1,4 +1,5 @@
 import BaseValidator from "./BaseValidator.js";
+
 export default {
   image: new BaseValidator(
     {

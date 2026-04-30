@@ -1,4 +1,5 @@
 import { checkSchema } from "express-validator";
+
 export default class BaseValidator {
   schemas = {};
   constructor(

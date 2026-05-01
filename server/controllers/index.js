@@ -3,12 +3,15 @@ import ImageController from "./ImageController.js";
 import { PrismaClient } from "../generated/prisma/index.js";
 import validators from "../validators/index.js";
 import ScoreController from "./ScoreController.js";
+import RESTRepository from "../repositories/RESTRepository.js";
+import ScoreRepository from "../repositories/ScoreRepository.js";
+import ImageRepository from "../repositories/ImageRepository.js";
 
 const prisma = new PrismaClient();
 
 export default {
   image: new ImageController(
-    prisma.image,
+    new ImageRepository(prisma.image),
     {
       name: "string",
       url: "string",
@@ -16,7 +19,7 @@ export default {
     validators.image,
   ),
   object: new RESTController(
-    prisma.object,
+    new RESTRepository(prisma.object),
     {
       name: "string",
       position: "json",
@@ -25,14 +28,14 @@ export default {
     validators.object,
   ),
   user: new RESTController(
-    prisma.user,
+    new RESTRepository(prisma.user),
     {
       name: "string",
     },
     validators.user,
   ),
   score: new ScoreController(
-    prisma.score,
+    new ScoreRepository(prisma.score),
     {
       record: "string",
       userId: "string",

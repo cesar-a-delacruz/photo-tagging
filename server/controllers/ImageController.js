@@ -5,15 +5,12 @@ import { validationResult } from "express-validator";
 export default class ImageController extends RESTController {
   findOne = async (req, res) => {
     try {
-      const row = await this.model.findUnique({
-        where: { id: req.params.id },
-        include: { objects: true },
-      });
+      const row = await await this.repository.findOne(req.params.id);
       console.info(row);
-      res.status(200).json(row);
+      return res.status(200).json(row);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Failed to fetch item" });
+      return res.status(500).json({ message: "Failed to find item", error });
     }
   };
   create = [
@@ -31,8 +28,9 @@ export default class ImageController extends RESTController {
               (error, result) => {
                 if (error) {
                   console.error(error);
-                  res.status(500).json({ error: "Failed to create item" });
-                  return;
+                  return res
+                    .status(500)
+                    .json({ error: "Failed to create item" });
                 }
                 resolve(result);
                 req.body.url = result.secure_url;
@@ -40,24 +38,22 @@ export default class ImageController extends RESTController {
             )
             .end(req.file.buffer);
         });
-        const row = await this.model.create({
-          data: this.dataParser.run(req.body),
-        });
+        const row = await this.repository.create(this.dataParser.run(req.body));
         console.log(row);
-        res
+        return res
           .status(201)
           .json({ message: "Item created successfully", data: row });
       } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Failed to create item" });
+        return res
+          .status(500)
+          .json({ message: "Failed to create item", error });
       }
     },
   ];
   delete = async (req, res) => {
     try {
-      const row = await this.model.delete({
-        where: { id: req.params.id },
-      });
+      const row = await this.repository.delete(req.params.id);
       console.log(row);
       await new Promise((resolve) => {
         cloudinary.api.delete_resources([
@@ -68,10 +64,10 @@ export default class ImageController extends RESTController {
         ]);
         resolve();
       });
-      res.status(204).end();
+      return res.status(204).end();
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Failed to delete item" });
+      return res.status(500).json({ message: "Failed to delete item", error });
     }
   };
 }

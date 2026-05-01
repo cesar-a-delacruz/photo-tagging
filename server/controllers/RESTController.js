@@ -4,43 +4,44 @@ import { validationResult } from "express-validator";
 export default class RESTController extends BaseController {
   findAll = async (req, res) => {
     try {
-      const rows = await this.model.findMany();
+      const rows = await this.repository.findAll();
       console.table(rows);
-      res.status(200).json(rows);
+      return res.status(200).json(rows);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Failed to fetch items" });
+      return res.status(500).json({ message: "Failed to find items", error });
     }
   };
   findOne = async (req, res) => {
     try {
-      const row = await this.model.findUnique({
-        where: { id: req.params.id },
-      });
+      const row = await this.repository.findOne(req.params.id);
       console.info(row);
-      res.status(200).json(row);
+      return res.status(200).json({ data: row });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Failed to fetch item" });
+      return res.status(500).json({ message: "Failed to find item", error });
     }
   };
   create = [
     this.validator.create,
     async (req, res) => {
       const errors = validationResult(req);
-      if (!errors.isEmpty()) return res.status(400).json(errors.mapped());
+      if (!errors.isEmpty())
+        return res
+          .status(400)
+          .json({ message: "Failed to create item", error: errors.mapped() });
 
       try {
-        const row = await this.model.create({
-          data: this.dataParser.run(req.body),
-        });
-        console.log(row);
-        res
+        const row = await this.repository.create(this.dataParser.run(req.body));
+        console.info(row);
+        return res
           .status(201)
           .json({ message: "Item created successfully", data: row });
       } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Failed to create item" });
+        return res
+          .status(500)
+          .json({ message: "Failed to create item", error });
       }
     },
   ];
@@ -48,31 +49,34 @@ export default class RESTController extends BaseController {
     this.validator.update,
     async (req, res) => {
       const errors = validationResult(req);
-      if (!errors.isEmpty()) return res.status(400).json(errors.mapped());
+      if (!errors.isEmpty())
+        return res
+          .status(400)
+          .json({ message: "Failed to create item", error: errors.mapped() });
 
       try {
-        const row = await this.model.update({
-          where: { id: req.params.id },
-          data: this.dataParser.run(req.body),
-        });
-        console.log(row);
-        res.status(204).end();
+        const row = await this.repository.update(
+          req.params.id,
+          this.dataParser.run(req.body),
+        );
+        console.info(row);
+        return res.status(204).end();
       } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Failed to update item" });
+        return res
+          .status(500)
+          .json({ message: "Failed to create item", error });
       }
     },
   ];
   delete = async (req, res) => {
     try {
-      const row = await this.model.delete({
-        where: { id: req.params.id },
-      });
-      console.log(row);
-      res.status(204).end();
+      const row = await this.repository.delete(req.params.id);
+      console.info(row);
+      return res.status(204).end();
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Failed to delete item" });
+      return res.status(500).json({ message: "Failed to create item", error });
     }
   };
 }

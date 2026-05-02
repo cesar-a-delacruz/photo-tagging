@@ -6,8 +6,8 @@ export default function useData(endpoint = "") {
 
   useEffect(() => {
     (async () => {
-      const responseData = await requestHandler.get(endpoint);
-      setData(responseData);
+      const response = await requestHandler.get(endpoint);
+      setData(response.data);
     })();
   }, []);
 

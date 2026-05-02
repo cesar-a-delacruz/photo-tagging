@@ -2,8 +2,17 @@ export default {
   get: async (path) => {
     const response = await fetch(`${import.meta.env.VITE_SERVER}/${path}`);
 
-    if (!response.ok && response.status === 500) return alert(data.error);
-    return await response.json();
+    let json;
+    if (!response.ok) {
+      if (response.status === 500) {
+        json = await response.json();
+        console.error(json.error);
+        return alert(json.message);
+      }
+      return console.error(response);
+    }
+    json = await response.json();
+    return json;
   },
   post: async (data, path) => {
     const response = await fetch(`${import.meta.env.VITE_SERVER}/${path}`, {
@@ -11,8 +20,17 @@ export default {
       body: new URLSearchParams(data),
     });
 
-    if (!response.ok && response.status === 500) return alert(data.error);
-    return await response.json();
+    let json;
+    if (!response.ok) {
+      if (response.status === 500) {
+        json = await response.json();
+        console.error(json.error);
+        return alert(json.message);
+      }
+      return console.error(response);
+    }
+    json = await response.json();
+    return json;
   },
   postFile: async (item, path) => {
     const formData = new FormData();
@@ -25,8 +43,17 @@ export default {
       body: formData,
     });
 
-    if (!response.ok && response.status === 500) return alert(data.error);
-    return await response.json();
+    let json;
+    if (!response.ok) {
+      if (response.status === 500) {
+        json = await response.json();
+        console.error(json.error);
+        return alert(json.message);
+      }
+      return console.error(response);
+    }
+    json = await response.json();
+    return json;
   },
   put: async (item, path) => {
     const response = await fetch(
@@ -37,7 +64,15 @@ export default {
       },
     );
 
-    if (!response.ok) return console.log(response);
+    let json;
+    if (!response.ok) {
+      if (response.status === 500) {
+        json = await response.json();
+        console.error(json.error);
+        return alert(json.message);
+      }
+      return console.error(response);
+    }
     return response;
   },
   delete: async (id, path) => {
@@ -48,7 +83,15 @@ export default {
       },
     );
 
-    if (!response.ok) return console.log(response);
+    let json;
+    if (!response.ok) {
+      if (response.status === 500) {
+        json = await response.json();
+        console.error(json.error);
+        return alert(json.message);
+      }
+      return console.error(response);
+    }
     return response;
   },
 };

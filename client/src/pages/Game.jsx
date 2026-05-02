@@ -45,8 +45,11 @@ export default function Game() {
     (async () => {
       if (!userId) return;
 
-      const user = await requestHandler.get(`user/${userId}`);
-      dispatchFormData({ type: actions.formData.LOAD, payload: user });
+      const userRequest = await requestHandler.get(`user/${userId}`);
+      dispatchFormData({
+        type: actions.formData.LOAD,
+        payload: userRequest.data,
+      });
     })();
   }, []);
 
@@ -153,23 +156,23 @@ export default function Game() {
                     src={image.url}
                     alt={image.name}
                     onClick={async () => {
-                      const imageResult = await requestHandler.get(
+                      const imageRequest = await requestHandler.get(
                         `image/${image.id}`,
                       );
-                      if (!imageResult.objects.length) {
+                      if (!imageRequest.data.objects.length) {
                         alert("The image doesn't have objects");
                         return;
                       }
                       let scoreVal = { record: "" };
 
                       if (userId) {
-                        const scoreResult = await requestHandler.get(
+                        const scoreRequest = await requestHandler.get(
                           `score/user/${userId}/image/${image.id}`,
                         );
-                        if (scoreResult.data) scoreVal = scoreResult.data;
+                        if (scoreRequest.data) scoreVal = scoreRequest.data;
                       }
                       setScore(scoreVal);
-                      setGameImage(imageResult);
+                      setGameImage(imageRequest.data);
                       dispatchGame({ type: actions.game.START });
                     }}
                   />
@@ -346,12 +349,12 @@ export default function Game() {
                   userId: id,
                   imageId: gameImage.id,
                 };
-                const scoreResult = await requestHandler.post(
+                const scoreRequest = await requestHandler.post(
                   scoreData,
                   "score",
                 );
 
-                setScore(scoreResult.data);
+                setScore(scoreRequest.data);
                 winDialog.current.close();
               },
             }}

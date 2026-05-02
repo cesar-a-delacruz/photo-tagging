@@ -32,8 +32,8 @@ export default class RESTController extends BaseController {
       const errors = validationResult(req);
       if (!errors.isEmpty())
         return res
-          .status(400)
-          .json({ message: "Failed to create item", error: errors.mapped() });
+          .status(422)
+          .json({ message: "Invalid item:", errors: errors.mapped() });
 
       try {
         const row = await this.repository.create(this.dataParser.run(req.body));
@@ -55,8 +55,8 @@ export default class RESTController extends BaseController {
       const errors = validationResult(req);
       if (!errors.isEmpty())
         return res
-          .status(400)
-          .json({ message: "Failed to create item", error: errors.mapped() });
+          .status(422)
+          .json({ message: "Invalid item:", errors: errors.mapped() });
 
       try {
         const row = await this.repository.update(

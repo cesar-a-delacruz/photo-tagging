@@ -23,8 +23,8 @@ export default class ImageController extends RESTController {
       const errors = validationResult(req);
       if (!errors.isEmpty())
         return res
-          .status(400)
-          .json({ message: "Failed to create item", error: errors.mapped() });
+          .status(422)
+          .json({ message: "Invalid item:", errors: errors.mapped() });
 
       try {
         const fileUpload = await FileService.upload(

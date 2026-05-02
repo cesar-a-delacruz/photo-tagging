@@ -6,7 +6,9 @@ export default class RESTController extends BaseController {
     try {
       const rows = await this.repository.findAll();
       console.table(rows);
-      return res.status(200).json(rows);
+      return res
+        .status(200)
+        .json({ message: "Items found successfully", data: rows });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Failed to find items", error });
@@ -16,7 +18,9 @@ export default class RESTController extends BaseController {
     try {
       const row = await this.repository.findOne(req.params.id);
       console.info(row);
-      return res.status(200).json({ data: row });
+      return res
+        .status(200)
+        .json({ message: "Item found successfully", data: row });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Failed to find item", error });

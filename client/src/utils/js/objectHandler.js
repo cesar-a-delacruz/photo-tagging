@@ -43,3 +43,27 @@ export function imageClickedPosition(clickEvent) {
     y: (clickEvent.clientY - imgBoundingSides.top) * imgSizeRatio.height,
   };
 }
+/**
+ * Gets the responses errors in a request based on the status code (if any)
+ * @param response response returned by a requesteHandler's method
+ * @returns errors in the response
+ */
+export async function responseErrors(response) {
+  switch (response.status) {
+    case 500:
+      const jsonServer = await response.json();
+      console.error(jsonServer.error);
+      return alert(jsonServer.message);
+    case 422:
+      const jsonValidation = await response.json();
+      console.error(jsonValidation.errors);
+
+      let errorMessage = jsonValidation.message;
+      Object.keys(jsonValidation.errors).forEach((error) => {
+        errorMessage += "\n" + jsonValidation.errors[error].msg;
+      });
+      return alert(errorMessage);
+    default:
+      return console.error(response);
+  }
+}

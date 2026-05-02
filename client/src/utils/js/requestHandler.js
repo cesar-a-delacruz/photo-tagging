@@ -1,16 +1,11 @@
+import { responseErrors } from "./objectHandler";
+
 export default {
   get: async (path) => {
     const response = await fetch(`${import.meta.env.VITE_SERVER}/${path}`);
 
     let json;
-    if (!response.ok) {
-      if (response.status === 500) {
-        json = await response.json();
-        console.error(json.error);
-        return alert(json.message);
-      }
-      return console.error(response);
-    }
+    if (!response.ok) return responseErrors(response);
     json = await response.json();
     return json;
   },
@@ -21,14 +16,7 @@ export default {
     });
 
     let json;
-    if (!response.ok) {
-      if (response.status === 500) {
-        json = await response.json();
-        console.error(json.error);
-        return alert(json.message);
-      }
-      return console.error(response);
-    }
+    if (!response.ok) return responseErrors(response);
     json = await response.json();
     return json;
   },
@@ -44,14 +32,7 @@ export default {
     });
 
     let json;
-    if (!response.ok) {
-      if (response.status === 500) {
-        json = await response.json();
-        console.error(json.error);
-        return alert(json.message);
-      }
-      return console.error(response);
-    }
+    if (!response.ok) return responseErrors(response);
     json = await response.json();
     return json;
   },
@@ -65,14 +46,7 @@ export default {
     );
 
     let json;
-    if (!response.ok) {
-      if (response.status === 500) {
-        json = await response.json();
-        console.error(json.error);
-        return alert(json.message);
-      }
-      return console.error(response);
-    }
+    if (!response.ok) return responseErrors(response);
     return response;
   },
   delete: async (id, path) => {
@@ -84,14 +58,7 @@ export default {
     );
 
     let json;
-    if (!response.ok) {
-      if (response.status === 500) {
-        json = await response.json();
-        console.error(json.error);
-        return alert(json.message);
-      }
-      return console.error(response);
-    }
+    if (!response.ok) return responseErrors(response);
     return response;
   },
 };

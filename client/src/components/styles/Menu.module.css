@@ -8,7 +8,7 @@
   overflow: hidden;
 
   & .item {
-    padding: 1rem;
+    padding: var(--padding-20);
     list-style: none;
 
     &:hover {

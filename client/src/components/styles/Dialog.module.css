@@ -1,8 +1,8 @@
 dialog:open {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  padding: 2rem;
+  gap: var(--gap-100);
+  padding: var(--padding-100);
   background-color: var(--color-primary-dark-80);
   border-radius: var(--border-radius-80);
   border: var(--border);
@@ -30,7 +30,7 @@ dialog:open {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1.5rem;
+  gap: var(--gap-100);
 
   & h2 {
     margin: 0;

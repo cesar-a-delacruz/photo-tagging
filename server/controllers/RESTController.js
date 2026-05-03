@@ -8,10 +8,14 @@ export default class RESTController extends BaseController {
       console.table(rows);
       return res
         .status(200)
-        .json({ message: "Items found successfully", data: rows });
+        .json({ message: "Items found successfully", data: rows })
+        .end();
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ message: "Failed to find items", error });
+      return res
+        .status(500)
+        .json({ message: "Failed to find items", error })
+        .end();
     }
   };
   findOne = async (req, res) => {
@@ -20,10 +24,14 @@ export default class RESTController extends BaseController {
       console.info(row);
       return res
         .status(200)
-        .json({ message: "Item found successfully", data: row });
+        .json({ message: "Item found successfully", data: row })
+        .end();
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ message: "Failed to find item", error });
+      return res
+        .status(500)
+        .json({ message: "Failed to find item", error })
+        .end();
     }
   };
   create = [
@@ -33,19 +41,22 @@ export default class RESTController extends BaseController {
       if (!errors.isEmpty())
         return res
           .status(422)
-          .json({ message: "Invalid item:", errors: errors.mapped() });
+          .json({ message: "Invalid item:", errors: errors.mapped() })
+          .end();
 
       try {
         const row = await this.repository.create(this.dataParser.run(req.body));
         console.info(row);
         return res
           .status(201)
-          .json({ message: "Item created successfully", data: row });
+          .json({ message: "Item created successfully", data: row })
+          .end();
       } catch (error) {
         console.error(error);
         return res
           .status(500)
-          .json({ message: "Failed to create item", error });
+          .json({ message: "Failed to create item", error })
+          .end();
       }
     },
   ];
@@ -56,7 +67,8 @@ export default class RESTController extends BaseController {
       if (!errors.isEmpty())
         return res
           .status(422)
-          .json({ message: "Invalid item:", errors: errors.mapped() });
+          .json({ message: "Invalid item:", errors: errors.mapped() })
+          .end();
 
       try {
         const row = await this.repository.update(
@@ -69,7 +81,8 @@ export default class RESTController extends BaseController {
         console.error(error);
         return res
           .status(500)
-          .json({ message: "Failed to create item", error });
+          .json({ message: "Failed to create item", error })
+          .end();
       }
     },
   ];
@@ -80,7 +93,10 @@ export default class RESTController extends BaseController {
       return res.status(204).end();
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ message: "Failed to create item", error });
+      return res
+        .status(500)
+        .json({ message: "Failed to create item", error })
+        .end();
     }
   };
 }

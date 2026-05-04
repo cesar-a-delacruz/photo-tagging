@@ -29,5 +29,6 @@ export default class RESTRepository {
     const row = await this.model.delete({
       where: { id },
     });
+    return row;
   };
 }

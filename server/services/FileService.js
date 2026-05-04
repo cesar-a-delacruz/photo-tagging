@@ -6,7 +6,7 @@ dotenv.config();
 export default {
   upload: async (name, fileBuffer) => {
     let response;
-    await new Promise((resolve) => {
+    await new Promise((resolve, reject) => {
       cloudinary.uploader
         .upload_stream(
           { folder: process.env.CLOUDINARY_FOLDER, display_name: name },
@@ -30,13 +30,13 @@ export default {
   delete: async (url) => {
     let response;
     await new Promise((resolve) => {
-      cloudinary.api.delete_resources([
+      const result = cloudinary.api.delete_resources([
         url.substring(
           url.lastIndexOf(process.env.CLOUDINARY_FOLDER),
           url.lastIndexOf("."),
         ),
       ]);
-      resolve();
+      resolve(result);
     }).then((result) => {
       console.log(result);
       response = result;

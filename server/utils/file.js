@@ -17,6 +17,12 @@ const upload = multer({
     fileSize: 5 * 1024 * 1024,
     files: 1,
   },
+  fileFilter: (req, file, cb) => {
+    if (!file.mimetype.startsWith("image"))
+      return cb("Wrong file format, only images are accepted", false);
+
+    cb(null, true);
+  },
 });
 
 export { cloudinary, upload };

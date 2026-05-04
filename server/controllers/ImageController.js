@@ -21,7 +21,18 @@ export default class ImageController extends RESTController {
     }
   };
   create = [
-    upload.single("file"),
+    async (req, res, next) => {
+      upload.single("file")(req, res, (error) => {
+        if (error) {
+          console.error(error);
+          return res
+            .status(500)
+            .json({ message: "Failed to create item", error })
+            .end();
+        }
+        next();
+      });
+    },
     this.validator.create,
     async (req, res) => {
       const errors = validationResult(req);

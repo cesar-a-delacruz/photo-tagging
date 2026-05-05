@@ -2,12 +2,13 @@ import RESTRepository from "./RESTRepository.js";
 
 export default class ScoreRepository extends RESTRepository {
   findOne = async (userId, imageId) => {
-    const rows = await this.model.findMany({
+    const result = await this.model.findMany({
       where: {
         userId: userId,
         imageId: imageId,
       },
     });
-    return rows[0];
+    if (!result.length) throw new Error("This row doesn't exists");
+    return result[0];
   };
 }

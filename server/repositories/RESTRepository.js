@@ -4,31 +4,35 @@ export default class RESTRepository {
   }
 
   findAll = async () => {
-    const rows = await this.model.findMany();
-    return rows;
+    const result = await this.model.findMany();
+    if (result.length === 0) throw new Error("No rows have been found");
+
+    return result;
   };
   findOne = async (id) => {
-    const row = await this.model.findUnique({
+    const result = await this.model.findUnique({
       where: { id },
     });
-    return row;
+    if (!result) throw new Error("This row doesn't exists");
+
+    return result;
   };
   create = async (data) => {
-    const row = await this.model.create({
+    const result = await this.model.create({
       data,
     });
-    return row;
+    return result;
   };
   update = async (id, data) => {
-    const row = await this.model.update({
+    const result = await this.model.update({
       where: { id },
       data,
     });
   };
   delete = async (id) => {
-    const row = await this.model.delete({
+    const result = await this.model.delete({
       where: { id },
     });
-    return row;
+    return result;
   };
 }

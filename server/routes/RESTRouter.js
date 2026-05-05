@@ -1,6 +1,6 @@
-import BaseRouter from "./BaseRouter.js";
+const BaseRouter = require("./BaseRouter.js");
 
-export default class RESTRouter extends BaseRouter {
+module.exports = class RESTRouter extends BaseRouter {
   constructor(basePath, controller) {
     super(basePath, controller);
 
@@ -10,4 +10,4 @@ export default class RESTRouter extends BaseRouter {
     this.router.put("/:id", this.controller.update);
     this.router.delete("/:id", this.controller.delete);
   }
-}
+};

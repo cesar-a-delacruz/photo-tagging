@@ -1,9 +1,9 @@
-import dotenv from "dotenv";
-import { cloudinary } from "../utils/file.js";
+const dotenv = require("dotenv");
+const { cloudinary } = require("../utils/file.js");
 
 dotenv.config();
 
-export default {
+module.exports = {
   upload: async (name, fileBuffer) => {
     let response;
     await new Promise((resolve, reject) => {

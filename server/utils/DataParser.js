@@ -1,4 +1,4 @@
-export default class DataParser {
+module.exports = class DataParser {
   constructor(schema) {
     this.schema = schema;
   }
@@ -28,4 +28,4 @@ export default class DataParser {
         return null;
     }
   };
-}
+};

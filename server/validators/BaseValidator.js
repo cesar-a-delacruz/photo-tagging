@@ -1,6 +1,6 @@
-import { checkSchema } from "express-validator";
+const { checkSchema } = require("express-validator");
 
-export default class BaseValidator {
+module.exports = class BaseValidator {
   schemas = {};
   constructor(
     baseSchema,
@@ -19,4 +19,4 @@ export default class BaseValidator {
       this[validation] = checkSchema(this.schemas[validation]);
     }
   }
-}
+};

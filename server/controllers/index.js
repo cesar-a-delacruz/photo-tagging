@@ -1,15 +1,15 @@
-import RESTController from "./RESTController.js";
-import ImageController from "./ImageController.js";
-import { PrismaClient } from "../generated/prisma/index.js";
-import validators from "../validators/index.js";
-import ScoreController from "./ScoreController.js";
-import RESTRepository from "../repositories/RESTRepository.js";
-import ScoreRepository from "../repositories/ScoreRepository.js";
-import ImageRepository from "../repositories/ImageRepository.js";
+const RESTController = require("./RESTController.js");
+const ImageController = require("./ImageController.js");
+const { PrismaClient } = require("../generated/prisma/index.js");
+const validators = require("../validators/index.js");
+const ScoreController = require("./ScoreController.js");
+const RESTRepository = require("../repositories/RESTRepository.js");
+const ScoreRepository = require("../repositories/ScoreRepository.js");
+const ImageRepository = require("../repositories/ImageRepository.js");
 
 const prisma = new PrismaClient();
 
-export default {
+module.exports = {
   image: new ImageController(
     new ImageRepository(prisma.image),
     {

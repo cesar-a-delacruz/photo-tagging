@@ -1,6 +1,6 @@
-import RESTRepository from "./RESTRepository.js";
+const RESTRepository = require("./RESTRepository.js");
 
-export default class ScoreRepository extends RESTRepository {
+module.exports = class ScoreRepository extends RESTRepository {
   findOne = async (userId, imageId) => {
     const result = await this.model.findMany({
       where: {
@@ -11,4 +11,4 @@ export default class ScoreRepository extends RESTRepository {
     if (!result.length) throw new Error("This row doesn't exists");
     return result[0];
   };
-}
+};

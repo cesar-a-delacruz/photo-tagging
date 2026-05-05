@@ -1,6 +1,6 @@
-import RESTController from "./RESTController.js";
+const RESTController = require("./RESTController.js");
 
-export default class ScoreController extends RESTController {
+module.exports = class ScoreController extends RESTController {
   findOne = async (req, res) => {
     try {
       const row = await this.repository.findOne(
@@ -20,4 +20,4 @@ export default class ScoreController extends RESTController {
         .end();
     }
   };
-}
+};

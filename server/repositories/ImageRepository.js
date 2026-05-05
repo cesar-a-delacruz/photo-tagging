@@ -1,6 +1,6 @@
-import RESTRepository from "./RESTRepository.js";
+const RESTRepository = require("./RESTRepository.js");
 
-export default class ImageRepository extends RESTRepository {
+module.exports = class ImageRepository extends RESTRepository {
   findOne = async (id) => {
     const result = await this.model.findUnique({
       where: { id },
@@ -10,4 +10,4 @@ export default class ImageRepository extends RESTRepository {
 
     return result;
   };
-}
+};

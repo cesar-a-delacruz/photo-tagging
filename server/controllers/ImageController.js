@@ -1,9 +1,9 @@
-import RESTController from "./RESTController.js";
-import { upload } from "../utils/file.js";
-import FileService from "../services/FileService.js";
-import { validationResult } from "express-validator";
+const RESTController = require("./RESTController.js");
+const { upload } = require("../utils/file.js");
+const FileService = require("../services/FileService.js");
+const { validationResult } = require("express-validator");
 
-export default class ImageController extends RESTController {
+module.exports = class ImageController extends RESTController {
   findOne = async (req, res) => {
     try {
       const row = await await this.repository.findOne(req.params.id);
@@ -79,4 +79,4 @@ export default class ImageController extends RESTController {
         .end();
     }
   };
-}
+};

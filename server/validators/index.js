@@ -1,6 +1,6 @@
-import BaseValidator from "./BaseValidator.js";
+const BaseValidator = require("./BaseValidator.js");
 
-export default {
+module.exports = {
   image: new BaseValidator(
     {
       name: {

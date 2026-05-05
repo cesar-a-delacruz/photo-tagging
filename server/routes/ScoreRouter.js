@@ -1,6 +1,6 @@
-import BaseRouter from "./BaseRouter.js";
+const BaseRouter = require("./BaseRouter.js");
 
-export default class ScoreRouter extends BaseRouter {
+module.exports = class ScoreRouter extends BaseRouter {
   constructor(basePath, controller) {
     super(basePath, controller);
 
@@ -10,4 +10,4 @@ export default class ScoreRouter extends BaseRouter {
     this.router.put("/:id", this.controller.update);
     this.router.delete("/:id", this.controller.delete);
   }
-}
+};

@@ -1,6 +1,6 @@
-import dotenv from "dotenv";
-import { v2 as cloudinary } from "cloudinary";
-import multer from "multer";
+const dotenv = require("dotenv");
+const cloudinary = require("cloudinary").v2;
+const multer = require("multer");
 
 dotenv.config();
 
@@ -25,4 +25,4 @@ const upload = multer({
   },
 });
 
-export { cloudinary, upload };
+module.exports = { cloudinary, upload };

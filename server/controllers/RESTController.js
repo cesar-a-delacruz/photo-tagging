@@ -1,7 +1,7 @@
-import BaseController from "./BaseController.js";
-import { validationResult } from "express-validator";
+const BaseController = require("./BaseController.js");
+const { validationResult } = require("express-validator");
 
-export default class RESTController extends BaseController {
+module.exports = class RESTController extends BaseController {
   findAll = async (req, res) => {
     try {
       const rows = await this.repository.findAll();
@@ -99,4 +99,4 @@ export default class RESTController extends BaseController {
         .end();
     }
   };
-}
+};

@@ -1,4 +1,4 @@
-export default class RESTRepository {
+module.exports = class RESTRepository {
   constructor(model) {
     this.model = model;
   }
@@ -35,4 +35,4 @@ export default class RESTRepository {
     });
     return result;
   };
-}
+};

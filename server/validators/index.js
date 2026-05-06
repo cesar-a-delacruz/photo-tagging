@@ -72,14 +72,16 @@ module.exports = {
           errorMessage: "record must be 8 characters long",
         },
       },
+      userId: {
+        isEmpty: {
+          negated: true,
+          errorMessage: "userId is required",
+        },
+      },
     },
     {
       create: undefined,
-      update: {
-        record: {
-          optional: true,
-        },
-      },
+      update: undefined,
     },
   ),
 };

@@ -55,11 +55,7 @@ module.exports = {
     },
     {
       create: undefined,
-      update: {
-        name: {
-          optional: true,
-        },
-      },
+      update: undefined,
     },
   ),
   score: new BaseValidator(

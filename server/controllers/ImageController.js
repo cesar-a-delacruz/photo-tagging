@@ -69,7 +69,7 @@ module.exports = class ImageController extends RESTController {
       const row = await this.repository.delete(req.params.id);
       console.log(row);
 
-      const fileUpload = await FileService.delete(row.url);
+      const fileDeletion = await FileService.delete(row.url);
       return res.status(204).end();
     } catch (error) {
       console.error(error);

@@ -7,7 +7,6 @@ module.exports = class ImageRepository extends RESTRepository {
       include: { objects: true },
     });
     if (!result) throw new Error("This row doesn't exists");
-
     return result;
   };
 };

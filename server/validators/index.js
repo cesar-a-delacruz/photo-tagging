@@ -15,11 +15,7 @@ module.exports = {
     },
     {
       create: undefined,
-      update: {
-        name: {
-          optional: true,
-        },
-      },
+      update: undefined,
     },
   ),
   object: new BaseValidator(

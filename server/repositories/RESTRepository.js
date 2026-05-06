@@ -28,6 +28,7 @@ module.exports = class RESTRepository {
       where: { id },
       data,
     });
+    return result;
   };
   delete = async (id) => {
     const result = await this.model.delete({

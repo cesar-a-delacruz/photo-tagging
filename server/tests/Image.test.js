@@ -123,6 +123,13 @@ describe("POST /image", () => {
       .attach("file", path.join(__dirname, "assets/sample3.txt"))
       .expect(500, done);
   });
+  test("failure: file validation (doesn't exist)", (done) => {
+    request(app)
+      .post(`/${routes.image.basePath}`)
+      .set("Content-Type", "multipart/form-data")
+      .field({ name: "Image" })
+      .expect(500, done);
+  });
 });
 
 describe("PUT /image/:id", () => {

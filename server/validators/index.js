@@ -38,14 +38,7 @@ module.exports = {
     },
     {
       create: undefined,
-      update: {
-        name: {
-          optional: true,
-        },
-        position: {
-          optional: true,
-        },
-      },
+      update: undefined,
     },
   ),
   user: new BaseValidator(

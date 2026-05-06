@@ -1,10 +1,10 @@
 {
   "name": "server",
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "start": "node --watch app.js",
-    "migrate": "npx prisma migrate dev"
+    "migrate": "npx prisma migrate dev",
+    "test": "npx jest"
   },
   "dependencies": {
     "@prisma/client": "^6.17.1",
@@ -21,6 +21,8 @@
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.3",
     "@types/express-validator": "^2.20.33",
-    "prisma": "^6.19.0"
+    "jest": "^30.3.0",
+    "prisma": "^6.19.0",
+    "supertest": "^7.2.2"
   }
 }

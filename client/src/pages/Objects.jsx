@@ -49,49 +49,38 @@ export default function Objects() {
     dialog: null,
   });
 
-  if (!image)
-    return (
-      <div className="page">
-        <Loader />
-      </div>
-    );
-
   return (
     <div className="page objects">
-      {image && (
-        <>
-          <div className="top">
-            <h2>{image.name} objects</h2>
-            <div className="options">
-              <h3>Options:</h3>
-              <button
-                onClick={() => location.assign("/images")}
-                aria-label="Return to images"
-              >
-                <img
-                  src="/icons/return.svg"
-                  className="icon"
-                  aria-hidden="true"
-                />
-                Return
-              </button>
-              <button
-                onClick={() => {
-                  dispatchFormData({ type: actions.formData.CLEAR });
-                  addDialog.current.showModal();
+      <div className="top">
+        <h2>{image ? image.name : ""} objects</h2>
+        <div className="options">
+          <h3>Options:</h3>
+          <button
+            onClick={() => location.assign("/images")}
+            aria-label="Return to images"
+          >
+            <img src="/icons/return.svg" className="icon" aria-hidden="true" />
+            Return
+          </button>
+          <button
+            onClick={() => {
+              dispatchFormData({ type: actions.formData.CLEAR });
+              addDialog.current.showModal();
 
-                  setClickPosition({
-                    ...clickPosition,
-                    dialog: addDialog.current,
-                  });
-                }}
-                aria-label="Add object"
-              >
-                <img src="/icons/add.svg" className="icon" aria-hidden="true" />
-                Add
-              </button>
-            </div>
-          </div>
+              setClickPosition({
+                ...clickPosition,
+                dialog: addDialog.current,
+              });
+            }}
+            aria-label="Add object"
+          >
+            <img src="/icons/add.svg" className="icon" aria-hidden="true" />
+            Add
+          </button>
+        </div>
+      </div>
+      {image ? (
+        <>
           <div className={styles.bottom}>
             <div className={styles.left}>
               <img
@@ -178,6 +167,10 @@ export default function Objects() {
             <Pin position={pinPosition} setPosition={setPinPosition} />
           )}
         </>
+      ) : (
+        <div className="page">
+          <Loader />
+        </div>
       )}
       <div className="dialogs">
         <Dialog title={"Add Object"} ref={addDialog}>

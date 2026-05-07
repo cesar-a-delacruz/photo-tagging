@@ -26,13 +26,6 @@ export default function Images() {
     { name: "file", label: "File", type: "file", url: "" },
   ]);
 
-  if (!images)
-    return (
-      <div className="page">
-        <Loader />
-      </div>
-    );
-
   return (
     <div className="page images">
       <h2>Images</h2>
@@ -51,7 +44,7 @@ export default function Images() {
         </button>
       </div>
       <div className={styles.images}>
-        {images &&
+        {images ? (
           images.map((image) => (
             <div key={image.id} className={styles.image}>
               <div className="top">
@@ -108,7 +101,12 @@ export default function Images() {
               </div>
               <img src={image.url} alt={image.name} />
             </div>
-          ))}
+          ))
+        ) : (
+          <div className="page">
+            <Loader />
+          </div>
+        )}
       </div>
       <div className="dialogs">
         <Dialog title={"Add Image"} ref={addDialog}>

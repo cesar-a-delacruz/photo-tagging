@@ -4,9 +4,9 @@
 
 ## Overview
 
-This web app is inspired in the Where's Waldo game. The app allows you to:
+This web app is inspired in the Where's Waldo game.
 
-Just like the original version of Where's Waldo, the goal is to find specific object within an image and this app keeps track of how long it takes you to find them.
+Just like the original version of Where's Waldo, the goal is to find specific object within an image but additionally, this app keeps track of how long it takes you to find them all.
 
 **[Check it here](https://cesar-a-delacruz-photo-tagging.netlify.app)**
 

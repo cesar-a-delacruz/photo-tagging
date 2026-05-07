@@ -169,7 +169,7 @@ export default function Game() {
                         const scoreRequest = await requestHandler.get(
                           `score/user/${userId}/image/${image.id}`,
                         );
-                        if (scoreRequest.data) scoreVal = scoreRequest.data;
+                        if (scoreRequest) scoreVal = scoreRequest.data;
                       }
                       setScore(scoreVal);
                       setGameImage(imageRequest.data);

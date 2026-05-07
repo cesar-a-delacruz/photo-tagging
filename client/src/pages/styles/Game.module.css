@@ -160,7 +160,7 @@ dialog p {
 
 @media (orientation: portrait) {
   .image {
-    & img {
+    & img:not([class="icon"]) {
       width: 100%;
       height: auto;
     }

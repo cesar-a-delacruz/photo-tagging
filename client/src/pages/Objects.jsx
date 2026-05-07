@@ -168,9 +168,7 @@ export default function Objects() {
           )}
         </>
       ) : (
-        <div className="page">
-          <Loader />
-        </div>
+        <Loader />
       )}
       <div className="dialogs">
         <Dialog title={"Add Object"} ref={addDialog}>

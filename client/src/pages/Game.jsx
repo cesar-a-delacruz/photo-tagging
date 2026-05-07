@@ -136,50 +136,52 @@ export default function Game() {
         )}
       </div>
       <div className={styles.bottom}>
-        <h3>
-          Select an Image or{" "}
-          <a href="/images" aria-label="Open images page">
-            edit them
-          </a>
-        </h3>
-        {images && !gameImage ? (
-          <div className={styles.images}>
-            {images.map((image) => (
-              <div className={styles.image} key={image.id}>
-                <img
-                  src={image.url}
-                  alt={image.name}
-                  onClick={async () => {
-                    const imageRequest = await requestHandler.get(
-                      `image/${image.id}`,
-                    );
-                    if (imageRequest.error) return alert(imageRequest.error);
+        {!gameImage && (
+          <>
+            <h3>
+              Select an Image or{" "}
+              <a href="/images" aria-label="Open images page">
+                manage them
+              </a>
+            </h3>
+            {images && (
+              <div className={styles.images}>
+                {images.map((image) => (
+                  <div className={styles.image} key={image.id}>
+                    <img
+                      src={image.url}
+                      alt={image.name}
+                      onClick={async () => {
+                        const imageRequest = await requestHandler.get(
+                          `image/${image.id}`,
+                        );
+                        if (imageRequest.error)
+                          return alert(imageRequest.error);
 
-                    if (!imageRequest.data.objects.length) {
-                      alert("The image doesn't have objects");
-                      return;
-                    }
-                    let scoreVal = { record: "" };
+                        if (!imageRequest.data.objects.length) {
+                          alert("The image doesn't have objects");
+                          return;
+                        }
+                        let scoreVal = { record: "" };
 
-                    if (userId) {
-                      const scoreRequest = await requestHandler.get(
-                        `score/user/${userId}/image/${image.id}`,
-                      );
-                      if (scoreRequest.data) scoreVal = scoreRequest.data;
-                    }
-                    setScore(scoreVal);
-                    setGameImage(imageRequest.data);
-                    dispatchGame({ type: actions.game.START });
-                  }}
-                />
-                <h4>{image.name}</h4>
+                        if (userId) {
+                          const scoreRequest = await requestHandler.get(
+                            `score/user/${userId}/image/${image.id}`,
+                          );
+                          if (scoreRequest.data) scoreVal = scoreRequest.data;
+                        }
+                        setScore(scoreVal);
+                        setGameImage(imageRequest.data);
+                        dispatchGame({ type: actions.game.START });
+                      }}
+                    />
+                    <h4>{image.name}</h4>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        ) : (
-          <div className="page">
-            <Loader />
-          </div>
+            )}
+            {!images && <Loader />}
+          </>
         )}
         {gameImage && (
           <div className={styles.gameContainer}>

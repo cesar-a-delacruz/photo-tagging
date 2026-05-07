@@ -103,9 +103,7 @@ export default function Images() {
             </div>
           ))
         ) : (
-          <div className="page">
-            <Loader />
-          </div>
+          <Loader />
         )}
       </div>
       <div className="dialogs">

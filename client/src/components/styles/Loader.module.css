@@ -1,4 +1,5 @@
 .loader {
+  text-align: center;
   font-size: 3rem;
   font-weight: bold;
   animation: load infinite 3s;

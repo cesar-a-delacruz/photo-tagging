@@ -46,6 +46,8 @@ export default function Game() {
       if (!userId) return;
 
       const userRequest = await requestHandler.get(`user/${userId}`);
+      if (userRequest.error) return alert(userRequest.error);
+
       dispatchFormData({
         type: actions.formData.LOAD,
         payload: userRequest.data,
@@ -159,6 +161,8 @@ export default function Game() {
                       const imageRequest = await requestHandler.get(
                         `image/${image.id}`,
                       );
+                      if (imageRequest.error) return alert(imageRequest.error);
+
                       if (!imageRequest.data.objects.length) {
                         alert("The image doesn't have objects");
                         return;
@@ -169,7 +173,7 @@ export default function Game() {
                         const scoreRequest = await requestHandler.get(
                           `score/user/${userId}/image/${image.id}`,
                         );
-                        if (scoreRequest) scoreVal = scoreRequest.data;
+                        if (scoreRequest.data) scoreVal = scoreRequest.data;
                       }
                       setScore(scoreVal);
                       setGameImage(imageRequest.data);
@@ -230,6 +234,7 @@ export default function Game() {
                         scoreData,
                         "score",
                       );
+                      if (result.error) return alert(result.error);
 
                       if (result)
                         setScore((prev) => ({
@@ -291,7 +296,8 @@ export default function Game() {
               name: "Reset",
               handler: async (data) => {
                 const result = await requestHandler.delete(data.value, "score");
-                if (!result) return;
+                if (result.error) return alert(result.error);
+
                 setScore({ record: "" });
 
                 dispatchGame({ type: actions.game.RESET });
@@ -309,7 +315,7 @@ export default function Game() {
               name: "Delete",
               handler: async (data) => {
                 const result = await requestHandler.delete(data.value, "user");
-                if (!result) return;
+                if (result.error) return alert(result.error);
 
                 localStorage.removeItem("userId");
                 dispatchFormData({ type: actions.formData.CLEAR });
@@ -335,7 +341,8 @@ export default function Game() {
                 data = formDataValues(data);
 
                 const result = await requestHandler.post(data, "user");
-                if (!result) return;
+                if (result.error) return alert(result.error);
+
                 const id = result.data.id;
                 data.id = id;
                 localStorage.setItem("userId", id);
@@ -353,6 +360,7 @@ export default function Game() {
                   scoreData,
                   "score",
                 );
+                if (scoreRequest.error) return alert(scoreRequest.error);
 
                 setScore(scoreRequest.data);
                 winDialog.current.close();

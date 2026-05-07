@@ -192,7 +192,7 @@ export default function Objects() {
                 data.imageId = image.id;
                 data.position = JSON.stringify(data.position);
                 const result = await requestHandler.post(data, "object");
-                if (!result) return;
+                if (result.error) return alert(result.error);
                 data.id = result.data.id;
 
                 setObjects("objects", [...image.objects, data]);
@@ -221,7 +221,8 @@ export default function Objects() {
                     object.id === data.id ? data : object,
                   ),
                 );
-                await requestHandler.put(data, "object");
+                const result = await requestHandler.put(data, "object");
+                if (result.error) return alert(result.error);
 
                 editDialog.current.close();
                 dispatchFormData({ type: actions.formData.CLEAR });
@@ -235,7 +236,12 @@ export default function Objects() {
             action={{
               name: "Delete",
               handler: async (data) => {
-                await requestHandler.delete(data.value, "object");
+                const result = await requestHandler.delete(
+                  data.value,
+                  "object",
+                );
+                if (result.error) return alert(result.error);
+
                 setObjects(
                   "objects",
                   image.objects.filter((object) => object.id !== data.value),

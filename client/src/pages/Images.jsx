@@ -121,7 +121,7 @@ export default function Images() {
                 data = formDataValues(data);
 
                 const result = await requestHandler.postFile(data, "image");
-                if (!result) return;
+                if (result.error) return alert(result.error);
                 data.id = result.data.id;
                 data.url = result.data.url;
                 setImages([...images, data]);
@@ -142,7 +142,9 @@ export default function Images() {
               handler: async (data) => {
                 data = formDataValues(data);
 
-                await requestHandler.put(data, "image");
+                const result = await requestHandler.put(data, "image");
+                if (result.error) return alert(result.error);
+
                 setImages(
                   images.map((image) => {
                     if (image.id !== data.id) return image;
@@ -163,7 +165,9 @@ export default function Images() {
             action={{
               name: "Delete",
               handler: async (data) => {
-                await requestHandler.delete(data.value, "image");
+                const result = await requestHandler.delete(data.value, "image");
+                if (result.error) return alert(result.error);
+
                 setImages(images.filter((image) => image.id !== data.value));
 
                 deleteDialog.current.close();

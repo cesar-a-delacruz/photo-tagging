@@ -49,21 +49,25 @@ export function imageClickedPosition(clickEvent) {
  * @returns errors in the response
  */
 export async function responseErrors(response) {
+  let errorMessage;
   switch (response.status) {
     case 500:
       const jsonServer = await response.json();
+      errorMessage =
+        jsonServer.message + "\n" + JSON.stringify(jsonServer.error);
       console.error(jsonServer.error);
-      return alert(jsonServer.message);
+      return { error: errorMessage };
     case 422:
       const jsonValidation = await response.json();
       console.error(jsonValidation.errors);
 
-      let errorMessage = jsonValidation.message;
+      errorMessage = jsonValidation.message;
       Object.keys(jsonValidation.errors).forEach((error) => {
         errorMessage += "\n" + jsonValidation.errors[error].msg;
       });
-      return alert(errorMessage);
+      return { error: errorMessage };
     default:
-      return console.error(response);
+      console.error(response);
+      return { error: JSON.stringify(response) };
   }
 }

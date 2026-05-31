@@ -13,6 +13,7 @@ export default function Field({
   let field;
   switch (type) {
     case "json":
+      value = typeof value === "string" ? JSON.parse(value) : value;
       input = (
         <>
           <div className="input">
